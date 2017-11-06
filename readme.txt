@@ -1,19 +1,29 @@
 === CloudFlare ===
-Contributors: i3149, jchen329, jamescf, simon-says, dfritsch
-Tags: cloudflare, comments, spam, cdn, free, website, performance, speed
-Requires at least: 2.8
-Tested up to: 4.1
-Stable tag: 1.3.24
-License: GPLv2
 
-The CloudFlare WordPress Plugin ensures your WordPress blog is running optimally on the CloudFlare platform.
+Contributors: littlebizzy
+Tags: cloudflare, api, cache, cdn, dev mode
+Requires at least: 4.4
+Tested up to: 4.8
+Requires PHP: 7.0
+Multisite support: No
+Stable tag: 1.0.0
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Prefix: CLDFLR
+
+Easily connect your WordPress website to CloudFlare's free optimization features, including one-click options to purge cache and enable 'dev' mode.
 
 == Description ==
 
-CloudFlare has developed a plugin for WordPress. By using the CloudFlare WordPress Plugin, you receive: 
+Easily connect your WordPress website to CloudFlare's free optimization features, including one-click options to purge cache and enable 'dev' mode.
+
+* [Plugin Homepage](https://www.littlebizzy.com/plugins/cloudflare)
+* [Plugin GitHub](https://github.com/littlebizzy/cloudflare)
+* [SlickStack.io](https://slickstack.io)
+
+#### The Long Version ####
 
 * Correct IP Address information for comments posted to your site
-
 * Better protection as spammers from your WordPress blog get reported to CloudFlare
 
 THINGS YOU NEED TO KNOW:
@@ -24,17 +34,85 @@ THINGS YOU NEED TO KNOW:
 
 * We recommend any WordPress and CloudFlare user use this plugin. For more best practices around using WordPress and CloudFlare, see: https://support.cloudflare.com/hc/en-us/articles/201717894-Using-CloudFlare-and-WordPress-Five-Easy-First-Steps
 
-MORE INFORMATION ON CLOUDFLARE:
+#### Compatibility ####
 
-CloudFlare is a service that makes websites load faster and protects sites from online spammers and hackers. Any website with a root domain (ie www.mydomain.com) can use CloudFlare. On average, it takes less than 5 minutes to sign up. You can learn more here: [CloudFlare.com](https://www.cloudflare.com/overview.html).
+This plugin has been designed for use on LEMP (Nginx) web servers with PHP 7.0 and MySQL 5.7 to achieve best performance. All of our plugins are meant for single site WordPress installations only; for both performance and security reasons, we highly recommend against using WordPress Multisite for the vast majority of projects.
+
+#### Plugin Features ####
+
+* Settings Page: Yes
+* Premium Version Available: Yes ([Purge Them All](https://www.littlebizzy.com/plugins/purge-them-all))
+* Includes Media (Images, Icons, Etc): No
+* Includes CSS: No
+* Database Storage: Yes
+  * Transients: No
+  * Options: Yes
+  * Creates New Tables: No
+* Database Queries: Backend Only (Options API Cache)
+* Must-Use Support: Yes (Use With [Autoloader](https://github.com/littlebizzy/autoloader))
+* Multisite Support: No
+* Uninstalls Data: Yes
+
+#### WP Admin Notices ####
+
+This plugin generates multiple [Admin Notices](https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices) in the WP Admin dashboard. The first is a notice that fires during plugin activation which recommends several related free plugins that we believe will enhance this plugin's features; this notice will re-appear approximately once every 5 months as our code and recommendations evolve. The second is a notice that fires a few days after plugin activation which asks for a 5-star rating of this plugin on its WordPress.org profile page. This notice will re-appear approximately once every 8 months. These notices can be dismissed by clicking the **(x)** symbol in the upper right of the notice box. These notices may confuse certain users, but are appreciated by the majority of our userbase, who understand that these notices support our free contributions to the WordPress community. If you feel that these notices are too "annoying" than we encourage you to consider one or more of our upcoming premium plugins that combine several free plugin features into a single control panel. Another alternative would be to develop your own plugins for WordPress, if you feel that supporting free plugin authors is not something that interests you.
+
+#### Code Inspiration ####
+
+This plugin was partially inspired either in "code or concept" by the open-source software and discussions mentioned below:
+
+* [All 404 Redirect to Homepage](https://wordpress.org/plugins/all-404-redirect-to-homepage/)
+* [404 Redirection](https://wordpress.org/plugins/404-redirection/)
+* [Redirect 404 Error Page to Homepage](https://wordpress.org/plugins/redirect-404-error-page-to-homepage/)
+
+#### Recommended Plugins ####
+
+We invite you to check out a few other related free plugins that our team has also produced that you may find especially useful:
+
+* [Force HTTPS](https://wordpress.org/plugins/force-https-littlebizzy/)
+* [Remove Query Strings](https://wordpress.org/plugins/remove-query-strings-littlebizzy/)
+* [Remove Category Base](https://wordpress.org/plugins/remove-category-base-littlebizzy/)
+* [Server Status](https://wordpress.org/plugins/server-status-littlebizzy/)
+* [Disable Embeds](https://wordpress.org/plugins/disable-embeds-littlebizzy/)
+* [Disable Emojis](https://wordpress.org/plugins/disable-emojis-littlebizzy/)
+* [Disable XML-RPC](https://wordpress.org/plugins/disable-xml-rpc-littlebizzy/)
+* [Disable Author Pages](https://wordpress.org/plugins/disable-author-pages-littlebizzy/)
+* [Disable Search](https://wordpress.org/plugins/disable-search-littlebizzy/)
+* [Virtual Robots.txt](https://wordpress.org/plugins/virtual-robotstxt-littlebizzy/)
+
+#### Special Thanks ####
+
+We thank the following groups for their generous contributions to the WordPress community which have particularly benefited us in developing our own free plugins and paid services:
+
+* [Automattic](https://automattic.com)
+* [Delicious Brains](https://deliciousbrains.com)
+* [Roots](https://roots.io)
+* [rtCamp](https://rtcamp.com)
+* [WP Tavern](https://wptavern.com)
+
+#### Disclaimer ####
+
+We released this plugin in response to our managed hosting clients asking for better access to their server, and our primary goal will remain supporting that purpose. Although we are 100% open to fielding requests from the WordPress community, we kindly ask that you keep the above mentioned goals in mind, thanks!
 
 == Installation ==
 
-Upload the CloudFlare plugin to your blog, Activate it, and you're done!
+1. Upload to `/wp-content/plugins/cf-littlebizzy`
+2. Activate via WP Admin > Plugins
+3. Test the plugin is working by loading a non-existent page URI on your website
 
-You will also want to sign up your blog with CloudFlare.com
+== FAQ ==
 
-[Read more](http://blog.cloudflare.com/introducing-the-cloudflare-wordpress-plugin) on why we created this plugin.
+= Does this plugin alter my 404.php template? =
+
+No, it automatically adds a 404 header using WordPress filters/hooks.
+
+= How can I change this plugin's settings? =
+
+This plugin does not have a settings page and is designed for speed and simplicity.
+
+= I have a suggestion, how can I let you know? =
+
+Please avoid leaving negative reviews in order to get a feature implemented. Instead, we kindly ask that you post your feedback on the wordpress.org support forums by tagging this plugin in your post. If needed, you may also contact our homepage.
 
 == Changelog ==
 
