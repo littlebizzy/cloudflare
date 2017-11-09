@@ -308,8 +308,8 @@ function cloudflare_conf() {
             <h3><label for="dev_mode"><?php _e('Development Mode'); ?></label> <span style="font-size:9pt;">(<a href="https://support.cloudflare.com/hc/en-us/articles/200168246-What-does-CloudFlare-Development-mode-mean-" target="_blank">What is this?</a>)</span></h3>
 
             <div style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;">
-                <input type="radio" name="dev_mode" value="0" <?php if ($dev_mode == "off") echo "checked"; ?>> Off
-                <input type="radio" name="dev_mode" value="1" <?php if ($dev_mode == "on") echo "checked"; ?>> On
+                <input type="radio" name="dev_mode" value="0" <?php if (!empty($dev_mode) && $dev_mode == "off") echo "checked"; ?>> Off
+                <input type="radio" name="dev_mode" value="1" <?php if (!empty($dev_mode) && $dev_mode == "on") echo "checked"; ?>> On
             </div>
 
             <h3><label for="protocol_rewrite"><?php _e('HTTPS Protocol Rewriting'); ?></label> <span style="font-size:9pt;">(<a href="https://support.cloudflare.com/hc/en-us/articles/203652674" target="_blank">What is this?</a>)</span></h3>
