@@ -127,7 +127,7 @@ function cloudflare_conf() {
                 $warnings[] = 'get_domain_failed';
             }
             else {
-                update_option('cloudflare_zone_name', esc_sql($getDomain));
+                update_option('cloudflare_zone_name', $getDomain);
                 update_option('cloudflare_zone_name_set_once', "TRUE");
                 load_cloudflare_keys();
             }
@@ -160,8 +160,8 @@ function cloudflare_conf() {
             $email = str_replace($arrayKey, $value, $email);
         }
 
-        $dev_mode = esc_sql($_POST["dev_mode"]);
-        $protocol_rewrite = esc_sql($_POST["protocol_rewrite"]);
+        $dev_mode = $_POST["dev_mode"];
+        $protocol_rewrite = $_POST["protocol_rewrite"];
 
         if ( empty($zone_name) ) {
             $zone_status = 'empty';
@@ -169,7 +169,7 @@ function cloudflare_conf() {
             delete_option('cloudflare_zone_name');
         } else {
             $zone_message = 'Your domain name has been saved.';
-            update_option('cloudflare_zone_name', esc_sql($zone_name));
+            update_option('cloudflare_zone_name', $zone_name);
             update_option('cloudflare_zone_name_set_once', "TRUE");
         }
 
@@ -179,7 +179,7 @@ function cloudflare_conf() {
             delete_option('cloudflare_api_key');
         } else {
             $key_message = 'Your key has been verified.';
-            update_option('cloudflare_api_key', esc_sql($key));
+            update_option('cloudflare_api_key', $key);
             update_option('cloudflare_api_key_set_once', "TRUE");
         }
 
@@ -189,7 +189,7 @@ function cloudflare_conf() {
             delete_option('cloudflare_api_email');
         } else {
             $email_message = 'Your email has been verified.';
-            update_option('cloudflare_api_email', esc_sql($email));
+            update_option('cloudflare_api_email', $email);
             update_option('cloudflare_api_email_set_once', "TRUE");
         }
 
@@ -202,7 +202,7 @@ function cloudflare_conf() {
 
         if ($cloudflare_api_key != "" && $cloudflare_api_email != "" && $cloudflare_zone_name != "" && $dev_mode != "") {
 
-            $result = set_dev_mode(esc_sql($cloudflare_api_key), esc_sql($cloudflare_api_email), $cloudflare_zone_name, $dev_mode);
+            $result = set_dev_mode($cloudflare_api_key, $cloudflare_api_email, $cloudflare_zone_name, $dev_mode);
 
             if (is_wp_error($result)) {
                 trigger_error($result->get_error_message(), E_USER_WARNING);
