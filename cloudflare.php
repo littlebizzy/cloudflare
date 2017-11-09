@@ -39,12 +39,6 @@ function cloudflare_init() {
 }
 add_action('init', 'cloudflare_init',1);
 
-function cloudflare_admin_init() {
-
-}
-
-add_action('admin_init', 'cloudflare_admin_init');
-
 function cloudflare_plugin_action_links( $links ) {
     $links[] = '<a href="'. get_admin_url(null, 'options-general.php?page=cloudflare') .'">Settings</a>';
     return $links;
