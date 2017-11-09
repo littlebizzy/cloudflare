@@ -2,11 +2,17 @@
 
 function cloudflare_conf() {
 
+	// Globals
     global $cloudflare_zone_name, $cloudflare_api_key, $cloudflare_api_email, $cloudflare_protocol_rewrite, $is_cf;
     global $wpdb;
 
-    load_cloudflare_keys();
+	// Load CF keys
+	load_cloudflare_keys();
 
+	// Load dependencies
+	require_once dirname(__FILE__).'/cloudflare-api.php';
+
+	// Output messages
     $messages = array(
         'ip_restore_on' => array('text' => __('Plugin Status: True visitor IP is being restored')),
         'comment_spam_on' => array('text' => __('Plugin Status: CloudFlare will be notified when you mark comments as spam')),
@@ -141,7 +147,7 @@ function cloudflare_conf() {
         }
 
         $notices[] = 'options_saved';
-    }
+    } // End of submit check
 
     if (!empty($cloudflare_api_key) && !empty($cloudflare_api_email) && !empty($cloudflare_zone_name)) {
         $dev_mode = get_dev_mode_status($cloudflare_api_key, $cloudflare_api_email, $cloudflare_zone_name);
