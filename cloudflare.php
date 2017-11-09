@@ -24,19 +24,6 @@ require_once("IpRange.php");
 
 use CloudFlare\IpRewrite;
 
-$cfPostKeys = array("cloudflare_zone_name", "cf_key", "cf_email", "dev_mode", "protocol_rewrite");
-
-foreach($_POST as $key => $value) {
-    if(in_array($key, $cfPostKeys)) {
-        $_POST[$key] = cloudflare_filter_xss($_POST[$key]);
-    }
-}
-
-function cloudflare_filter_xss($input) {
-    return htmlentities($input, ENT_QUOTES | ENT_HTML5, "UTF-8");
-}
-
-
 // Make sure we don't expose any info if called directly
 if ( !function_exists( 'add_action' ) ) {
     echo "Hi there!  I'm just a plugin, not much I can do when called directly.";
@@ -143,12 +130,18 @@ function cloudflare_conf() {
             die(__('Cheatin&#8217; uh?'));
         }
 
-        $zone_name = $_POST['cloudflare_zone_name'];
+		$cfPostKeys = array('cloudflare_zone_name', 'cf_key', 'cf_email', 'dev_mode', 'protocol_rewrite');
+		foreach($_POST as $key => $value) {
+		    if(!empty($value) && in_array($key, $cfPostKeys)) {
+		        $_POST[$key] = is_array($value)? '' : htmlentities($value, ENT_QUOTES | ENT_HTML5, "UTF-8");
+		    }
+		}
 
+        $zone_name = isset($_POST['cloudflare_zone_name'])? trim($_POST['cloudflare_zone_name']) : '';
         $zone_name = str_replace("&period;",".",$zone_name);
 
-        $key = $_POST['cf_key'];
-        $email = $_POST['cf_email'];
+        $key = isset($_POST['cf_key'])? trim($_POST['cf_key']) : '';
+        $email = isset($_POST['cf_email'])? trim($_POST['cf_email']) : '';
 
         $allowedCharacters = array(
             "&period;" => ".",
@@ -160,8 +153,8 @@ function cloudflare_conf() {
             $email = str_replace($arrayKey, $value, $email);
         }
 
-        $dev_mode = $_POST["dev_mode"];
-        $protocol_rewrite = $_POST["protocol_rewrite"];
+        $dev_mode = isset($_POST['dev_mode'])? $_POST['dev_mode'] : '';
+        $protocol_rewrite = isset($_POST["protocol_rewrite"])? $_POST["protocol_rewrite"] : '';
 
         if ( empty($zone_name) ) {
             $zone_status = 'empty';
@@ -193,7 +186,7 @@ function cloudflare_conf() {
             update_option('cloudflare_api_email_set_once', "TRUE");
         }
 
-        if (in_array($protocol_rewrite, array("0","1")) === TRUE) {
+        if (in_array($protocol_rewrite, array("0","1"))) {
             update_option('cloudflare_protocol_rewrite', $protocol_rewrite);
         }
 
