@@ -41,13 +41,6 @@ final class AutoLoad {
 
 
 	/**
-	 * Plugin file defined in the main file
-	 */
-	public $pluginFile;
-
-
-
-	/**
 	 * Loaded files
 	 */
 	private $loaded = array();
@@ -92,8 +85,8 @@ final class AutoLoad {
 		// Physical path
 		$const = '\\'.$this->vendor.'\\'.$this->package.'\\FILE';
 		if (defined($const)) {
-			$this->pluginFile = constant($const);
-			$this->root = dirname($this->pluginFile);
+			$pluginFile = constant($const);
+			$this->root = dirname($pluginFile);
 		}
 	}
 

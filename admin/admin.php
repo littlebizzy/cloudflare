@@ -108,8 +108,11 @@ final class Admin {
 
 
 
+}
 
-function cloudflare_conf() {
+
+
+/* function cloudflare_conf() {
 
 	// Globals
     global $cloudflare_zone_name, $cloudflare_api_key, $cloudflare_api_email, $cloudflare_protocol_rewrite, $is_cf;
@@ -368,4 +371,4 @@ function cloudflare_conf() {
         <?php //    </div> ?>
     </div>
     <?php
-}
+} */

@@ -28,7 +28,7 @@ final class Core {
 	/**
 	 * Detection flag
 	 */
-	private $isCF;
+	private $isCloudFlare = false;
 
 
 
@@ -56,6 +56,9 @@ final class Core {
 	 * Constructor
 	 */
 	private function __construct() {
+
+		// Uninstall hook
+		$this->pluginHooks();
 
 		// Init hook
 		add_action('init', array(&$this, 'init'));
@@ -91,7 +94,7 @@ final class Core {
 	 * IP checking
 	 */
 	public function init() {
-		$this->isCF = LittleBizzy\CloudFlare\Libraries\IpRewrite::isCloudFlare();
+		$this->isCloudFlare = \LittleBizzy\CloudFlare\Libraries\IpRewrite::isCloudFlare();
 	}
 
 
@@ -99,42 +102,15 @@ final class Core {
 	// Internal
 	// ---------------------------------------------------------------------------------------------------
 
+
+
+	/**
+	 * Set plugin hooks
+	 */
+	private function pluginHooks() {
+		register_uninstall_hook(\LittleBizzy\CloudFlare\FILE, array('\LittleBizzy\CloudFlare\Helpers\Plugin', 'uninstall'));
+	}
+
+
+
 }
-
-
-
-
-
-
-
-/**
- * Plugin constants
- */
-define('CLOUDFLARE_VERSION',  '1.3.24');
-define('CLOUDFLARE_API_URL',  'https://www.cloudflare.com/api_json.html');
-define('CLOUDFLARE_SPAM_URL', 'https://www.cloudflare.com/ajax/external-event.html');
-
-
-
-
-
-
-
-
-
-// Common functions
-// ---------------------------------------------------------------------------------------------------
-
-
-
-/**
- * Retrieve saved CF keys
- */
-function load_cloudflare_keys() {
-    global $cloudflare_api_key, $cloudflare_api_email, $cloudflare_zone_name, $cloudflare_protocol_rewrite;
-    $cloudflare_api_key = get_option('cloudflare_api_key');
-    $cloudflare_api_email = get_option('cloudflare_api_email');
-    $cloudflare_zone_name = get_option('cloudflare_zone_name');
-}
-
-

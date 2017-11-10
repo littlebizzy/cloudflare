@@ -20,7 +20,7 @@ if (!function_exists('add_action'))
 
 // Plugin constants
 const FILE = __FILE__;
-const PREFIX = 'cdfrlb';
+const PREFIX = 'cldflr';
 const VERSION = '1.0.0';
 
 // Loader
