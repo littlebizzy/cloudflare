@@ -1,5 +1,114 @@
 <?php
 
+// Subpackage namespace
+namespace LittleBizzy\CloudFlare\Admin;
+
+// Class import
+use \LittleBizzy\CloudFlare\Helpers\AutoLoad;
+
+/**
+ * CloudFlare Admin class
+ *
+ * @package CloudFlare
+ * @subpackage Admin
+ */
+final class Admin {
+
+
+
+	// Properties
+	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Single class instance
+	 */
+	private static $instance;
+
+
+
+	// Initialization
+	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Create or retrieve instance
+	 */
+	public static function instance() {
+
+		// Check instance
+		if (!isset(self::$instance))
+			self::$instance = new self;
+
+		// Done
+		return self::$instance;
+	}
+
+
+
+	/**
+	 * Constructor
+	 */
+	private function __construct() {
+
+		// Admin menu
+		add_action('admin_menu', array(&$this, 'adminMenu'));
+
+		// Plugin links
+		add_filter('plugin_action_links_'.plugin_basename(AutoLoad::instance()->pluginFile), array(&$this, 'settingsLink'));
+	}
+
+
+
+	// WP hooks
+	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Display menu
+	 */
+	public function adminMenu() {
+		add_options_page('CloudFlare Settings', 'CloudFlare Settings', 'manage_options', 'cloudflare-littlebizzy', array(&$this, 'adminPage'));
+	}
+
+
+
+	/**
+	 * Displays the settings page
+	 */
+	public function adminPage() {
+
+		// Exit on unauthorized access
+		if (!current_user_can('manage_options'))
+			die;
+
+		// Prepare arguments
+		$args = empty($_POST['test'])? array() : $this->handleSubmit();
+
+		// Display page
+		\LittleBizzy\CloudFlare\Admin\Settings::instance($args);
+	}
+
+
+
+	// Internal
+	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Handle the submitted form data
+	 */
+	public function handleSubmit() {
+
+	}
+
+
+
+
 function cloudflare_conf() {
 
 	// Globals

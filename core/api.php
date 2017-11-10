@@ -1,5 +1,58 @@
 <?php
 
+// Subpackage namespace
+namespace LittleBizzy\CloudFlare\Core;
+
+/**
+ * API class
+ *
+ * @package CloudFlare
+ * @subpackage Core
+ */
+final class CDFRLB_Core_API {
+
+
+
+	// Properties
+	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Single class instance
+	 */
+	private static $instance;
+
+
+
+	// Initialization
+	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Create or retrieve instance
+	 */
+	public static function instance() {
+
+		// Check instance
+		if (!isset(self::$instance))
+			self::$instance = new self;
+
+		// Done
+		return self::$instance;
+	}
+
+
+
+	/**
+	 * Constructor
+	 */
+	private function __construct() {
+
+	}
+
+
 
 
 /**

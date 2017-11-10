@@ -29,10 +29,11 @@
 /*
 * Modified by James Greene <james@cloudflare.com> to include IPV6 support
 * (original version only supported IPV4).
-* 21 May 2012 
+* 21 May 2012
 */
 
-namespace CloudFlare;
+// Moved to the LitteBizzy namespace
+namespace LittleBizzy\CloudFlare\Libraries;
 
 class IpRange
 {
@@ -91,22 +92,22 @@ class IpRange
                 return ( ($ip_dec>=$lower_dec) && ($ip_dec<=$upper_dec) );
             }
             return false;
-        } 
+        }
     }
 
     public static function ip2long6($ip) {
-        if (substr_count($ip, '::')) { 
-            $ip = str_replace('::', str_repeat(':0000', 8 - substr_count($ip, ':')) . ':', $ip); 
-        } 
+        if (substr_count($ip, '::')) {
+            $ip = str_replace('::', str_repeat(':0000', 8 - substr_count($ip, ':')) . ':', $ip);
+        }
 
         $ip = explode(':', $ip);
-        $r_ip = ''; 
+        $r_ip = '';
         foreach ($ip as $v) {
-            $r_ip .= str_pad(base_convert($v, 16, 2), 16, 0, STR_PAD_LEFT); 
-        } 
+            $r_ip .= str_pad(base_convert($v, 16, 2), 16, 0, STR_PAD_LEFT);
+        }
 
-        return base_convert($r_ip, 2, 10); 
-    } 
+        return base_convert($r_ip, 2, 10);
+    }
 
     // Get the ipv6 full format and return it as a decimal value.
     public static function get_ipv6_full($ip)
@@ -144,7 +145,7 @@ class IpRange
             // Build the full form of the IPV6 address
             for ($i = $size; $i < 8; $i++) {
                 $main_ip_pieces[$i] = "0000";
-            }        
+            }
         }
 
         // Rebuild the final long form IPV6 address
@@ -155,7 +156,7 @@ class IpRange
 
 
     // Determine whether the IPV6 address is within range.
-    // $ip is the IPV6 address in decimal format to check if its within the IP range created by the cloudflare IPV6 address, $range_ip. 
+    // $ip is the IPV6 address in decimal format to check if its within the IP range created by the cloudflare IPV6 address, $range_ip.
     // $ip and $range_ip are converted to full IPV6 format.
     // Returns true if the IPV6 address, $ip,  is within the range from $range_ip.  False otherwise.
     public static function ipv6_in_range($ip, $range_ip)
@@ -197,7 +198,7 @@ class IpRange
             for ($i = $size; $i < 8; $i++) {
                 $first[$i] = "0000";
                 $last[$i] = "ffff";
-            }        
+            }
         }
 
         // Rebuild the final long form IPV6 address
