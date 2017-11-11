@@ -55,7 +55,7 @@ final class AutoLoad {
 	/**
 	 * Create instance and try to load the class
 	 */
-	public static function instance($name = null) {
+	public static function register($name = null) {
 
 		// Check instance
 		if (!isset(self::$instance))
@@ -131,4 +131,4 @@ final class AutoLoad {
 }
 
 // Autoload in throw exceptions mode
-spl_autoload_register(__NAMESPACE__ .'\AutoLoad::instance', true);
+spl_autoload_register(__NAMESPACE__.'\AutoLoad::register', true);
