@@ -107,19 +107,18 @@ final class AutoLoad {
 			return;
 
 		// Check vendor
-		if (0 !== strpos($name, $this->vendor.'\\'))
+		$namespace = explode('\\', $name);
+		if ($this->vendor != $namespace[0])
 			return;
 
-		// Relative package namespace
-		$name = substr($name, strlen($this->vendor) + 1);
-		$namespace = explode('\\', $name);
-
-		// Check base namespace for libraries
-		$package = array_shift($namespace);
+		// Check package
+		array_shift($namespace);
+		if ($this->package == $namespace[0])
+			array_shift($namespace);
 
 		// Load associated file
-		$path = $this->root.'/'.implode('/', ($package != $this->package)? $namespace : array_map('strtolower', $namespace)).'.php';
-		if ($in_array($path, $this->loaded)) {
+		$path = $this->root.'/'.implode('/', str_replace('_', '-', array_map('strtolower', $namespace))).'.php';
+		if (!in_array($path, $this->loaded)) {
 			$this->loaded[] = $path;
 			if (file_exists($path))
 				require_once $path;

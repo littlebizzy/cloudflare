@@ -4,7 +4,8 @@
 namespace LittleBizzy\CloudFlare\Core;
 
 // Aliased plugin namespace
-use \LittleBizzy\CloudFlare;
+use \LittleBizzy\CloudFlare\Helpers;
+use \LittleBizzy\CloudFlare\Libraries;
 
 /**
  * Core class
@@ -97,7 +98,7 @@ final class Core {
 	 * IP checking
 	 */
 	public function init() {
-		$this->isCloudFlare = Libraries\IpRewrite::isCloudFlare();
+		$this->isCloudFlare = Libraries\Ip_Rewrite::isCloudFlare();
 	}
 
 

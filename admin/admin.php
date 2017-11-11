@@ -4,7 +4,7 @@
 namespace LittleBizzy\CloudFlare\Admin;
 
 // Aliased plugin namespace
-use \LittleBizzy\CloudFlare;
+use \LittleBizzy\CloudFlare\Helpers;
 
 /**
  * CloudFlare Admin class

@@ -4,7 +4,7 @@
 namespace LittleBizzy\CloudFlare\Core;
 
 // Aliased plugin namespace
-use \LittleBizzy\CloudFlare;
+use \LittleBizzy\CloudFlare\Libraries;
 
 /**
  * Data class
