@@ -6,6 +6,7 @@ namespace LittleBizzy\CloudFlare\Core;
 // Aliased plugin namespace
 use \LittleBizzy\CloudFlare\Helpers;
 use \LittleBizzy\CloudFlare\Libraries;
+use \LittleBizzy\CloudFlare\Admin;
 
 /**
  * Core class
@@ -32,7 +33,7 @@ final class Core {
 	/**
 	 * Detection flag
 	 */
-	private $isCloudFlare = false;
+	public $isCloudFlare = false;
 
 
 

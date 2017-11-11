@@ -35,7 +35,7 @@
 // Moved to the LitteBizzy namespace
 namespace LittleBizzy\CloudFlare\Libraries;
 
-class IpRange
+class Ip_Range
 {
     // ipv4_in_range
     // This function takes 2 arguments, an IP address and a "range" in several

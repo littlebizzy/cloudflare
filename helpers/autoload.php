@@ -111,8 +111,10 @@ final class AutoLoad {
 		if ($this->vendor != $namespace[0])
 			return;
 
-		// Check package
+		// Remove vendor
 		array_shift($namespace);
+
+		// Check plugin package
 		if ($this->package == $namespace[0])
 			array_shift($namespace);
 

@@ -89,7 +89,7 @@ final class Admin {
 		$args = empty($_POST['test'])? array() : $this->handleSubmit();
 
 		// Display page
-		Admin\Settings::instance($args);
+		Settings::instance($args);
 	}
 
 

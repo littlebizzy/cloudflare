@@ -3,7 +3,7 @@
 // Moved to the LitteBizzy namespace
 namespace LittleBizzy\CloudFlare\Libraries;
 
-class IpRewrite {
+class Ip_Rewrite {
     static protected $is_cf = NULL;
     static protected $original_ip = FALSE;
     static protected $rewritten_ip = FALSE;
@@ -85,7 +85,7 @@ class IpRewrite {
             // Check for IPv4 v. IPv6
             if (strpos(self::$original_ip, ":") === FALSE) {
                 foreach (self::$cf_ipv4 as $range) {
-                    if (IpRange::ipv4_in_range(self::$original_ip, $range)) {
+                    if (Ip_Range::ipv4_in_range(self::$original_ip, $range)) {
                         if (self::$is_cf) {
                             self::$rewritten_ip = $_SERVER["REMOTE_ADDR"] =
 $_SERVER["HTTP_CF_CONNECTING_IP"];
@@ -94,9 +94,9 @@ $_SERVER["HTTP_CF_CONNECTING_IP"];
                     }
                 }
             } else {
-                $ipv6 = IpRange::get_ipv6_full(self::$original_ip);
+                $ipv6 = Ip_Range::get_ipv6_full(self::$original_ip);
                 foreach (self::$cf_ipv6 as $range) {
-                    if (IpRange::ipv6_in_range($ipv6, $range)) {
+                    if (Ip_Range::ipv6_in_range($ipv6, $range)) {
                         if (self::$is_cf) {
                             self::$rewritten_ip = $_SERVER["REMOTE_ADDR"] =
 $_SERVER["HTTP_CF_CONNECTING_IP"];
