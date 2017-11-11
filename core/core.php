@@ -3,6 +3,9 @@
 // Subpackage namespace
 namespace LittleBizzy\CloudFlare\Core;
 
+// Aliased plugin namespace
+use \LittleBizzy\CloudFlare;
+
 /**
  * Core class
  *
@@ -57,10 +60,10 @@ final class Core {
 	 */
 	private function __construct() {
 
-		// Uninstall hook
-		$this->pluginHooks();
+		// Register plugin hooks
+		Helpers\Plugin::instance()->pluginHooks();
 
-		// Init hook
+		// WP Init hook
 		add_action('init', array(&$this, 'init'));
 
 		// Admin mode
@@ -74,7 +77,7 @@ final class Core {
 			} else {
 
 				// Initialize object
-				\LittleBizzy\CloudFlare\Admin\Admin::instance();
+				Admin\Admin::instance();
 			}
 
 		// Front
@@ -94,21 +97,7 @@ final class Core {
 	 * IP checking
 	 */
 	public function init() {
-		$this->isCloudFlare = \LittleBizzy\CloudFlare\Libraries\IpRewrite::isCloudFlare();
-	}
-
-
-
-	// Internal
-	// ---------------------------------------------------------------------------------------------------
-
-
-
-	/**
-	 * Set plugin hooks
-	 */
-	private function pluginHooks() {
-		register_uninstall_hook(\LittleBizzy\CloudFlare\FILE, array('\LittleBizzy\CloudFlare\Helpers\Plugin', 'uninstall'));
+		$this->isCloudFlare = Libraries\IpRewrite::isCloudFlare();
 	}
 
 
