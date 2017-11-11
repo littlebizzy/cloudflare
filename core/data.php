@@ -184,13 +184,7 @@ final class Data {
 	 * Remove options from database
 	 */
 	public function remove() {
-		$this->options->del('key');
-		$this->options->del('email');
-		$this->options->del('domain');
-		$this->options->del('status');
-		$this->options->del('devmode');
-		$this->options->del('devmode_status');
-		$this->options->del('key');
+		$this->options->del(['key', 'email', 'domain', 'status', 'devmode', 'devmode_status']);
 	}
 
 
