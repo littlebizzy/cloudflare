@@ -3,8 +3,8 @@
 // Subpackage namespace
 namespace LittleBizzy\CloudFlare\Core;
 
-// Class import
-use \LittleBizzy\CloudFlare\Helpers\Plugin;
+// Aliased plugin namespace
+use \LittleBizzy\CloudFlare;
 
 /**
  * Data class
@@ -94,6 +94,15 @@ final class Data {
 
 
 
+	/**
+	 * Set the Options object
+	 */
+	private function init() {
+		$this->options = new Libraries\Options(Helpers\Plugin::instance()->prefix.'_cloudflare_');
+	}
+
+
+
 	// Methods
 	// ---------------------------------------------------------------------------------------------------
 
@@ -105,18 +114,18 @@ final class Data {
 	public function load()  {
 
 		// Domain
-		$this->key 				= (string) get_option($this->prefix.'_cloudflare_key');
-		$this->email 			= (string) get_option($this->prefix.'_cloudflare_email');
-		$this->domain 			= (string) get_option($this->prefix.'_cloudflare_domain');
-		$this->status			= (string) get_option($this->prefix.'_cloudflare_status');
+		$this->key 		= $this->options->get('key', true);
+		$this->email 	= $this->options->get('email', true);
+		$this->domain 	= $this->options->get('domain', true);
+		$this->status 	= $this->options->get('status', true);
 
 		// Validate status
 		if (!empty($this->status) && !isset($this->statuses[$this->status]))
 			$this->status = 'unknown';
 
 		// DEV Mode
-		$this->devmode 			= (string) get_option($this->prefix.'_cloudflare_devmode');
-		$this->devmodeStatus 	= (string) get_option($this->prefix.'_cloudflare_devmode_status');
+		$this->devmode 			= $this->options->get('devmode', true);
+		$this->devmodeStatus 	= $this->options->get('devmode_status', true);
 
 		// Validate DEV Mode status
 		if (!empty($this->devmodeStatus) && !isset($this->devmodeStatuses[$this->devmodeStatus]))
@@ -128,7 +137,7 @@ final class Data {
 	/**
 	 * Save data
 	 */
-	public function update($values, $reload = true) {
+	public function save($values, $reload = true) {
 
 		// Check arguments
 		if (empty($values) || !is_array($values))
@@ -136,32 +145,32 @@ final class Data {
 
 		// Check key value
 		if (isset($values['key']))
-			update_option($this->prefix.'_cloudflare_key', (string) $values['key'], false);
+			$this->options->set('key', $values['key'], false, true);
 
 		// Check email value
 		if (isset($values['email']))
-			update_option($this->prefix.'_cloudflare_email', (string) $values['email'], false);
+			$this->options->set('email', $values['email'], false, true);
 
 		// Check domain value
 		if (isset($values['domain']))
-			update_option($this->prefix.'_cloudflare_domain', (string) $values['domain'], false);
+			$this->options->set('domain', $values['domain'], false, true);
 
 		// Check and validate domain status
 		if (isset($values['status'])) {
 			if (!isset($this->statuses[$values['status']])
 				$values['status'] = 'unknown'
-			update_option($this->prefix.'_cloudflare_status', (string) $values['status'], false);
+			$this->options->set('status', $values['status'], false, true);
 		}
 
 		// Check DEV Mode value
 		if (isset($values['devmode']))
-			update_option($this->prefix.'_cloudflare_devmode', (string) $values['devmode'], false);
+			$this->options->set('devmode', $values['devmode'], false, true);
 
 		// Check and validate DEV Mode status
 		if (isset($values['devmode_status'])) {
 			if (!isset($this->devmodeStatuses[$values['devmode_status']]))
 				$values['devmode_status'] = 'unknown';
-			update_option($this->prefix.'_cloudflare_devmode_status', (string) $values['devmode_status'], false);
+			$this->options->set('devmode_status', $values['devmode_status'], false, true);
 		}
 
 		// Check reload
@@ -175,26 +184,13 @@ final class Data {
 	 * Remove options from database
 	 */
 	public function remove() {
-		delete_option($this->prefix.'_cloudflare_key');
-		delete_option($this->prefix.'_cloudflare_email');
-		delete_option($this->prefix.'_cloudflare_domain');
-		delete_option($this->prefix.'_cloudflare_status');
-		delete_option($this->prefix.'_cloudflare_devmode');
-		delete_option($this->prefix.'_cloudflare_devmode_status');
-	}
-
-
-
-	// Internal
-	// ---------------------------------------------------------------------------------------------------
-
-
-
-	/**
-	 * Set prefix from plugin constant
-	 */
-	private function setPrefix() {
-		$this->prefix = \LittleBizzy\CloudFlare\PREFIX;
+		$this->options->del('key');
+		$this->options->del('email');
+		$this->options->del('domain');
+		$this->options->del('status');
+		$this->options->del('devmode');
+		$this->options->del('devmode_status');
+		$this->options->del('key');
 	}
 
 
