@@ -5,6 +5,7 @@ namespace LittleBizzy\CloudFlare\Core;
 
 // Aliased namespaces
 use \LittleBizzy\CloudFlare\Libraries;
+use \LittleBizzy\CloudFlare\Helpers;
 
 /**
  * Data class
@@ -29,6 +30,13 @@ final class Data {
 
 
 	/**
+	 * Options object
+	 */
+	public $options;
+
+
+
+	/**
 	 * CloudFlare
 	 */
 	public $key;
@@ -43,21 +51,21 @@ final class Data {
 	/**
 	 * Statuses for domain
 	 */
-	private static statuses = array(
+	private static $statuses = array(
 		'unknown' 	=> 'Unknown status',
-		'error'	  	=> 'Unable to retrieve your domain'
-		'mismatch' 	=> 'Your domain does not match the registered domain'
+		'error'	  	=> 'Unable to retrieve your domain from CloudFlare API',
+		'mismatch' 	=> 'Your domain does not match the CloufFlare API domain',
 		'valid'	  	=> 'Your domain matches the CloudFlare API settings',
-	)
+	);
 
 
 
 	/**
 	 * Statuses for the DEV MODE
 	 */
-	private static devmodeStatuses = array(
+	private static $devmodeStatuses = array(
 		'unknown'  => 'Unknown status',
-		'error'    => 'Unable to retrieve API status',
+		'error'    => 'Unable to retrieve the DEV Mode status',
 		'disabled' => 'DEV Mode disabled',
 		'enabled'  => 'DEV Mode enabled',
 	);
@@ -120,7 +128,7 @@ final class Data {
 		$this->status 	= $this->options->get('status', true);
 
 		// Validate status
-		if (!empty($this->status) && !isset($this->statuses[$this->status]))
+		if (!empty($this->status) && !isset(self::$statuses[$this->status]))
 			$this->status = 'unknown';
 
 		// DEV Mode
@@ -128,7 +136,7 @@ final class Data {
 		$this->devmodeStatus 	= $this->options->get('devmode_status', true);
 
 		// Validate DEV Mode status
-		if (!empty($this->devmodeStatus) && !isset($this->devmodeStatuses[$this->devmodeStatus]))
+		if (!empty($this->devmodeStatus) && !isset(self::$devmodeStatuses[$this->devmodeStatus]))
 			$this->devmodeStatus = 'unknown';
 	}
 
@@ -157,8 +165,8 @@ final class Data {
 
 		// Check and validate domain status
 		if (isset($values['status'])) {
-			if (!isset($this->statuses[$values['status']])
-				$values['status'] = 'unknown'
+			if (!isset(self::$statuses[$values['status']]))
+				$values['status'] = 'unknown';
 			$this->options->set('status', $values['status'], false, true);
 		}
 
@@ -168,7 +176,7 @@ final class Data {
 
 		// Check and validate DEV Mode status
 		if (isset($values['devmode_status'])) {
-			if (!isset($this->devmodeStatuses[$values['devmode_status']]))
+			if (!isset(self::$devmodeStatuses[$values['devmode_status']]))
 				$values['devmode_status'] = 'unknown';
 			$this->options->set('devmode_status', $values['devmode_status'], false, true);
 		}
