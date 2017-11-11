@@ -3,7 +3,7 @@
 // Subpackage namespace
 namespace LittleBizzy\CloudFlare\Core;
 
-// Aliased plugin namespace
+// Aliased namespaces
 use \LittleBizzy\CloudFlare\Libraries;
 
 /**

@@ -3,7 +3,7 @@
 // Subpackage namespace
 namespace LittleBizzy\CloudFlare\Helpers;
 
-// Aliased plugin namespace
+// Aliased namespaces
 use \LittleBizzy\CloudFlare;
 
 /**
@@ -60,13 +60,12 @@ final class Plugin {
 
 	/**
 	 * Constructor
-	 * Use full namespace path for clarity
 	 */
 	private function __construct() {
-		$this->path 	= \LittleBizzy\CloudFlare\FILE;
+		$this->path 	= CloudFlare\FILE;
 		$this->root 	= dirname($this->path);
-		$this->prefix 	= \LittleBizzy\CloudFlare\PREFIX;
-		$this->version 	= \LittleBizzy\CloudFlare\VERSION;
+		$this->prefix 	= CloudFlare\PREFIX;
+		$this->version 	= CloudFlare\VERSION;
 	}
 
 
@@ -109,7 +108,7 @@ final class Plugin {
 	 * Plugin uninstall
 	 */
 	public static function uninstall() {
-		Core\Data::remove();
+		CloudFlare\Core\Data::remove();
 	}
 
 
