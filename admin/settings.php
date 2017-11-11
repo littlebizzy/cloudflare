@@ -7,7 +7,7 @@ namespace LittleBizzy\CloudFlare\Admin;
 use \LittleBizzy\CloudFlare\Core;
 
 /**
- * CloudFlare Admin class
+ * Settings class
  *
  * @package CloudFlare
  * @subpackage Admin
@@ -36,11 +36,11 @@ final class Settings {
 	/**
 	 * Create or retrieve instance
 	 */
-	public static function instance($args = array()) {
+	public static function instance() {
 
 		// Check instance
 		if (!isset(self::$instance))
-			self::$instance = new self($args);
+			self::$instance = new self();
 
 		// Done
 		return self::$instance;
@@ -51,7 +51,28 @@ final class Settings {
 	/**
 	 * Constructor
 	 */
-	private function __construct($args) {
+	private function __construct() {
+
+		// Prepare arguments
+		$args = [
+			'key'   		 => Core\Data::instance()->key,
+			'email' 		 => Core\Data::instance()->email,
+			'isCloudFlare' 	 => Core\Core::instance()->isCloudFlare,
+			'devmodeEnabled' => ('enabled' == Core\Data::instance()->devmodeStatus),
+			'notices'		 => ['error' => [], 'success' => []],
+		];
+
+		// Check submit
+		if (isset($_POST['hd-credentials-nonce'])) {
+			Submit::instance()->credentials($args);
+
+		} elseif (isset($_POST['hd-devmode-nonce'])) {
+			Submit::instance()->devMode($args);
+		}
+
+		//$args = empty($_POST['test'])? array() : ;
+
+		// Show the forms
 		$this->display($args);
 	}
 
@@ -65,41 +86,55 @@ final class Settings {
 	/**
 	 * Show the settings page
 	 */
-	private function display($args) { ?>
+	private function display($args) {
+
+		// Vars
+		extract($args);
+
+		// Display  ?>
 
 		<div class="wrap">
 
+			<?php foreach ($notices['error']  as $message) : ?><div class="notice error"><?php echo $message; ?></div><?php endforeach; ?>
+
+			<?php foreach ($notices['success'] as $message) : ?><div class="notice success"><?php echo $message; ?></div><?php endforeach; ?>
+
 			<h1>CloudFlare Settings</h1>
 
-			<?php if (Core\Core::instance()->isCloudFlare) : ?><h3>You are currently using CloudFlare!</h3><?php endif; ?>
+			<?php if ($isCloudFlare) : ?><h3>You are currently using CloudFlare!</h3><?php endif; ?>
 
 			<p>CloudFlare is a service that makes websites load faster and protects sites from online spammers and hackers. Any website with a root domain (ie www.mydomain.com) can use CloudFlare. On average, it takes less than 5 minutes to sign up. You can learn more here: <a href="http://www.cloudflare.com/" target="_blank">CloudFlare.com</a>.</p>
 
 			<form method="POST">
 
-				<input type="hidden" name="hd-api-settings" value="1" />
+				<input type="hidden" name="hd-credentials-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_credentials')); ?>" />
 
 				<p><label>Domain: </label></p>
 
-				<p><label for="cldflr-tx-api-email">CloudFlare API Email</label><br />
-				<input type="text" name="tx-api-email" id="cldflr-tx-api-email" value="<?php echo esc_attr(Core\Data::instance()->email); ?>" /></p>
+				<p><label for="cldflr-tx-credentials-key">CloudFlare API Key</label><br />
+				<input type="text" name="tx-credentials-key" id="cldflr-tx-credentials-key" value="<?php echo esc_attr($key); ?>" /></p>
 
-				<p><label for="cldflr-tx-api-key">CloudFlare API Key</label><br />
-				<input type="text" name="tx-api-key" id="cldflr-tx-api-key" value="<?php echo esc_attr(Core\Data::instance()->key); ?>" /></p>
+				<p><label for="cldflr-tx-credentials-email">CloudFlare API Email</label><br />
+				<input type="text" name="tx-credentials-email" id="cldflr-tx-credentials-email" value="<?php echo esc_attr($email); ?>" /></p>
 
 				<p><input type="submit" value="Update API settings" /></p>
 
 			</form>
 
-			<form method="POST">
+			<?php if (!empty($key) && !empty($email)) : ?>
 
-				<input type="hidden" name="hd-api-dev-mode" value="1" />
+				<form method="POST">
 
-				<p>Dev mode</p>
+					<input type="hidden" name="hd-devmode-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_devmode')); ?>" />
+					<input type="hidden" name="hd-devmode-action" value="" />
 
-				<p><input type="submit" value="Update Dev Mode" /></p>
+					<p>Dev mode</p>
 
-			</form>
+					<p><input type="submit" value="" /></p>
+
+				</form>
+
+			<?php endif; ?>
 
 		</div>
 

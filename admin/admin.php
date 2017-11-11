@@ -7,7 +7,7 @@ namespace LittleBizzy\CloudFlare\Admin;
 use \LittleBizzy\CloudFlare\Helpers;
 
 /**
- * CloudFlare Admin class
+ * Admin class
  *
  * @package CloudFlare
  * @subpackage Admin
@@ -85,25 +85,8 @@ final class Admin {
 		if (!current_user_can('manage_options'))
 			die;
 
-		// Prepare arguments
-		$args = empty($_POST['test'])? array() : $this->handleSubmit();
-
 		// Display page
-		Settings::instance($args);
-	}
-
-
-
-	// Internal
-	// ---------------------------------------------------------------------------------------------------
-
-
-
-	/**
-	 * Handle the submitted form data
-	 */
-	public function handleSubmit() {
-
+		Settings::instance();
 	}
 
 
