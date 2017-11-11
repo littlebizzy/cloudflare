@@ -3,8 +3,8 @@
 // Subpackage namespace
 namespace LittleBizzy\CloudFlare\Admin;
 
-// Class import
-use \LittleBizzy\CloudFlare\Core\Data;
+// Aliased plugin namespace
+use \LittleBizzy\CloudFlare;
 
 /**
  * CloudFlare Admin class
@@ -71,7 +71,7 @@ final class Settings {
 
 			<h1>CloudFlare Settings</h1>
 
-			<?php if (\LittleBizzy\CloudFlare\Core::instance()->isCloudFlare) : ?><h3>You are currently using CloudFlare!</h3><?php endif; ?>
+			<?php if (Core::instance()->isCloudFlare) : ?><h3>You are currently using CloudFlare!</h3><?php endif; ?>
 
 			<p>CloudFlare is a service that makes websites load faster and protects sites from online spammers and hackers. Any website with a root domain (ie www.mydomain.com) can use CloudFlare. On average, it takes less than 5 minutes to sign up. You can learn more here: <a href="http://www.cloudflare.com/" target="_blank">CloudFlare.com</a>.</p>
 
@@ -82,10 +82,10 @@ final class Settings {
 				<p><label>Domain: </label></p>
 
 				<p><label for="cldflr-tx-api-email">CloudFlare API Email</label><br />
-				<input type="text" name="tx-api-email" id="cldflr-tx-api-email" value="<?php echo esc_attr(Data::instance()->email); ?>" /></p>
+				<input type="text" name="tx-api-email" id="cldflr-tx-api-email" value="<?php echo esc_attr(Core\Data::instance()->email); ?>" /></p>
 
 				<p><label for="cldflr-tx-api-key">CloudFlare API Key</label><br />
-				<input type="text" name="tx-api-key" id="cldflr-tx-api-key" value="<?php echo esc_attr(Data::instance()->key); ?>" /></p>
+				<input type="text" name="tx-api-key" id="cldflr-tx-api-key" value="<?php echo esc_attr(Core\::instance()->key); ?>" /></p>
 
 				<p><input type="submit" value="Update API settings" /></p>
 

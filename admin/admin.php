@@ -3,8 +3,8 @@
 // Subpackage namespace
 namespace LittleBizzy\CloudFlare\Admin;
 
-// Class import
-use \LittleBizzy\CloudFlare\Helpers\AutoLoad;
+// Aliased plugin namespace
+use \LittleBizzy\CloudFlare;
 
 /**
  * CloudFlare Admin class
@@ -57,7 +57,7 @@ final class Admin {
 		add_action('admin_menu', array(&$this, 'adminMenu'));
 
 		// Plugin links
-		add_filter('plugin_action_links_'.plugin_basename(AutoLoad::instance()->pluginFile), array(&$this, 'settingsLink'));
+		add_filter('plugin_action_links_'.plugin_basename(Helpers\Plugin::instance()->path), array(&$this, 'settingsLink'));
 	}
 
 
@@ -89,7 +89,7 @@ final class Admin {
 		$args = empty($_POST['test'])? array() : $this->handleSubmit();
 
 		// Display page
-		\LittleBizzy\CloudFlare\Admin\Settings::instance($args);
+		Admin\Settings::instance($args);
 	}
 
 
