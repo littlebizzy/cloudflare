@@ -60,6 +60,7 @@ final class Plugin {
 
 	/**
 	 * Constructor
+	 * Use full namespace path for clarity
 	 */
 	private function __construct() {
 		$this->path 	= \LittleBizzy\CloudFlare\FILE;
