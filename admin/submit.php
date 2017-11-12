@@ -277,7 +277,7 @@ final class Submit {
 
 			// Check length
 			$length = strlen($name);
-			if ($length < strlen($domain))
+			if ($length > strlen($domain))
 				continue;
 
 			// Ends with the zone name
