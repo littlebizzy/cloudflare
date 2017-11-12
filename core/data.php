@@ -101,7 +101,7 @@ final class Data {
 	public function load()  {
 		$this->key 	 = $this->options->get('key', true);
 		$this->email = $this->options->get('email', true);
-		$this->zone  = @json_decode($this->options->get('zone', true), true);
+		$this->zone  = $this->sanitizeZone(@json_decode($this->options->get('zone', true), true));
 	}
 
 
@@ -139,6 +139,28 @@ final class Data {
 	 */
 	public function remove() {
 		$this->options->del(['key', 'email', 'zone']);
+	}
+
+
+
+	/**
+	 * Sanitize zone data
+	 */
+	public function sanitizeZone($zone) {
+
+		// Check array
+		if (empty($zone) || !is_array($zone))
+			$zone = array();
+
+		// Sanitize values
+		return [
+			'id' 				=> isset($zone['id'])? 				 $zone['id'] : '',
+			'name' 				=> isset($zone['name'])? 			 $zone['name'] : '',
+			'status' 			=> isset($zone['status'])? 			 $zone['status'] : '',
+			'paused' 			=> isset($zone['paused'])? 			 $zone['paused'] : '',
+			'type' 				=> isset($zone['type'])? 			 $zone['type'] : '',
+			'development_mode' 	=> isset($zone['development_mode'])? $zone['development_mode'] : '',
+		];
 	}
 
 
