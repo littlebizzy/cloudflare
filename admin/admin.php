@@ -71,7 +71,7 @@ final class Admin {
 	 * Display menu
 	 */
 	public function adminMenu() {
-		add_options_page('CloudFlare Settings', 'CloudFlare Settings', 'manage_options', 'cloudflare-littlebizzy', array(&$this, 'adminPage'));
+		add_options_page('CloudFlare Settings', 'CloudFlare Settings', 'manage_options', 'cf-littlebizzy', array(&$this, 'adminPage'));
 	}
 
 
