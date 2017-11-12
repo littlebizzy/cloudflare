@@ -1,15 +1,15 @@
 <?php
 
 // Subpackage namespace
-namespace LittleBizzy\CloudFlare\Core;
+namespace LittleBizzy\CloudFlare\API;
 
 /**
- * API class
+ * Cloudflare API class
  *
  * @package CloudFlare
- * @subpackage Core
+ * @subpackage API
  */
-final class API {
+final class Cloudflare {
 
 
 
@@ -19,9 +19,9 @@ final class API {
 
 
 	/**
-	 * API endpoint URL
+	 * API endpoint
 	 */
-	const ENDPOINT_URL = 'https://www.cloudflare.com/api_json.html';
+	const ENDPOINT_URL = 'https://api.cloudflare.com/client/v4/';
 
 
 
@@ -49,6 +49,8 @@ final class API {
 	 */
 	private $key;
 	private $email;
+	private $domain;
+
 
 
 	/**
@@ -81,20 +83,7 @@ final class API {
 	/**
 	 * Constructor
 	 */
-	private function __construct() {
-		$this->setHost();
-	}
-
-
-
-	/**
-	 * Detect current host
-	 */
-	private function setHost() {
-		$this->host = @parse_url(site_url(), PHP_URL_HOST);
-		if (0 === stripos($this->host, 'www.'))
-			$this->host = substr($this->host, 4);
-	}
+	private function __construct() {}
 
 
 
@@ -106,11 +95,39 @@ final class API {
 	/**
 	 * Set API values
 	 */
-	public function setCredentials($key, $email) {
+	public function setCredentials($key, $email, $domain) {
 		$this->key = $key;
 		$this->email = $email;
+		$this->domain = $domain;
 	}
 
+
+
+	/**
+	 * Check a valid domain
+	 */
+	public function checkDomain() {
+
+		// Credentials check
+		if (!$this->checkCredentials())
+			return false;
+
+		$zones = $this->getZones();
+
+
+
+	}
+
+
+	public function getZones($page = 1) {
+
+		$response = $this->request([
+			'endpoint' => 'zones',
+			'per_page' => 50,
+		]);
+
+
+	}
 
 
 	/**
@@ -128,11 +145,11 @@ final class API {
 			$this->error = $result;
 			return false;
 		}
-
+//print_r($result);
 		// Check zones
-		$zones = (empty($result->response->zones) || !is_array($result->response->zones))? array() : $result->response->zones;
+		$zones = (empty($result->response->zones->objs) || !is_array($result->response->zones->objs))? array() : $result->response->zones->objs;
 		if (0 == count($zones)) {
-			$this->error = new WP_Error('match_domain', 'API did not return any domains');
+			$this->error = $this->newError('match_domain', 'API did not return any domains');
 			return false;
 		}
 
@@ -140,21 +157,23 @@ final class API {
 		$names = [];
 		foreach ($zones as $zone) {
 			if (!empty($zone->zone_name))
-				$names[] = $zone->zone_name;
+				$names[strtolower($zone->zone_name)] = $zone;
 		}
 
 		// Check values
 		if (empty($names)) {
-			$this->error = new WP_Error('match_domain', 'API did not return any domains');
+			$this->error = $this->newError('match_domain', 'API did not return any domains');
 			return false;
 		}
 
+		// Check if exists
+		$domain = strtolower($this->domain);
+		if (isset($names[$domain]))
+			return $names[$domain];
+
 		// Now see match_domain_to_zone
-
-
-
-
-		print_r($zones);die;
+		$this->error = $this->newError('match_domain', 'API did not match any domains');
+		return false;
 	}
 
 
@@ -241,15 +260,34 @@ function match_domain_to_zone($domain, $zones) {
 	}
 
 
+	public function request($args) {
+
+		// Perform request
+	    $response = wp_remote_post(self::ENDPOINT_URL, [
+			'body'			=> $fields,
+	        'timeout'       => 20,
+	        'sslverify'     => true,
+	        'user-agent'    => 'CloudFlare/WordPress/1.3.24',
+	    ]);
+
+		// Check error
+		if (is_wp_error($response)) {
+			return $response;
+
+
+
+	}
+
+
 
 	/**
 	 * API Request
 	 */
-	private function request($fields, $json = true) {
+	private function request_old($fields, $json = true) {
 
 		// Check credentials
 		if (empty($this->key) || empty($this->email))
-			new WP_Error('missing_credentials', 'API credentials must be established before the API request call.');
+			$this->newError('missing_credentials', 'API credentials must be established before the API request call.');
 
 		// Prepare fields
 		$fields = array_merge($fields, [
@@ -259,7 +297,7 @@ function match_domain_to_zone($domain, $zones) {
 
 		// Perform request
 	    $response = wp_remote_post(self::ENDPOINT_URL, [
-			'body'			=> $fields;
+			'body'			=> $fields,
 	        'timeout'       => 20,
 	        'sslverify'     => true,
 	        'user-agent'    => 'CloudFlare/WordPress/1.3.24',
@@ -271,11 +309,11 @@ function match_domain_to_zone($domain, $zones) {
 
 		// Check results
 		if (!is_array($response))
-			new WP_Error('unknown_wp_http_error', sprintf('Unknown response from wp_remote_post - unable to contact CloudFlare API'));
+			$this->newError('unknown_wp_http_error', sprintf('Unknown response from wp_remote_post - unable to contact CloudFlare API'));
 
 		// Check HTTP code
 		if (200 != (int) $response['response']['code'])
-			return new WP_Error('cloudflare', sprintf('CloudFlare API returned a HTTP Error: %s - %s', $response['response']['code'], $response['response']['message']));
+			return $this->newError('cloudflare', sprintf('CloudFlare API returned a HTTP Error: %s - %s', $response['response']['code'], $response['response']['message']));
 
 		// Check output
 		if (!$json)
@@ -284,16 +322,52 @@ function match_domain_to_zone($domain, $zones) {
 		// Decode from JSON
 		$result = @json_decode($response['body']);
 		if (empty($result))
-			return new WP_Error('json_decode', sprintf('Unable to decode JSON response'), $response['body']);
+			return $this->newError('json_decode', sprintf('Unable to decode JSON response'), $response['body']);
 
 		// Check for the CloudFlare API failure response
 		if (property_exists($result, 'result') && $result->result != 'success') {
 			$msg = (property_exists($result, 'msg') && !empty($result->msg))? $result->msg : 'Unknown Error';
-			return new WP_Error('cloudflare', $msg);
+			return $this->newError('cloudflare', $msg);
 		}
 
 		// Done
 		return $result;
+	}
+
+
+
+	// Utils
+	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Check if the credentials are stablished
+	 */
+	private function checkCredentiasl($createError = true) {
+
+		// Check API properties
+		if (empty($this->key) || empty($this->email) || empty($this->domain)) {
+
+			// Check object creation
+			if ($createError)
+				$this->error = $this->newError('credentiasl', 'API credentials not stablished');
+
+			// Error
+			return false;
+		}
+
+		// Found
+		return true;
+	}
+
+
+
+	/**
+	 * Creates new WP_Error object
+	 */
+	private function newError($code = '', $message = '', $data = '') {
+		return new \WP_Error($code, $message, $data);
 	}
 
 
