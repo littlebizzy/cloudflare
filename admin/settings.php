@@ -53,6 +53,9 @@ final class Settings {
 	 */
 	private function __construct() {
 
+		// Debug data
+		//Core\Data::instance()->domain = 'asimetrica.com';
+
 		// Prepare arguments
 		$args = [
 			'notices' => ['error' => [], 'success' => []]
@@ -109,25 +112,39 @@ final class Settings {
 
 			<?php foreach ($notices['success'] as $message) : ?><div class="notice notice-success"><p><?php echo $message; ?></p></div><?php endforeach; ?>
 
-			<h1>CloudFlare Settings</h1>
 
-			<?php if ($isCloudFlare) : ?><h3>You are currently using CloudFlare!</h3><?php endif; ?>
+			<div style="margin-bottom: 25px;">
 
-			<form method="POST">
+				<h1>CloudFlare</h1>
+
+				<?php if (true || $isCloudFlare) : ?><h3>You are currently using CloudFlare!</h3><?php endif; ?>
+
+			</div>
+
+			<form method="POST" style="margin-bottom: 50px;">
 
 				<input type="hidden" name="hd-credentials-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_credentials')); ?>" />
 
-				<p><label>Domain: </label>
-				<?php echo esc_html($domain); ?></p>
+				<h2>Site settings</h2>
 
-				<?php if (!empty($zone['name'])) : ?><p><label>Zone: </label>
-				<?php echo esc_html($zone['name']); ?></p><?php endif; ?>
-
-				<p><label for="cldflr-tx-credentials-key">CloudFlare API Key</label><br />
-				<input type="text" name="tx-credentials-key" id="cldflr-tx-credentials-key" value="<?php echo esc_attr($key); ?>" /></p>
-
-				<p><label for="cldflr-tx-credentials-email">CloudFlare API Email</label><br />
-				<input type="text" name="tx-credentials-email" id="cldflr-tx-credentials-email" value="<?php echo esc_attr($email); ?>" /></p>
+				<table class="form-table">
+					<tr>
+						<th scope="row"><label>Current Domain:</label></th>
+						<td><?php echo esc_html($domain); ?></td>
+					</tr>
+					<?php if (!empty($zone['name'])) : ?><tr>
+						<th scope="row"><label>Cloudflare Zone:</label></th>
+						<td><?php echo esc_html($zone['name']).((empty($zone['status'])? '' : ' ('.esc_html($zone['status']).')')); ?></td>
+					</tr><?php endif; ?>
+					<tr>
+						<th scope="row"><label for="cldflr-tx-credentials-key">CloudFlare API Key</label></th>
+						<td><input type="text" name="tx-credentials-key" id="cldflr-tx-credentials-key" class="regular-text" value="<?php echo esc_attr($key); ?>" /></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="cldflr-tx-credentials-email">CloudFlare API Email</label></th>
+						<td><input type="text" name="tx-credentials-email" id="cldflr-tx-credentials-email" class="regular-text" value="<?php echo esc_attr($email); ?>" /></td>
+					</tr>
+				</table>
 
 				<p><input type="submit" class="button button-primary" value="Update API Settings" /></p>
 
@@ -137,12 +154,20 @@ final class Settings {
 
 				<form method="POST">
 
-					<h3>Development mode: <?php echo $devMode? '<strong>Enabled</strong>' : 'Disabled'; ?></h3>
+					<h2 style="margin-bottom: 0">Development Mode</h2>
 
 					<input type="hidden" name="hd-devmode-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_devmode')); ?>" />
 					<input type="hidden" name="hd-devmode-action" value="<?php echo $devMode? 'off' : 'on'; ?>" />
 
-					<p><input type="submit" class="button button-primary" value="<?php echo $devMode? 'Turn Off' : 'Turn On' ; ?>" style="width: 200px;" /></p>
+					<table class="form-table">
+						<tr>
+							<th scope="row"><label>Current Status:</label></th>
+							<td>
+								<p style="margin-bottom: 15px;"><span style="width: 100px; display: inline-block;"><?php echo $devMode? '<strong style="color: red;">Enabled</strong>' : 'Disabled'; ?></span>
+								<input type="submit" class="button button-primary" value="<?php echo $devMode? 'Turn Off' : 'Turn On' ; ?>" style="width: 120px; margin-top: -5px;" /></p>
+								<?php if ($devMode) : ?><p>Development mode will be disabled automatically after 3 hours from activation.</p><?php endif; ?></td>
+						</tr>
+					</table>
 
 				</form>
 
