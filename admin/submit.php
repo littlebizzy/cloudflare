@@ -5,6 +5,7 @@ namespace LittleBizzy\CloudFlare\Admin;
 
 // Aliased namespaces
 use \LittleBizzy\CloudFlare\Core;
+use \LittleBizzy\CloudFlare\API;
 
 /**
  * Submit class
@@ -78,7 +79,6 @@ final class Submit {
 
 		// New key value
 		} elseif ($key != Core\Data::instance()->key) {
-			$keyChanged = true;
 			Core\Data::instance()->save(['key' => $key]);
 		}
 
@@ -89,41 +89,80 @@ final class Submit {
 
 		// Validate
 		} elseif (!is_email($email)) {
-			$args['notices']['error'][] = 'The email <strong>'.esc_html($email).'<strong> is not valid';
 			$email = null;
+			$args['notices']['error'][] = 'The email <strong>'.esc_html($email).'<strong> is not valid';
 
 		// Check if is a new email
 		} elseif ($email != Core\Data::instance()->email) {
-			$emailChanged = true;
 			Core\Data::instance()->save(['email' => $email]);
 		}
 
 		// Check values for API validation
-		if (empty($key) || empty($email))
-			return;
+		if (!empty($key) && !empty($email)) {
 
-		// Check changes
-		if (empty($keyChanged) && empty($emailChanged)) {
-			if ('valid' == Core\Data::instance()->status)
-				return;
-		}
+			// Perform the API calls
+			$result = $this->checkDomain($args, $key, $email);
 
-		// Request with current database values
-		Core\API::instance()->setCredentials($key, $email, Core\Data::instance()->domain);
-		if (false == $domain = Core\API::instance()->getDomain()) {
-			Core\Data::instance()->save(['status' => 'error']);
-			$args['notices']['error'][] = 'The current domain could not be verified';
-			return;
+			// Check error
+			if (is_wp_error($result)) {
+				$zone = false;
+				$args['notices']['error'][] = 'CloudFlare API request error';
+
+			// Continue
+			} else {
+				$zone = $result;
+				$args['notices']['success'][] = 'Updated domain status via CloudFlare API';
+			}
+
+			// Update data
+			Core\Data::instance()->save['zone' => $zone];
 		}
 	}
 
 
 
-	/**
-	 * API devMode request
-	 */
-	public function devMode(&$args) {
+	// Internal
+	// ---------------------------------------------------------------------------------------------------
 
+
+
+	/**
+	 * Check domain calling the API
+	 */
+	private function checkDomain($key, $email) {
+
+		// Initialize
+		$page = $maxPages = 1;
+
+		// Enum page
+		while ($page <= $maxPages) {
+
+			// Perform the API call
+			$response = API\CloudFlare::instance($key, $email)->getZones($page);
+			if (is_wp_error($result))
+				return $result;
+
+			// Check domains
+			if (false !== ($zone = $this->matchDomains($response['result'])))
+				return @json_encode($zone);
+
+			// Max pages check
+			if (1 == $page)
+				$maxPages = empty($response['result_info']['total_pages'])? 0 : (int) $response['result_info']['total_pages'];
+
+			// Next page
+			$page++;
+		}
+
+		// Done
+		return false;
+	}
+
+
+
+	private function matchZones($result) {
+		if (empty($result) || !is_array($result))
+		$domain = Core\Data::instance()->domain;
 	}
 
 

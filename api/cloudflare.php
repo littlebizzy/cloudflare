@@ -19,9 +19,9 @@ final class Cloudflare {
 
 
 	/**
-	 * API endpoint
+	 * Endpoint base URL
 	 */
-	const ENDPOINT_URL = 'https://api.cloudflare.com/client/v4/';
+	const BASE_URL = 'https://api.cloudflare.com/client/v4/';
 
 
 
@@ -38,23 +38,15 @@ final class Cloudflare {
 
 
 	/**
-	 * This host
-	 */
-	public $host;
-
-
-
-	/**
 	 * Current values
 	 */
 	private $key;
 	private $email;
-	private $domain;
 
 
 
 	/**
-	 * Last error object
+	 * Last error WP object
 	 */
 	public $error;
 
@@ -68,11 +60,11 @@ final class Cloudflare {
 	/**
 	 * Create or retrieve instance
 	 */
-	public static function instance() {
+	public static function instance($key = null, $email = null) {
 
 		// Check instance
 		if (!isset(self::$instance))
-			self::$instance = new self;
+			self::$instance = new self($key, $email);
 
 		// Done
 		return self::$instance;
@@ -83,7 +75,10 @@ final class Cloudflare {
 	/**
 	 * Constructor
 	 */
-	private function __construct() {}
+	private function __construct($key, $email) {
+		$this->key = $key;
+		$this->email = $email;
+	}
 
 
 
@@ -93,41 +88,85 @@ final class Cloudflare {
 
 
 	/**
-	 * Set API values
+	 * Retrieve current zones
 	 */
-	public function setCredentials($key, $email, $domain) {
-		$this->key = $key;
-		$this->email = $email;
-		$this->domain = $domain;
+	public function getZones($page = 1, $per_page = 50) {
+		return $this->request('zones', [
+			'method' 	=> 'GET',
+			'body' 		=> [
+				'page' 		=> $page,
+				'per_page' 	=> $per_page,
+			],
+		]);
 	}
 
 
 
 	/**
-	 * Check a valid domain
+	 * Retrieve zone details
 	 */
-	public function checkDomain() {
-
-		// Credentials check
-		if (!$this->checkCredentials())
-			return false;
-
-		$zones = $this->getZones();
-
-
-
-	}
-
-
-	public function getZones($page = 1) {
-
-		$response = $this->request([
-			'endpoint' => 'zones',
-			'per_page' => 50,
+	public function getZone($zoneId) {
+		return $this->request('zones/'.$zoneId, [
+			'method' 	=> 'GET',
 		]);
-
-
 	}
+
+
+
+	/**
+	 * Purge zone cache
+	 */
+	public function purgeZone($zoneId) {
+		return $this->request('zones/'.$zoneId.'/purge_cache', [
+			'method' 	=> 'GET',
+		]);
+	}
+
+
+
+	/**
+	 * Makes an API request
+	 */
+	public function request($endpoint, $args) {
+
+		// Perform request
+	    $result = wp_remote_request(self::BASE_URL.$endpoint, array_merge([
+	        'timeout' 	=> 10,
+	        'sslverify' => true,
+			'headers' 	=> [
+				'Content-Type'	=> 'application/json',
+				'X-Auth-Key'	=> $this->key,
+				'X-Auth-Email'	=> $this->email,
+			],
+	    ], $args));
+
+		// Check error
+		if (is_wp_error($result))
+			return $result;
+
+		// Check response code
+		if (empty($result['response']) || empty($result['response']['code']) || 200 != $result['response']['code'])
+			return $this->newError('cloudflare_api_error_code', $result);
+
+		// Check body
+		if (empty($result['body']))
+			return $this->newError('cloudflare_api_error_body', $result);
+
+		// Cast body
+		$response = @json_decode($result['body'], true);
+		if (empty($response) || !is_array($response))
+			return $this->newError('cloudflare_api_error_response', $result);
+
+		// Check result
+		if (empty($response['result']) || empty($response['result_info']) || 'true' != $response['success'])
+			return $this->newError('cloudflare_api_error_result', $response);
+
+		// Done
+		return $response;
+	}
+
+
+
 
 
 	/**
@@ -260,23 +299,7 @@ function match_domain_to_zone($domain, $zones) {
 	}
 
 
-	public function request($args) {
 
-		// Perform request
-	    $response = wp_remote_post(self::ENDPOINT_URL, [
-			'body'			=> $fields,
-	        'timeout'       => 20,
-	        'sslverify'     => true,
-	        'user-agent'    => 'CloudFlare/WordPress/1.3.24',
-	    ]);
-
-		// Check error
-		if (is_wp_error($response)) {
-			return $response;
-
-
-
-	}
 
 
 
@@ -338,28 +361,6 @@ function match_domain_to_zone($domain, $zones) {
 
 	// Utils
 	// ---------------------------------------------------------------------------------------------------
-
-
-
-	/**
-	 * Check if the credentials are stablished
-	 */
-	private function checkCredentiasl($createError = true) {
-
-		// Check API properties
-		if (empty($this->key) || empty($this->email) || empty($this->domain)) {
-
-			// Check object creation
-			if ($createError)
-				$this->error = $this->newError('credentiasl', 'API credentials not stablished');
-
-			// Error
-			return false;
-		}
-
-		// Found
-		return true;
-	}
 
 
 
