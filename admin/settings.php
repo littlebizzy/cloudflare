@@ -163,7 +163,7 @@ final class Settings {
 						<tr>
 							<th scope="row"><label>Current Status:</label></th>
 							<td>
-								<p style="margin-bottom: 15px;"><span style="width: 100px; display: inline-block;"><?php echo $devMode? '<strong style="color: red;">Enabled</strong>' : 'Disabled'; ?></span>
+								<p<?php if ($devMode) : ?> style="margin-bottom: 15px;"<?php endif; ?>><span style="width: 100px; display: inline-block;"><?php echo $devMode? '<strong style="color: red;">Enabled</strong>' : 'Disabled'; ?></span>
 								<input type="submit" class="button button-primary" value="<?php echo $devMode? 'Turn Off' : 'Turn On' ; ?>" style="width: 120px; margin-top: -5px;" /></p>
 								<?php if ($devMode) : ?><p>Development mode will be disabled automatically after 3 hours from activation.</p><?php endif; ?></td>
 						</tr>
