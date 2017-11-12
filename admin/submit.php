@@ -78,7 +78,7 @@ final class Submit {
 		// Check key
 		$key = isset($_POST['tx-credentials-key'])? trim($_POST['tx-credentials-key']) : false;
 		if (empty($key)) {
-			$args['notices']['error'][] = 'Missing API Key value';
+			$args['notices']['error'][] = 'Missing Cloudflare API Key value';
 
 		// New key value
 		} elseif ($key != Core\Data::instance()->key) {
@@ -91,7 +91,7 @@ final class Submit {
 		// Check email
 		$email = isset($_POST['tx-credentials-email'])? trim($_POST['tx-credentials-email']) : false;
 		if (empty($email)) {
-			$args['notices']['error'][] = 'Missing CloudFlare API email';
+			$args['notices']['error'][] = 'Missing Cloudflare API email';
 
 		// Validate
 		} elseif (!is_email($email)) {
@@ -170,7 +170,7 @@ final class Submit {
 		} else {
 			$data->zone['development_mode'] = $response['result']['time_remaining'];
 			$data->save(['zone' => $data->zone, 'dev_mode_at' => time()]);
-			$args['notices']['success'][] = 'Updated Development status via CloudFlare API';
+			$args['notices']['success'][] = 'Updated <strong>development mode</strong> status via CloudFlare API';
 		}
 	}
 
