@@ -65,9 +65,6 @@ final class Submit {
 	 */
 	public function credentials(&$args) {
 
-		// Initialize
-		$this->init($args);
-
 		// Check nonce
 		if (empty($_POST['hd-credentials-nonce']) || !wp_verify_nonce($_POST['hd-credentials-nonce'], 'cloudflare_credentials')) {
 			$args['notices']['error'][] = 'Invalid form security code, please try again.';
@@ -106,11 +103,18 @@ final class Submit {
 			return;
 
 		// Check changes
-		if (empty($keyChanged) && empty($emailChanged))
-			return;
+		if (empty($keyChanged) && empty($emailChanged)) {
+			if ('valid' == Core\Data::instance()->status)
+				return;
+		}
 
-		Core\API::instance()->setCredentials($key, $email);
-		$result = Core\API::instance()->getDomain();
+		// Request with current database values
+		Core\API::instance()->setCredentials($key, $email, Core\Data::instance()->domain);
+		if (false == $domain = Core\API::instance()->getDomain()) {
+			Core\Data::instance()->save(['status' => 'error']);
+			$args['notices']['error'][] = 'The current domain could not be verified';
+			return;
+		}
 	}
 
 
@@ -120,21 +124,6 @@ final class Submit {
 	 */
 	public function devMode(&$args) {
 
-	}
-
-
-
-	// Internal
-	// ---------------------------------------------------------------------------------------------------
-
-
-
-	/**
-	 * Set notices array
-	 */
-	private function init(&$args) {
-		if (empty($args['notices']) || !is_array($args['notices']))
-			$args['notices'] = ['error' => [], 'success' => []];
 	}
 
 

@@ -55,11 +55,7 @@ final class Settings {
 
 		// Prepare arguments
 		$args = [
-			'key'   		 => Core\Data::instance()->key,
-			'email' 		 => Core\Data::instance()->email,
-			'isCloudFlare' 	 => Core\Core::instance()->isCloudFlare,
-			'devmodeEnabled' => ('enabled' == Core\Data::instance()->devmodeStatus),
-			'notices'		 => ['error' => [], 'success' => []],
+			'notices' => ['error' => [], 'success' => []]
 		];
 
 		// Check submit
@@ -70,7 +66,14 @@ final class Settings {
 			Submit::instance()->devMode($args);
 		}
 
-		//$args = empty($_POST['test'])? array() : ;
+		// Load data
+		$args = array_merge($args, [
+			'key'   		 => Core\Data::instance()->key,
+			'email' 		 => Core\Data::instance()->email,
+			'status'		 => Core\Data::instance()->status,
+			'isCloudFlare' 	 => Core\Core::instance()->isCloudFlare,
+			'devmodeEnabled' => ('enabled' == Core\Data::instance()->devmodeStatus),
+		]);
 
 		// Show the forms
 		$this->display($args);
@@ -123,16 +126,20 @@ final class Settings {
 
 			<?php if (!empty($key) && !empty($email)) : ?>
 
-				<form method="POST">
+				<?php if ('enabled' == $status) : ?>
 
-					<input type="hidden" name="hd-devmode-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_devmode')); ?>" />
-					<input type="hidden" name="hd-devmode-action" value="" />
+					<form method="POST">
 
-					<p>Dev mode</p>
+						<input type="hidden" name="hd-devmode-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_devmode')); ?>" />
+						<input type="hidden" name="hd-devmode-action" value="" />
 
-					<p><input type="submit" value="" /></p>
+						<p>Dev mode</p>
 
-				</form>
+						<p><input type="submit" value="" /></p>
+
+					</form>
+
+				<?php endif; ?>
 
 			<?php endif; ?>
 
