@@ -112,7 +112,6 @@ final class Settings {
 
 			<?php foreach ($notices['success'] as $message) : ?><div class="notice notice-success"><p><?php echo $message; ?></p></div><?php endforeach; ?>
 
-
 			<div style="margin-bottom: 25px;">
 
 				<h1>CloudFlare</h1>
@@ -134,7 +133,7 @@ final class Settings {
 					</tr>
 					<?php if (!empty($zone['name'])) : ?><tr>
 						<th scope="row"><label>Cloudflare Zone:</label></th>
-						<td><?php echo esc_html($zone['name']).((empty($zone['status'])? '' : ' ('.esc_html($zone['status']).')')); ?></td>
+						<td><?php echo esc_html($zone['name']).((empty($zone['status'])? '' : ' ('.esc_html($zone['status']).')')).(empty($zone['paused'])? '' : ' <strong>PAUSED</strong>'); ?></td>
 					</tr><?php endif; ?>
 					<tr>
 						<th scope="row"><label for="cldflr-tx-credentials-key">CloudFlare API Key</label></th>
