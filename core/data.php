@@ -43,6 +43,7 @@ final class Data {
 	public $email;
 	public $domain;
 	public $zone;
+	public $devModeAt;
 
 
 
@@ -99,9 +100,10 @@ final class Data {
 	 * Load data
 	 */
 	public function load()  {
-		$this->key 	 = $this->options->get('key', true);
-		$this->email = $this->options->get('email', true);
-		$this->zone  = $this->sanitizeZone(@json_decode($this->options->get('zone', true), true));
+		$this->key 		 = $this->options->get('key', true);
+		$this->email 	 = $this->options->get('email', true);
+		$this->zone 	 = $this->sanitizeZone(@json_decode($this->options->get('zone', true), true));
+		$this->devModeAt = (int) $this->options->get('dev_mode_at');
 	}
 
 
@@ -127,6 +129,10 @@ final class Data {
 		if (isset($values['zone']))
 			$this->options->set('zone', @json_encode($values['zone']), false, true);
 
+		// Check Dev mode timestamp
+		if (isset($values['dev_mode_at']))
+			$this->options->set('dev_mode_at', (int) $values['dev_mode_at']);
+
 		// Check reload
 		if ($reload)
 			$this->load();
@@ -138,7 +144,7 @@ final class Data {
 	 * Remove options from database
 	 */
 	public function remove() {
-		$this->options->del(['key', 'email', 'zone']);
+		$this->options->del(['key', 'email', 'zone', 'dev_mode_at']);
 	}
 
 
