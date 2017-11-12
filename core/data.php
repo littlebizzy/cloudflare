@@ -73,6 +73,7 @@ final class Data {
 	private function __construct() {
 		$this->init();
 		$this->load();
+		$this->checkDevMode();
 	}
 
 
@@ -173,6 +174,29 @@ final class Data {
 
 	// Internal
 	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Check a valid Dev Mode due the 3 hours limit
+	 */
+	private function checkDevMode() {
+
+		// Check timestamp
+		if (empty($this->devModeAt))
+			return;
+
+		// Check current value
+		$devMode = (int) $this->zone['development_mode'];
+		if ($devMode <= 0)
+			return;
+
+		// Check 3 hours limit
+		if (time() - $this->devModeAt >= 10800) {
+			$this->zone['development_mode'] = 0;
+			$this->save(['zone' => $this->zone, 'dev_mode_at' => 0]);
+		}
+	}
 
 
 
