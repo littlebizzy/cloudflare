@@ -106,6 +106,11 @@ final class Data {
 	 * Set the Options object
 	 */
 	private function init() {
+
+		// Domain
+		$this->setDomain();
+
+		// Options object
 		$this->options = new Libraries\Options(Helpers\Plugin::instance()->prefix.'_cloudflare_');
 	}
 
@@ -124,7 +129,6 @@ final class Data {
 		// Domain
 		$this->key 		= $this->options->get('key', true);
 		$this->email 	= $this->options->get('email', true);
-		$this->domain 	= $this->options->get('domain', true);
 		$this->status 	= $this->options->get('status', true);
 
 		// Validate status
@@ -159,10 +163,6 @@ final class Data {
 		if (isset($values['email']))
 			$this->options->set('email', $values['email'], false, true);
 
-		// Check domain value
-		if (isset($values['domain']))
-			$this->options->set('domain', $values['domain'], false, true);
-
 		// Check and validate domain status
 		if (isset($values['status'])) {
 			if (!isset(self::$statuses[$values['status']]))
@@ -192,7 +192,23 @@ final class Data {
 	 * Remove options from database
 	 */
 	public function remove() {
-		$this->options->del(['key', 'email', 'domain', 'status', 'devmode', 'devmode_status']);
+		$this->options->del(['key', 'email', 'status', 'devmode', 'devmode_status']);
+	}
+
+
+
+	// Internal
+	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Current domain
+	 */
+	private function setDomain() {
+		$this->domain = @parse_url(site_url(), PHP_URL_HOST);
+		if (0 === stripos($this->domain, 'www.'))
+			$this->domain = substr($this->domain, 4);
 	}
 
 
