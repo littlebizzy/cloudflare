@@ -117,7 +117,7 @@ final class Settings {
 
 				<h1>CloudFlare</h1>
 
-				<?php if (true || $isCloudFlare) : ?><h3>You are currently using CloudFlare!</h3><?php endif; ?>
+				<?php if ($isCloudFlare) : ?><h3>You are currently using CloudFlare!</h3><?php endif; ?>
 
 			</div>
 
