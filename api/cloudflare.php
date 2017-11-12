@@ -45,13 +45,6 @@ final class Cloudflare {
 
 
 
-	/**
-	 * Last error WP object
-	 */
-	public $error;
-
-
-
 	// Initialization
 	// ---------------------------------------------------------------------------------------------------
 
@@ -116,7 +109,7 @@ final class Cloudflare {
 	public function setDevMode($zoneId, $enable) {
 		return $this->request('zones/'.$zoneId.'/settings/development_mode', [
 			'method' => 'PATCH',
-			'body' => @json_encode(['value' => $enable? 'on' : 'off'])
+			'body' => @json_encode(['value' => $enable? 'on' : 'off']),
 		]);
 	}
 
@@ -127,7 +120,8 @@ final class Cloudflare {
 	 */
 	public function purgeZone($zoneId) {
 		return $this->request('zones/'.$zoneId.'/purge_cache', [
-			'method' 	=> 'GET',
+			'method' => 'DELETE',
+			'body'   => @json_encode(['purge_everything' => true]),
 		]);
 	}
 
