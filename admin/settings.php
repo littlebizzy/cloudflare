@@ -62,17 +62,24 @@ final class Settings {
 		if (isset($_POST['hd-credentials-nonce'])) {
 			Submit::instance()->credentials($args);
 
+		// Development mode
 		} elseif (isset($_POST['hd-devmode-nonce'])) {
 			Submit::instance()->devMode($args);
+
+		// Purge cache
+		} elseif (isset($_POST['hd-purge-nonce'])) {
+			Submit::instance()->purge($args);
 		}
 
-		// Load data
+		// Display data
+		$data = Core\Data::instance();
 		$args = array_merge($args, [
-			'key'   		 => Core\Data::instance()->key,
-			'email' 		 => Core\Data::instance()->email,
-			'status'		 => Core\Data::instance()->status,
-			'isCloudFlare' 	 => Core\Core::instance()->isCloudFlare,
-			'devmodeEnabled' => ('enabled' == Core\Data::instance()->devmodeStatus),
+			'key'   		=> $data->key,
+			'email' 		=> $data->email,
+			'domain' 		=> $data->domain,
+			'zone'		 	=> $data->zone,
+			'isCloudFlare'  => Core\Core::instance()->isCloudFlare,
+			'devMode' 		=> (!empty($data->zone['id']) && $data->zone['development_mode'] > 0),
 		]);
 
 		// Show the forms
@@ -98,21 +105,23 @@ final class Settings {
 
 		<div class="wrap">
 
-			<?php foreach ($notices['error']  as $message) : ?><div class="notice error"><?php echo $message; ?></div><?php endforeach; ?>
+			<?php foreach ($notices['error']  as $message) : ?><div class="notice notice-error"><p><?php echo $message; ?></p></div><?php endforeach; ?>
 
-			<?php foreach ($notices['success'] as $message) : ?><div class="notice success"><?php echo $message; ?></div><?php endforeach; ?>
+			<?php foreach ($notices['success'] as $message) : ?><div class="notice notice-success"><p><?php echo $message; ?></p></div><?php endforeach; ?>
 
 			<h1>CloudFlare Settings</h1>
 
 			<?php if ($isCloudFlare) : ?><h3>You are currently using CloudFlare!</h3><?php endif; ?>
 
-			<p>CloudFlare is a service that makes websites load faster and protects sites from online spammers and hackers. Any website with a root domain (ie www.mydomain.com) can use CloudFlare. On average, it takes less than 5 minutes to sign up. You can learn more here: <a href="http://www.cloudflare.com/" target="_blank">CloudFlare.com</a>.</p>
-
 			<form method="POST">
 
 				<input type="hidden" name="hd-credentials-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_credentials')); ?>" />
 
-				<p><label>Domain: </label></p>
+				<p><label>Domain: </label>
+				<?php echo esc_html($domain); ?></p>
+
+				<?php if (!empty($zone['name'])) : ?><p><label>Zone: </label>
+				<?php echo esc_html($zone['name']); ?></p><?php endif; ?>
 
 				<p><label for="cldflr-tx-credentials-key">CloudFlare API Key</label><br />
 				<input type="text" name="tx-credentials-key" id="cldflr-tx-credentials-key" value="<?php echo esc_attr($key); ?>" /></p>
@@ -120,26 +129,32 @@ final class Settings {
 				<p><label for="cldflr-tx-credentials-email">CloudFlare API Email</label><br />
 				<input type="text" name="tx-credentials-email" id="cldflr-tx-credentials-email" value="<?php echo esc_attr($email); ?>" /></p>
 
-				<p><input type="submit" value="Update API settings" /></p>
+				<p><input type="submit" class="button button-primary" value="Update API Settings" /></p>
 
 			</form>
 
-			<?php if (!empty($key) && !empty($email)) : ?>
+			<?php if (!empty($key) && !empty($email) && !empty($zone['id'])) : ?>
 
-				<?php if ('enabled' == $status) : ?>
+				<form method="POST">
 
-					<form method="POST">
+					<h3>Development mode: <?php echo $devMode? '<strong>Enabled</strong>' : 'Disabled'; ?></h3>
 
-						<input type="hidden" name="hd-devmode-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_devmode')); ?>" />
-						<input type="hidden" name="hd-devmode-action" value="" />
+					<input type="hidden" name="hd-devmode-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_devmode')); ?>" />
+					<input type="hidden" name="hd-devmode-action" value="<?php echo $devMode? 'off' : 'on'; ?>" />
 
-						<p>Dev mode</p>
+					<p><input type="submit" class="button button-primary" value="<?php echo $devMode? 'Turn Off' : 'Turn On' ; ?>" style="width: 200px;" /></p>
 
-						<p><input type="submit" value="" /></p>
+				</form>
 
-					</form>
+				<form method="POST">
 
-				<?php endif; ?>
+					<h3>Cache</h3>
+
+					<input type="hidden" name="hd-purge-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_purge')); ?>" />
+
+					<p><input type="submit" class="button button-primary" value="Purge All Files" style="width: 200px;" /></p>
+
+				</form>
 
 			<?php endif; ?>
 
