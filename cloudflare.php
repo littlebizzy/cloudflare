@@ -8,7 +8,7 @@ Author: LittleBizzy
 Author URI: https://www.littlebizzy.com
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Prefix: CDFRLB
+Prefix: CLDFLR
 */
 
 // Plugin namespace
