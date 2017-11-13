@@ -91,4 +91,14 @@ final class Admin {
 
 
 
+	/**
+	 * Add a settings link from the plugins page
+	 */
+	public function settingsLink($links) {
+		$links[] = '<a href="'.get_admin_url(null, 'options-general.php?page=cf-littlebizzy').'">Settings</a>';
+		return $links;
+	}
+
+
+
 }
