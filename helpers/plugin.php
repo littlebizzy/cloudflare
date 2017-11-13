@@ -79,7 +79,7 @@ final class Plugin {
 	 * Handle the plugin hooks
 	 */
 	public function pluginHooks() {
-		$classname = __NAMESPACE__.'\\'.__CLASS__;
+		$classname = '\\'.__CLASS__;
 		register_uninstall_hook($this->path, array($classname, 'uninstall'));
 	}
 
@@ -108,7 +108,7 @@ final class Plugin {
 	 * Plugin uninstall
 	 */
 	public static function uninstall() {
-		CloudFlare\Core\Data::remove();
+		CloudFlare\Core\Data::instance()->remove();
 	}
 
 
