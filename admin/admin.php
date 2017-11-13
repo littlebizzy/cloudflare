@@ -71,7 +71,7 @@ final class Admin {
 	 * Display menu
 	 */
 	public function adminMenu() {
-		add_options_page('CloudFlare', 'CloudFlare', 'manage_options', 'cf-littlebizzy', array(&$this, 'adminPage'));
+		add_options_page('CloudFlare', 'CloudFlare', 'manage_options', 'cloudflare', array(&$this, 'adminPage'));
 	}
 
 
@@ -95,7 +95,7 @@ final class Admin {
 	 * Add a settings link from the plugins page
 	 */
 	public function settingsLink($links) {
-		$links[] = '<a href="'.get_admin_url(null, 'options-general.php?page=cf-littlebizzy').'">Settings</a>';
+		$links[] = '<a href="'.get_admin_url(null, 'options-general.php?page=cloudflare').'">Settings</a>';
 		return $links;
 	}
 
