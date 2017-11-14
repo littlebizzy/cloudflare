@@ -120,6 +120,14 @@ We released this plugin in response to our managed hosting clients asking for be
 
 Configure at `/wp-admin/options-general.php?page=cloudflare`
 
+= What version of the CloudFlare API is used? =
+
+It currently uses CloudFlare API version 4.
+
+= Does this plugin purge `cache everything` pages? =
+
+No, it does not support caching HTML with CloudFlare, it is only meant to purge static resources.
+
 = I have a suggestion, how can I let you know? =
 
 Please avoid leaving negative reviews in order to get a feature implemented. Instead, we kindly ask that you post your feedback on the wordpress.org support forums by tagging this plugin in your post. If needed, you may also contact our homepage.
