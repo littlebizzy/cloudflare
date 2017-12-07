@@ -6,7 +6,7 @@ Requires at least: 4.4
 Tested up to: 4.9
 Requires PHP: 7.0
 Multisite support: No
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Prefix: CLDFLR
@@ -176,6 +176,9 @@ No, it does not support caching HTML with CloudFlare, it is only meant to purge 
 Please avoid leaving negative reviews in order to get a feature implemented. Instead, we kindly ask that you post your feedback on the wordpress.org support forums by tagging this plugin in your post. If needed, you may also contact our homepage.
 
 == Changelog ==
+
+= 1.0.2 =
+* bug fix: `Class 'LittleBizzy\CloudFlare\CLDFLR_Admin_Notices' not found`
 
 = 1.0.1 =
 * tested with WP 4.9
