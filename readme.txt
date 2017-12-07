@@ -178,7 +178,7 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 == Changelog ==
 
 = 1.0.2 =
-* bug fix: `Class 'LittleBizzy\CloudFlare\CLDFLR_Admin_Notices' not found`
+* hotfix: `Class 'LittleBizzy\CloudFlare\CLDFLR_Admin_Notices' not found`
 
 = 1.0.1 =
 * tested with WP 4.9
