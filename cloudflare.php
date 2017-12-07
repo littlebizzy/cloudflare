@@ -13,7 +13,6 @@ Prefix: CLDFLR
 
 // Admin Notices module
 require_once dirname(__FILE__).'/admin-notices.php';
-CLDFLR_Admin_Notices::instance(__FILE__);
 
 // Plugin namespace
 namespace LittleBizzy\CloudFlare;
