@@ -11,11 +11,11 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Prefix: CLDFLR
 */
 
-// Admin Notices module
-require_once dirname(__FILE__).'/admin-notices.php';
-
 // Plugin namespace
 namespace LittleBizzy\CloudFlare;
+
+// Admin Notices module
+require_once dirname(__FILE__).'/admin-notices.php';
 
 // Block direct calls
 if (!function_exists('add_action'))
