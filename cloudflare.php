@@ -14,9 +14,6 @@ Prefix: CLDFLR
 // Plugin namespace
 namespace LittleBizzy\CloudFlare;
 
-// Admin Notices module
-require_once dirname(__FILE__).'/admin-notices.php';
-
 // Block direct calls
 if (!function_exists('add_action'))
 	die;
@@ -28,6 +25,9 @@ const VERSION = '1.0.2';
 
 // Loader
 require_once dirname(FILE).'/helpers/autoload.php';
+
+// Admin Notices
+Admin_Notices::instance(__FILE__);
 
 // Main class
 Core\Core::instance();

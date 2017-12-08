@@ -1,7 +1,7 @@
 <?php
 
 // Subpackage namespace
-namespace LittleBizzy\CloudFlare\Admin_Notices;
+namespace LittleBizzy\CloudFlare;
 
 /**
  * Admin Notices class
@@ -101,10 +101,9 @@ final class Admin_Notices {
 
 
 	/**
-	 * Default prefix
-	 * Can be changed by the external initialization.
+	 * Prefix
 	 */
-	private $prefix = 'lbladn';
+	private $prefix;
 
 
 
@@ -159,7 +158,7 @@ final class Admin_Notices {
 
 		// Prefix from the class name
 		$classname = explode('_', __CLASS__);
-		$this->prefix = strtolower($classname[0]);
+		$this->prefix = PREFIX.'an';
 
 		// Check notices
 		if (is_admin()) {
