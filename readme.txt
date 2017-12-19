@@ -1,6 +1,7 @@
 === CloudFlare ===
 
 Contributors: littlebizzy
+Donate link: https://www.patreon.com/littlebizzy
 Tags: cloudflare, api, cache, cdn, dev mode
 Requires at least: 4.4
 Tested up to: 4.9
