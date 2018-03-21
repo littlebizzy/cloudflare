@@ -7,7 +7,7 @@ Requires at least: 4.4
 Tested up to: 4.9
 Requires PHP: 7.0
 Multisite support: No
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Prefix: CLDFLR
@@ -178,12 +178,18 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 
 == Changelog ==
 
+= 1.0.4 =
+* added support for `define('CLOUDFLARE_API_KEY', '123456789');`
+* added support for `define('CLOUDFLARE_API_EMAIL', 'user@example.com');`
+* updated recommended plugins
+* added warning for Multisite installations
+
 = 1.0.3 =
 * optimized plugin namespaces
 * minor code tweaks
 
 = 1.0.2 =
-* hotfix: `Class 'LittleBizzy\CloudFlare\CLDFLR_Admin_Notices' not found`
+* HOTFIX: `Class 'LittleBizzy\CloudFlare\CLDFLR_Admin_Notices' not found`
 
 = 1.0.1 =
 * tested with WP 4.9
@@ -194,3 +200,5 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 = 1.0.0 =
 * initial release
 * forked from "CloudFlare" plugin 1.3.24
+* plugin uses PHP namespaces
+* object oriented code
