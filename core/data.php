@@ -101,8 +101,8 @@ final class Data {
 	 * Load data
 	 */
 	public function load()  {
-		$this->key 		 = $this->options->get('key', true);
-		$this->email 	 = $this->options->get('email', true);
+		$this->key 		 = defined('CLOUDFLARE_API_KEY')? CLOUDFLARE_API_KEY : $this->options->get('key', true);
+		$this->email 	 = defined('CLOUDFLARE_API_EMAIL')? CLOUDFLARE_API_EMAIL : $this->options->get('email', true);
 		$this->zone 	 = $this->sanitizeZone(@json_decode($this->options->get('zone', true), true));
 		$this->devModeAt = (int) $this->options->get('dev_mode_at');
 	}

@@ -77,7 +77,13 @@ final class Submit {
 
 		// Check key
 		$key = isset($_POST['tx-credentials-key'])? trim($_POST['tx-credentials-key']) : false;
-		if (empty($key)) {
+
+		// Check constant
+		if (defined('CLOUDFLARE_API_KEY')) {
+			$key = CLOUDFLARE_API_KEY;
+
+		// Check value
+		} elseif (empty($key)) {
 			$args['notices']['error'][] = 'Missing Cloudflare API Key value';
 
 		// New key value
@@ -90,7 +96,13 @@ final class Submit {
 
 		// Check email
 		$email = isset($_POST['tx-credentials-email'])? trim($_POST['tx-credentials-email']) : false;
-		if (empty($email)) {
+
+		// Check constant
+		if (defined('CLOUDFLARE_API_EMAIL')) {
+			$email = CLOUDFLARE_API_EMAIL;
+
+		// Check value
+		} elseif (empty($email)) {
 			$args['notices']['error'][] = 'Missing Cloudflare API email';
 
 		// Validate

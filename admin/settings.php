@@ -53,8 +53,8 @@ final class Settings {
 	 */
 	private function __construct() {
 
-		// Debug data
-		//Core\Data::instance()->domain = 'asimetrica.com';
+// Debug data
+//Core\Data::instance()->domain = 'asimetrica.com';
 
 		// Prepare arguments
 		$args = [
@@ -137,11 +137,11 @@ final class Settings {
 					</tr><?php endif; ?>
 					<tr>
 						<th scope="row"><label for="cldflr-tx-credentials-key">CloudFlare API Key</label></th>
-						<td><input type="text" name="tx-credentials-key" id="cldflr-tx-credentials-key" class="regular-text" value="<?php echo esc_attr($key); ?>" /></td>
+						<td><input type="text" name="tx-credentials-key" id="cldflr-tx-credentials-key" class="regular-text" value="<?php echo esc_attr($key); ?>" <?php if (defined('CLOUDFLARE_API_KEY')) echo 'disabled="disabled"'; ?> /></td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="cldflr-tx-credentials-email">CloudFlare API Email</label></th>
-						<td><input type="text" name="tx-credentials-email" id="cldflr-tx-credentials-email" class="regular-text" value="<?php echo esc_attr($email); ?>" /></td>
+						<td><input type="text" name="tx-credentials-email" id="cldflr-tx-credentials-email" class="regular-text" value="<?php echo esc_attr($email); ?>" <?php if (defined('CLOUDFLARE_API_EMAIL')) echo 'disabled="disabled"'; ?> /></td>
 					</tr>
 				</table>
 
