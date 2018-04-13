@@ -201,8 +201,6 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 = 1.0.4 =
 * added support for `define('CLOUDFLARE_API_KEY', '123456789');`
 * added support for `define('CLOUDFLARE_API_EMAIL', 'user@example.com');`
-* added warning for Multisite installations
-* updated recommended plugins
 
 = 1.0.3 =
 * optimized plugin PHP namespaces
