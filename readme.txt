@@ -18,14 +18,26 @@ Easily connect your WordPress website to free optimization features from CloudFl
 
 Easily connect your WordPress website to free optimization features from CloudFlare, including one-click options to purge cache and enable dev mode.
 
+* [**Join our FREE Facebook group to post questions or comments**](https://www.facebook.com/groups/littlebizzy/)
+* [**Please support our free work by leaving a 5-star review. Thank you!**](https://wordpress.org/support/plugin/cf-littlebizzy/reviews/?rate=5#new-post)
 * [Plugin Homepage](https://www.littlebizzy.com/plugins/cloudflare)
 * [Plugin GitHub](https://github.com/littlebizzy/cloudflare)
-* [SlickStack](https://slickstack.io)
+* [SlickStack (LEMP stack automation)](https://slickstack.io)
+* [Starter (lighting-fast custom themes)](https://starter.littlebizzy.com)
+* [WP Lite boilerplate](https://wplite.org)
 
 #### The Long Version ####
 
+This plugin was designed to load faster, be more secure, and perform much better than the official CloudFlare plugin. We focus on offering only the key features desired by most developers, while allowing some of the other CloudFlare settings to be better managed at your account over at CloudFlare.com rather than turning WordPress into a bloated control panel with every setting possible which is nearly impossible to keep up with anyways (esp. with stable/secure code).
+
+If you wish to define the CloudFlare API key and API email address on your `wp-config.php` or `functions.php` file you can do that to avoid your clients removing that data, especially during staging site syncing, migrations, etc. Plus it will load the data faster via PHP Opcache and server/Linux RAM memory caching rather than needing database queries or Options API cache.
+
+You can also use those defined constants to better automate server/WordPress setup using bash scripts etc.
+
 Features:
 
+* support for `define('CLOUDFLARE_API_KEY', '123456789');`
+* support for `define('CLOUDFLARE_API_EMAIL', 'user@example.com');`
 * one-click "dev" mode
 * one-click purge CloudFlare cache
 * automatic CloudFlare domain detection
@@ -34,6 +46,14 @@ Features:
 * uses CloudFlare API version 4.0+
 * no integration with Akismet
 
+#### Defined Constants ####
+
+The following defined constants are supported by this plugin:
+
+* `define('CLOUDFLARE_API_KEY', '123456789');`
+* `define('CLOUDFLARE_API_EMAIL', 'user@example.com');`
+* `define('DISABLE_NAG_NOTICES', true);`
+
 #### Compatibility ####
 
 This plugin has been designed for use on LEMP (Nginx) web servers with PHP 7.0 and MySQL 5.7 to achieve best performance. All of our plugins are meant for single site WordPress installations only; for both performance and security reasons, we highly recommend against using WordPress Multisite for the vast majority of projects.
@@ -41,7 +61,7 @@ This plugin has been designed for use on LEMP (Nginx) web servers with PHP 7.0 a
 #### Plugin Features ####
 
 * Settings Page: Yes
-* Premium Version Available: Yes ([Purge Them All](https://www.littlebizzy.com/plugins/purge-them-all))
+* Premium Version Available: Yes ([Speed Demon](https://www.littlebizzy.com/plugins/speed-demon))
 * Includes Media (Images, Icons, Etc): No
 * Includes CSS: No
 * Database Storage: Yes
@@ -75,15 +95,18 @@ We invite you to check out a few other related free plugins that our team has al
 
 * [404 To Homepage](https://wordpress.org/plugins/404-to-homepage-littlebizzy/)
 * [CloudFlare](https://wordpress.org/plugins/cf-littlebizzy/)
+* [Delete Expired Transients](https://wordpress.org/plugins/delete-expired-transients-littlebizzy/)
+* [Disable Admin-AJAX](https://wordpress.org/plugins/disable-admin-ajax-littlebizzy/)
 * [Disable Author Pages](https://wordpress.org/plugins/disable-author-pages-littlebizzy/)
 * [Disable Cart Fragments](https://wordpress.org/plugins/disable-cart-fragments-littlebizzy/)
 * [Disable Embeds](https://wordpress.org/plugins/disable-embeds-littlebizzy/)
 * [Disable Emojis](https://wordpress.org/plugins/disable-emojis-littlebizzy/)
 * [Disable Empty Trash](https://wordpress.org/plugins/disable-empty-trash-littlebizzy/)
 * [Disable Image Compression](https://wordpress.org/plugins/disable-image-compression-littlebizzy/)
+* [Disable jQuery Migrate](https://wordpress.org/plugins/disable-jq-migrate-littlebizzy/)
 * [Disable Search](https://wordpress.org/plugins/disable-search-littlebizzy/)
 * [Disable WooCommerce Status](https://wordpress.org/plugins/disable-wc-status-littlebizzy/)
-* [Disable WooCommerce Styles](https://wordpress.org/plugins/diable-wc-styles-littlebizzy/)
+* [Disable WooCommerce Styles](https://wordpress.org/plugins/disable-wc-styles-littlebizzy/)
 * [Disable XML-RPC](https://wordpress.org/plugins/disable-xml-rpc-littlebizzy/)
 * [Download Media](https://wordpress.org/plugins/download-media-littlebizzy/)
 * [Download Plugin](https://wordpress.org/plugins/download-plugin-littlebizzy/)
@@ -93,6 +116,7 @@ We invite you to check out a few other related free plugins that our team has al
 * [Force HTTPS](https://wordpress.org/plugins/force-https-littlebizzy/)
 * [Force Strong Hashing](https://wordpress.org/plugins/force-strong-hashing-littlebizzy/)
 * [Google Analytics](https://wordpress.org/plugins/ga-littlebizzy/)
+* [Header Cleanup](https://wordpress.org/plugins/header-cleanup-littlebizzy/)
 * [Index Autoload](https://wordpress.org/plugins/index-autoload-littlebizzy/)
 * [Maintenance Mode](https://wordpress.org/plugins/maintenance-mode-littlebizzy/)
 * [Profile Change Alerts](https://wordpress.org/plugins/profile-change-alerts-littlebizzy/)
@@ -107,33 +131,24 @@ We invite you to check out a few other related free plugins that our team has al
 
 We invite you to check out a few premium plugins that our team has also produced that you may find especially useful:
 
-* [Purge Them All](https://www.littlebizzy.com/plugins/purge-them-all)
 * [Speed Demon](https://www.littlebizzy.com/plugins/speed-demon)
 * [SEO Genius](https://www.littlebizzy.com/plugins/seo-genius)
 * [Great Migration](https://www.littlebizzy.com/plugins/great-migration)
 * [Security Guard](https://www.littlebizzy.com/plugins/security-guard)
 * [Genghis Khan](https://www.littlebizzy.com/plugins/genghis-khan)
 
-#### Related Services ####
-
-The following paid services are available on a case-by-case basis to upstanding members of the WordPress community:
-
-* [SSL Setup](https://www.littlebizzy.com/services/ssl)
-* [DNSSEC Setup](https://www.littlebizzy.com/services/dnssec)
-* [G Suite Setup](https://www.littlebizzy.com/services/google-apps)
-* [SendGrid Setup](https://www.littlebizzy.com/services/sendgrid)
-* [MailGun Setup](https://www.littlebizzy.com/services/mailgun)
-
 #### Special Thanks ####
 
 We thank the following groups for their generous contributions to the WordPress community which have particularly benefited us in developing our own free plugins and paid services:
 
 * [Automattic](https://automattic.com)
+* [Brad Touesnard](https://bradt.ca)
 * [Daniel Auener](http://www.danielauener.com)
 * [Delicious Brains](https://deliciousbrains.com)
 * [Greg Rickaby](https://gregrickaby.com)
 * [Matt Mullenweg](https://ma.tt)
 * [Mika Epstein](https://halfelf.org)
+* [Mike Garrett](https://mikengarrett.com)
 * [Samuel Wood](http://ottopress.com)
 * [Scott Reilly](http://coffee2code.com)
 * [Jan Dembowski](https://profiles.wordpress.org/jdembowski)
@@ -145,6 +160,7 @@ We thank the following groups for their generous contributions to the WordPress 
 * [Rahul Bansal](https://profiles.wordpress.org/rahul286)
 * [Roots](https://roots.io)
 * [rtCamp](https://rtcamp.com)
+* [Ryan Hellyer](https://geek.hellyer.kiwi)
 * [WP Chat](https://wpchat.com)
 * [WP Tavern](https://wptavern.com)
 
@@ -170,7 +186,11 @@ It currently uses CloudFlare API version 4.
 
 = Does this plugin purge `cache everything` pages? =
 
-No, it does not support caching HTML with CloudFlare, it is only meant to purge static resources.
+No, it does not support caching HTML with CloudFlare, it is only meant to purge static resources. The "cache everything" option is generally not recommended for the vast majority of dynamic websites as it causes conflicts.
+
+= Can I define the API key and email address? =
+
+Yes you can use the supported defined constants to input the API key and email address in static PHP files like `wp-config.php` or `functions.php` to avoid database queries and data loss during staging sync or migrations.
 
 = I have a suggestion, how can I let you know? =
 
@@ -181,11 +201,11 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 = 1.0.4 =
 * added support for `define('CLOUDFLARE_API_KEY', '123456789');`
 * added support for `define('CLOUDFLARE_API_EMAIL', 'user@example.com');`
-* updated recommended plugins
 * added warning for Multisite installations
+* updated recommended plugins
 
 = 1.0.3 =
-* optimized plugin namespaces
+* optimized plugin PHP namespaces
 * minor code tweaks
 
 = 1.0.2 =
@@ -193,12 +213,12 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 
 = 1.0.1 =
 * tested with WP 4.9
-* added recommended plugins
-* added rating request
+* added recommended plugins notice
+* added rating request notice
 * added support for `define('DISABLE_NAG_NOTICES', true);`
 
 = 1.0.0 =
 * initial release
-* forked from "CloudFlare" plugin 1.3.24
+* forked (kinda) from plugin "CloudFlare 1.3.24"
 * plugin uses PHP namespaces
 * object oriented code
