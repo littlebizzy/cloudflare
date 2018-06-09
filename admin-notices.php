@@ -9,6 +9,7 @@ namespace LittleBizzy\CloudFlare;
  * @package WordPress
  * @subpackage Admin Notices
  */
+
 final class Admin_Notices {
 
 
@@ -23,7 +24,7 @@ final class Admin_Notices {
 	 */
 	private $days_before_display_rate_us = 2; // 2 days delay
 	private $days_dismissing_rate_us = 270; // 9 months reappear
-	private $rate_us_url = 'https://wordpress.org/support/plugin/cf-littlebizzy/reviews/#new-post';
+	private $rate_us_url = 'https://wordpress.org/support/plugin/cf-littlebizzy/reviews/?rate=5#new-post';
 	private $rate_us_url2 = 'https://www.facebook.com/groups/littlebizzy/';
 	private $rate_us_message = 'Thanks for using <strong>%plugin%</strong>. Please support our free work by rating this plugin with 5 stars on WordPress.org. <a href="%url%" target="_blank">Click here to rate us.</a><br><br>You may also join our free <a href="%url2%" target="_blank">Facebook group</a> to post any questions or comments!';
 
@@ -35,7 +36,7 @@ final class Admin_Notices {
 	private $days_dismissing_suggestions = 180; // 6 months reappear
 	private $suggestions_message = '%plugin% recommends the following free plugins:';
 	private $suggestions = array(
-		'force-https-littlebizzy' => array(
+          	'force-https-littlebizzy' => array(
 			'name' => 'Force HTTPS',
 			'desc' => 'Redirects all HTTP requests to the HTTPS version and fixes all insecure static resources without altering the database (also works with CloudFlare).',
 			'filename' => 'force-https.php',
@@ -133,9 +134,8 @@ final class Admin_Notices {
 		// Uninstall hook endpoint
 		register_uninstall_hook($this->plugin_file, array(__CLASS__, 'uninstall'));
 
-		// Prefix from the class name
-		$classname = explode('_', __CLASS__);
-		$this->prefix = strtolower($classname[0]);
+		// Prefix from namespace constant
+		$this->prefix = PREFIX.'_an_';
 
 		// Check notices
 		if (is_admin()) {
