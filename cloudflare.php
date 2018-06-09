@@ -3,7 +3,7 @@
 Plugin Name: CloudFlare
 Plugin URI: https://www.littlebizzy.com/plugins/cloudflare
 Description: Easily connect your WordPress website to free optimization features from CloudFlare, including one-click options to purge cache and enable dev mode.
-Version: 1.0.4
+Version: 1.1.0
 Author: LittleBizzy
 Author URI: https://www.littlebizzy.com
 License: GPLv3
@@ -21,7 +21,7 @@ if (!function_exists('add_action'))
 // Plugin constants
 const FILE = __FILE__;
 const PREFIX = 'cldflr';
-const VERSION = '1.0.4';
+const VERSION = '1.1.0';
 
 // Loader
 require_once dirname(FILE).'/helpers/autoload.php';
