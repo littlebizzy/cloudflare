@@ -173,7 +173,7 @@ final class Submit {
 			$args['notices']['error'][] = 'Missing API Key or email value';
 
 		// Check API
-		} elseif (false !== $this->updateZone($key, $email, $args)) {
+		} elseif (false !== $this->updateZone($key, $email, $args, false)) {
 
 			// Reload data
 			$data->load();
@@ -237,7 +237,7 @@ final class Submit {
 			$args['notices']['error'][] = 'Missing API Key or email value';
 
 		// Check API
-		} elseif (false !== $this->updateZone($key, $email, $args)) {
+		} elseif (false !== $this->updateZone($key, $email, $args, false)) {
 
 			// Reload data
 			$data->load();
@@ -274,7 +274,7 @@ final class Submit {
 	/**
 	 * Update API zone from key and email values
 	 */
-	private function updateZone($key, $email, &$args) {
+	private function updateZone($key, $email, &$args, $notifySuccess = true) {
 
 		// Initialize
 		$zone = false;
@@ -290,8 +290,13 @@ final class Submit {
 
 		// Found
 		} else {
+
+			// Retrieve zone
 			$zone = Core\Data::instance()->sanitizeZone($result);
-			$args['notices']['success'][] = 'Updated domain info via CloudFlare API';
+
+			// Check notification
+			if ($notifySuccess)
+				$args['notices']['success'][] = 'Updated domain info via CloudFlare API';
 		}
 
 		// Update data
