@@ -153,38 +153,34 @@ final class Settings {
 
 			</form>
 
-			<?php if (!empty($key) && !empty($email) && !empty($zone['id'])) : ?>
+			<form method="POST">
 
-				<form method="POST">
+				<h2 style="margin-bottom: 0">Development Mode</h2>
 
-					<h2 style="margin-bottom: 0">Development Mode</h2>
+				<input type="hidden" name="hd-devmode-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_devmode')); ?>" />
+				<input type="hidden" name="hd-devmode-action" value="<?php echo $devMode? 'off' : 'on'; ?>" />
 
-					<input type="hidden" name="hd-devmode-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_devmode')); ?>" />
-					<input type="hidden" name="hd-devmode-action" value="<?php echo $devMode? 'off' : 'on'; ?>" />
+				<table class="form-table">
+					<tr>
+						<th scope="row"><label>Current Status:</label></th>
+						<td>
+							<p<?php if ($devMode) : ?> style="margin-bottom: 15px;"<?php endif; ?>><span style="width: 100px; display: inline-block;"><?php echo $devMode? '<strong style="color: red;">Enabled</strong>' : 'Disabled'; ?></span>
+							<input type="submit" class="button button-primary" value="<?php echo $devMode? 'Turn Off' : 'Turn On' ; ?>" style="width: 120px; margin-top: -5px;" /></p>
+							<?php if ($devMode) : ?><p>Development mode will be disabled automatically after 3 hours from activation.</p><?php endif; ?></td>
+					</tr>
+				</table>
 
-					<table class="form-table">
-						<tr>
-							<th scope="row"><label>Current Status:</label></th>
-							<td>
-								<p<?php if ($devMode) : ?> style="margin-bottom: 15px;"<?php endif; ?>><span style="width: 100px; display: inline-block;"><?php echo $devMode? '<strong style="color: red;">Enabled</strong>' : 'Disabled'; ?></span>
-								<input type="submit" class="button button-primary" value="<?php echo $devMode? 'Turn Off' : 'Turn On' ; ?>" style="width: 120px; margin-top: -5px;" /></p>
-								<?php if ($devMode) : ?><p>Development mode will be disabled automatically after 3 hours from activation.</p><?php endif; ?></td>
-						</tr>
-					</table>
+			</form>
 
-				</form>
+			<form method="POST">
 
-				<form method="POST">
+				<h3>Cache</h3>
 
-					<h3>Cache</h3>
+				<input type="hidden" name="hd-purge-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_purge')); ?>" />
 
-					<input type="hidden" name="hd-purge-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_purge')); ?>" />
+				<p><input type="submit" class="button button-primary" value="Purge All Files" style="width: 200px;" /></p>
 
-					<p><input type="submit" class="button button-primary" value="Purge All Files" style="width: 200px;" /></p>
-
-				</form>
-
-			<?php endif; ?>
+			</form>
 
 		</div>
 
