@@ -186,7 +186,7 @@ final class Submit {
 			} else {
 
 
-				/* dev mode */
+				/* Dev mode */
 
 				// Determine action
 				$enable = empty($_POST['hd-devmode-action'])? false : ('on' == $_POST['hd-devmode-action']);
@@ -213,32 +213,54 @@ final class Submit {
 	 */
 	public function purge(&$args) {
 
+
+		/* nonce */
+
 		// Check nonce
 		if (empty($_POST['hd-purge-nonce']) || !wp_verify_nonce($_POST['hd-purge-nonce'], 'cloudflare_purge')) {
 			$args['notices']['error'][] = 'Invalid form security code, please try again.';
 			return;
 		}
 
-		// Check API data
+
+		/* API settings */
+
+		// Init data
 		$data = Core\Data::instance();
-		if (empty($data->key) || empty($data->email)) {
+
+		// key and email
+		$key = defined('CLOUDFLARE_API_KEY')? CLOUDFLARE_API_KEY : $data->key;
+		$email = defined('CLOUDFLARE_API_EMAIL')? CLOUDFLARE_API_EMAIL : $data->email;
+
+		// Check API data
+		if (empty($key) || empty($email)) {
 			$args['notices']['error'][] = 'Missing API Key or email value';
-			return;
-		}
 
-		// Check zone data
-		if (empty($data->zone['id'])) {
-			$args['notices']['error'][] = 'Missing API zone detected';
-			return;
-		}
+		// Check API
+		} elseif (false !== $this->updateZone($key, $email, $args)) {
 
-		$response = API\CloudFlare::instance($data->key, $data->email)->purgeZone($data->zone['id']);
-		if (is_wp_error($response)) {
-			$args['notices']['error'][] = 'CloudFlare API request error';
+			// Reload data
+			$data->load();
 
-		// Success
-		} else {
-			$args['notices']['success'][] = 'Purged all files successfully via CloudFlare API';
+			// Check zone data
+			if (empty($data->zone['id'])) {
+				$args['notices']['error'][] = 'Missing API zone detected';
+
+			// Zone Ok
+			} else {
+
+
+				/* Purge */
+
+				$response = API\CloudFlare::instance($key, $email)->purgeZone($data->zone['id']);
+				if (is_wp_error($response)) {
+					$args['notices']['error'][] = 'CloudFlare API request error';
+
+				// Success
+				} else {
+					$args['notices']['success'][] = 'Purged all files successfully via CloudFlare API';
+				}
+			}
 		}
 	}
 
