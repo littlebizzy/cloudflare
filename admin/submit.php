@@ -66,6 +66,9 @@ final class Submit {
 	 */
 	public function credentials(&$args) {
 
+
+		/* nonce */
+
 		// Check nonce
 		if (empty($_POST['hd-credentials-nonce']) || !wp_verify_nonce($_POST['hd-credentials-nonce'], 'cloudflare_credentials')) {
 			$args['notices']['error'][] = 'Invalid form security code, please try again.';
@@ -75,51 +78,56 @@ final class Submit {
 
 		/* Key */
 
-		// Check key
-		$key = isset($_POST['tx-credentials-key'])? trim($_POST['tx-credentials-key']) : false;
-
 		// Check constant
 		if (defined('CLOUDFLARE_API_KEY')) {
 			$key = CLOUDFLARE_API_KEY;
 
-		// Check value
-		} elseif (empty($key)) {
-			$args['notices']['error'][] = 'Missing Cloudflare API Key value';
+		// Check submit
+		} elseif (isset($_POST['tx-credentials-key'])) {
 
-		// New key value
-		} elseif ($key != Core\Data::instance()->key) {
-			Core\Data::instance()->save(['key' => $key]);
+			// Form value
+			$test = trim($_POST['tx-credentials-key']);
+			if (empty($test)) {
+				$args['notices']['error'][] = 'Missing Cloudflare API Key value';
+
+			// Done
+			} else {
+				$key = $test;
+				Core\Data::instance()->save(['key' => $key]);
+			}
 		}
 
 
 		/* email */
 
-		// Check email
-		$email = isset($_POST['tx-credentials-email'])? trim($_POST['tx-credentials-email']) : false;
-
 		// Check constant
 		if (defined('CLOUDFLARE_API_EMAIL')) {
 			$email = CLOUDFLARE_API_EMAIL;
 
-		// Check value
-		} elseif (empty($email)) {
-			$args['notices']['error'][] = 'Missing Cloudflare API email';
+		// Check submit
+		} elseif (isset($_POST['tx-credentials-email'])) {
 
-		// Validate
-		} elseif (!is_email($email)) {
-			$email = null;
-			$args['notices']['error'][] = 'The email <strong>'.esc_html($email).'<strong> is not valid';
+			// Form value
+			$test = trim($_POST['tx-credentials-email']);
+			if (empty($test)) {
+				$args['notices']['error'][] = 'Missing Cloudflare API email';
 
-		// Check if is a new email
-		} elseif ($email != Core\Data::instance()->email) {
-			Core\Data::instance()->save(['email' => $email]);
+			// Validate
+			} elseif (!is_email($test)) {
+				$args['notices']['error'][] = 'The email <strong>'.esc_html($test).'<strong> is not valid';
+
+			// Done
+			} else {
+				$email = $test;
+				Core\Data::instance()->save(['email' => $email]);
+			}
 		}
 
 
 		/* API request */
 
 		// Check values for API validation
-		if (!empty($key) && !empty($email)) {
+		if (isset($key) && isset($email)) {
 
 			// Initialize
 			$zone = false;

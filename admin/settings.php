@@ -122,7 +122,9 @@ final class Settings {
 
 			<form method="POST" style="margin-bottom: 50px;">
 
-				<input type="hidden" name="hd-credentials-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_credentials')); ?>" />
+				<?php if (!defined('CLOUDFLARE_API_KEY') || !defined('CLOUDFLARE_API_EMAIL')) : ?>
+					<input type="hidden" name="hd-credentials-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_credentials')); ?>" />
+				<?php endif; ?>
 
 				<h2>Site settings</h2>
 
@@ -137,15 +139,17 @@ final class Settings {
 					</tr><?php endif; ?>
 					<tr>
 						<th scope="row"><label for="cldflr-tx-credentials-key">CloudFlare API Key</label></th>
-						<td><input type="text" name="tx-credentials-key" id="cldflr-tx-credentials-key" class="regular-text" value="<?php echo esc_attr($key); ?>" <?php if (defined('CLOUDFLARE_API_KEY')) echo 'disabled="disabled"'; ?> /></td>
+						<td><input type="text" name="tx-credentials-key<?php if (defined('CLOUDFLARE_API_KEY')) echo '-no-data'; ?>" id="cldflr-tx-credentials-key" class="regular-text" value="<?php echo esc_attr($key); ?>" <?php if (defined('CLOUDFLARE_API_KEY')) echo 'disabled="disabled"'; ?> /></td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="cldflr-tx-credentials-email">CloudFlare API Email</label></th>
-						<td><input type="text" name="tx-credentials-email" id="cldflr-tx-credentials-email" class="regular-text" value="<?php echo esc_attr($email); ?>" <?php if (defined('CLOUDFLARE_API_EMAIL')) echo 'disabled="disabled"'; ?> /></td>
+						<td><input type="text" name="tx-credentials-email" id="cldflr-tx-credentials-email<?php if (defined('CLOUDFLARE_API_EMAIL')) echo '-no-data'; ?>" class="regular-text" value="<?php echo esc_attr($email); ?>" <?php if (defined('CLOUDFLARE_API_EMAIL')) echo 'disabled="disabled"'; ?> /></td>
 					</tr>
 				</table>
 
-				<p><input type="submit" class="button button-primary" value="Update API Settings" /></p>
+				 <?php if (!defined('CLOUDFLARE_API_KEY') || !defined('CLOUDFLARE_API_EMAIL')) : ?>
+					<p><input type="submit" class="button button-primary" value="Update API Settings" /></p>
+				<?php endif; ?>
 
 			</form>
 
