@@ -129,26 +129,16 @@ final class Submit {
 		// Check values for API validation
 		if (isset($key) && isset($email)) {
 
-			// Initialize
-			$zone = false;
+			// Check API data
+			if (empty($key) || empty($email)) {
+				$args['notices']['error'][] = 'Missing API Key or email value';
 
-			// Perform the API calls
-			$result = $this->checkDomain($key, $email);
-			if (is_wp_error($result)) {
-				$args['notices']['error'][] = 'CloudFlare API request error';
-
-			// Missing domain
-			} elseif (false === $result) {
-				$args['notices']['error'][] = 'Current domain does not match the CloudFlare API zones';
-
-			// Found
+			// Continue
 			} else {
-				$zone = Core\Data::instance()->sanitizeZone($result);
-				$args['notices']['success'][] = 'Updated domain info via CloudFlare API';
-			}
 
-			// Update data
-			Core\Data::instance()->save(['zone' => $zone]);
+				// Update zone data
+				$this->updateZone($key, $email, $args);
+			}
 		}
 	}
 
@@ -159,38 +149,60 @@ final class Submit {
 	 */
 	public function devMode(&$args) {
 
+
+		/* nonce */
+
 		// Check nonce
 		if (empty($_POST['hd-devmode-nonce']) || !wp_verify_nonce($_POST['hd-devmode-nonce'], 'cloudflare_devmode')) {
 			$args['notices']['error'][] = 'Invalid form security code, please try again.';
 			return;
 		}
 
-		// Check API data
+
+		/* API settings */
+
+		// Init data
 		$data = Core\Data::instance();
-		if (empty($data->key) || empty($data->email)) {
+
+		// key and email
+		$key = defined('CLOUDFLARE_API_KEY')? CLOUDFLARE_API_KEY : $data->key;
+		$email = defined('CLOUDFLARE_API_EMAIL')? CLOUDFLARE_API_EMAIL : $data->email;
+
+		// Check API data
+		if (empty($key) || empty($email)) {
 			$args['notices']['error'][] = 'Missing API Key or email value';
-			return;
-		}
 
-		// Check zone data
-		if (empty($data->zone['id'])) {
-			$args['notices']['error'][] = 'Missing API zone detected';
-			return;
-		}
+		// Check API
+		} elseif (false !== $this->updateZone($key, $email, $args)) {
 
-		// Determine action
-		$enable = empty($_POST['hd-devmode-action'])? false : ('on' == $_POST['hd-devmode-action']);
+			// Reload data
+			$data->load();
 
-		// Enable or disable Dev mode
-		$response = API\CloudFlare::instance($data->key, $data->email)->setDevMode($data->zone['id'], $enable);
-		if (is_wp_error($response)) {
-			$args['notices']['error'][] = 'CloudFlare API request error';
+			// Check zone data
+			if (empty($data->zone['id'])) {
+				$args['notices']['error'][] = 'Missing API zone detected';
 
-		// Success
-		} else {
-			$data->zone['development_mode'] = $response['result']['time_remaining'];
-			$data->save(['zone' => $data->zone, 'dev_mode_at' => time()]);
-			$args['notices']['success'][] = 'Updated <strong>development mode</strong> status via CloudFlare API';
+			// Zone Ok
+			} else {
+
+
+				/* dev mode */
+
+				// Determine action
+				$enable = empty($_POST['hd-devmode-action'])? false : ('on' == $_POST['hd-devmode-action']);
+
+				// Enable or disable Dev mode
+				$response = API\CloudFlare::instance($key, $email)->setDevMode($data->zone['id'], $enable);
+				if (is_wp_error($response)) {
+					$args['notices']['error'][] = 'CloudFlare API request error';
+
+				// Success
+				} else {
+					$data->zone['development_mode'] = $response['result']['time_remaining'];
+					$data->save(['zone' => $data->zone, 'dev_mode_at' => time()]);
+					$args['notices']['success'][] = 'Updated <strong>development mode</strong> status via CloudFlare API';
+				}
+			}
 		}
 	}
 
@@ -234,6 +246,38 @@ final class Submit {
 
 	// Internal
 	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Update API zone from key and email values
+	 */
+	private function updateZone($key, $email, &$args) {
+
+		// Initialize
+		$zone = false;
+
+		// Perform the API calls
+		$result = $this->checkDomain($key, $email);
+		if (is_wp_error($result)) {
+			$args['notices']['error'][] = 'CloudFlare API request error';
+
+		// Missing domain
+		} elseif (false === $result) {
+			$args['notices']['error'][] = 'Current domain does not match the CloudFlare API zones';
+
+		// Found
+		} else {
+			$zone = Core\Data::instance()->sanitizeZone($result);
+			$args['notices']['success'][] = 'Updated domain info via CloudFlare API';
+		}
+
+		// Update data
+		Core\Data::instance()->save(['zone' => $zone]);
+
+		// Done
+		return $zone;
+	}
 
 
 
