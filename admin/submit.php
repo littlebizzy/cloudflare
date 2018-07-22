@@ -194,7 +194,8 @@ final class Submit {
 				// Enable or disable Dev mode
 				$response = API\CloudFlare::instance($key, $email)->setDevMode($data->zone['id'], $enable);
 				if (is_wp_error($response)) {
-					$args['notices']['error'][] = 'CloudFlare API request error';
+					$message = $this->apiErrorMessage($response);
+					$args['notices']['error'][] = 'CloudFlare API request error'.(empty($message)? '' : ': <strong>'.esc_html($message).'</strong>');
 
 				// Success
 				} else {
@@ -254,7 +255,8 @@ final class Submit {
 
 				$response = API\CloudFlare::instance($key, $email)->purgeZone($data->zone['id']);
 				if (is_wp_error($response)) {
-					$args['notices']['error'][] = 'CloudFlare API request error';
+					$message = $this->apiErrorMessage($response);
+					$args['notices']['error'][] = 'CloudFlare API request error'.(empty($message)? '' : ': <strong>'.esc_html($message).'</strong>');
 
 				// Success
 				} else {
@@ -283,15 +285,8 @@ final class Submit {
 		$result = $this->checkDomain($key, $email);
 		if (is_wp_error($result)) {
 
-			// API error message
-			$response = $result->get_error_message();
-			if (!empty($response) && is_array($response) || !empty($response['body'])) {
-				$body = @json_decode($response['body'], true);
-				if (!empty($body['errors']) && is_array($body['errors']) && !empty($body['errors'][0]['message']))
-					$message = $body['errors'][0]['message'];
-			}
-
 			// Add argument
+			$message = $this->apiErrorMessage($result);
 			$args['notices']['error'][] = 'CloudFlare API request error'.(empty($message)? '' : ': <strong>'.esc_html($message).'</strong>');
 
 		// Missing domain
@@ -384,6 +379,25 @@ final class Submit {
 			// Ends with the zone name
 			if (substr($domain, -$length) === $name)
 				return $zone;
+		}
+
+		// Not found
+		return false;
+	}
+
+
+
+	/**
+	 * Extracts API error message
+	 */
+	private function apiErrorMessage($wpError) {
+
+		// Check response
+		$response = $wpError->get_error_message();
+		if (!empty($response) && is_array($response) || !empty($response['body'])) {
+			$body = @json_decode($response['body'], true);
+			if (!empty($body['errors']) && is_array($body['errors']) && !empty($body['errors'][0]['message']))
+				return $body['errors'][0]['message'];
 		}
 
 		// Not found
