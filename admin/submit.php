@@ -282,7 +282,17 @@ final class Submit {
 		// Perform the API calls
 		$result = $this->checkDomain($key, $email);
 		if (is_wp_error($result)) {
-			$args['notices']['error'][] = 'CloudFlare API request error';
+
+			// API error message
+			$response = $result->get_error_message();
+			if (!empty($response) && is_array($response) || !empty($response['body'])) {
+				$body = @json_decode($response['body'], true);
+				if (!empty($body['errors']) && is_array($body['errors']) && !empty($body['errors'][0]['message']))
+					$message = $body['errors'][0]['message'];
+			}
+
+			// Add argument
+			$args['notices']['error'][] = 'CloudFlare API request error'.(empty($message)? '' : ': <strong>'.esc_html($message).'</strong>');
 
 		// Missing domain
 		} elseif (false === $result) {
