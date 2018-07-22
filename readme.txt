@@ -5,9 +5,9 @@ Donate link: https://www.patreon.com/littlebizzy
 Tags: cloudflare, api, cache, cdn, dev mode
 Requires at least: 4.4
 Tested up to: 4.9
-Requires PHP: 7.0
+Requires PHP: 7.2
 Multisite support: No
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Prefix: CLDFLR
@@ -198,6 +198,16 @@ Yes you can use the supported defined constants to input the API key and email a
 Please avoid leaving negative reviews in order to get a feature implemented. Instead, we kindly ask that you post your feedback on the wordpress.org support forums by tagging this plugin in your post. If needed, you may also contact our homepage.
 
 == Changelog ==
+
+= 1.2.0 =
+* tested with PHP 7.1
+* tested with PHP 7.2
+* better settings data management for mixed scenarios (form values + defined constants)
+* (defined constants will now never "save" to the database)
+* `UPDATE SETTINGS` button now hidden if defined constants are recognized
+* API domain check now performed for `dev mode` and `purge cache` options (not only for `Update Settings` button)
+* (all button/actions are now "real" API results rather than relying on stored data values)
+* API notices now include specific API errors from CloudFlare
 
 = 1.1.1 =
 * added warning for Multisite installations
