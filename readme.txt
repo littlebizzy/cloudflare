@@ -7,7 +7,7 @@ Requires at least: 4.4
 Tested up to: 4.9
 Requires PHP: 7.2
 Multisite support: No
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Prefix: CLDFLR
@@ -198,6 +198,9 @@ Yes you can use the supported defined constants to input the API key and email a
 Please avoid leaving negative reviews in order to get a feature implemented. Instead, we kindly ask that you post your feedback on the wordpress.org support forums by tagging this plugin in your post. If needed, you may also contact our homepage.
 
 == Changelog ==
+
+= 1.2.1 =
+* updated plugin meta
 
 = 1.2.0 =
 * tested with PHP 7.1
