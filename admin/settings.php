@@ -110,6 +110,9 @@ final class Settings {
 		// Vars
 		extract($args);
 
+		// Prepare form's action
+		$action = admin_url('options-general.php?page=cloudflare');
+
 		// Display  ?>
 
 		<div class="wrap">
@@ -126,7 +129,7 @@ final class Settings {
 
 			</div>
 
-			<form method="POST" style="margin-bottom: 50px;">
+			<form method="POST" action="<?php echo esc_attr($action); ?>" style="margin-bottom: 50px;">
 
 				<?php if (!defined('CLOUDFLARE_API_KEY') || !defined('CLOUDFLARE_API_EMAIL')) : ?>
 					<input type="hidden" name="hd-credentials-nonce" value="<?php echo esc_attr(wp_create_nonce('cloudflare_credentials')); ?>" />
@@ -159,7 +162,7 @@ final class Settings {
 
 			</form>
 
-			<form method="POST">
+			<form method="POST" action="<?php echo esc_attr($action); ?>">
 
 				<h2 style="margin-bottom: 0">Development Mode</h2>
 
@@ -178,7 +181,7 @@ final class Settings {
 
 			</form>
 
-			<form method="POST">
+			<form method="POST" action="<?php echo esc_attr($action); ?>">
 
 				<h3>Cache</h3>
 
