@@ -199,6 +199,10 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 
 == Changelog ==
 
+= 1.3.0 =
+* added drop-down menu on Admin Toolbar
+* enabled a dual mode in the plugin page, supporting both GET requests and POST submits to perform the clear cache and enable dev mode actions (GET requests are too secured by WP nonce system)
+
 = 1.2.1 =
 * updated plugin meta
 
