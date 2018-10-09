@@ -99,16 +99,16 @@ class Toolbar {
 		$menuItems = [];
 
 		// Prepare base URL
-		$url = admin_url('options-general.php?page=cloudflare&'.$this->plugin->prefix.'_nonce='.wp_create_nonce('cloudlare_toolbar').'&'.$this->plugin->prefix.'_action=');
+		$url = admin_url('options-general.php?page=cloudflare&'.$this->plugin->prefix.'_nonce='.wp_create_nonce('cloudflare_toolbar').'&'.$this->plugin->prefix.'_action=');
 
 		// Top menu
 		$menuItems[] = [
 			'id'     => $this->plugin->prefix.'-menu',
 			'parent' => 'top-secondary',
 			'title'  => 'CloudFlare',
-			'href'   => $url.'purge',
+			'href'   => $url.'purgeall',
 			'meta'   => [
-				'title' => 'CloudFlare',
+				'title' => 'Clear Cloudflare cache`s',
 				'tabindex' => -1,
 			],
 		];
@@ -117,7 +117,7 @@ class Toolbar {
 			'id'     => $this->plugin->prefix.'-menu-cloudflare',
 			'parent' => $this->plugin->prefix.'-menu',
 			'title'  => 'Purge All Files',
-			'href'   => $url.'purge',
+			'href'   => $url.'purgeall',
 			'meta'   => [
 				'title' => 'Clear Cloudflare cache`s',
 				'tabindex' => -1,
@@ -128,7 +128,7 @@ class Toolbar {
 			'id'     => $this->plugin->prefix.'-menu-opcache',
 			'parent' => $this->plugin->prefix.'-menu',
 			'title'  => 'Enable Dev Mode',
-			'href'   => $url.'dev-mode',
+			'href'   => $url.'devmode',
 			'meta'   => [
 				'title' => 'Enable Cloudflare Dev mode',
 				'tabindex' => -1,

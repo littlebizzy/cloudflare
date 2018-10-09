@@ -6,6 +6,7 @@ namespace LittleBizzy\CloudFlare\Admin;
 // Aliased namespaces
 use \LittleBizzy\CloudFlare\Core;
 use \LittleBizzy\CloudFlare\API;
+use \LittleBizzy\CloudFlare\Helpers;
 
 /**
  * Submit class
@@ -147,13 +148,23 @@ final class Submit {
 	/**
 	 * Change Development Mode status
 	 */
-	public function devMode(&$args) {
+	public function devMode(&$args, $toolbar) {
 
 
 		/* nonce */
 
-		// Check nonce
-		if (empty($_POST['hd-devmode-nonce']) || !wp_verify_nonce($_POST['hd-devmode-nonce'], 'cloudflare_devmode')) {
+		// Check toolbar
+		if ($toolbar) {
+
+			// Toolbar nonce param
+			$toolbarNonce = isset($_GET[Helpers\Plugin::instance()->prefix.'_nonce'])? $_GET[Helpers\Plugin::instance()->prefix.'_nonce'] : false;
+			if (empty($toolbarNonce) || !wp_verify_nonce($toolbarNonce, 'cloudflare_toolbar')) {
+				$args['notices']['error'][] = 'Invalid action security code, please try again.';
+				return;
+			}
+
+		// Check form nonce
+		} elseif (empty($_POST['hd-devmode-nonce']) || !wp_verify_nonce($_POST['hd-devmode-nonce'], 'cloudflare_devmode')) {
 			$args['notices']['error'][] = 'Invalid form security code, please try again.';
 			return;
 		}
@@ -189,7 +200,7 @@ final class Submit {
 				/* Dev mode */
 
 				// Determine action
-				$enable = empty($_POST['hd-devmode-action'])? false : ('on' == $_POST['hd-devmode-action']);
+				$enable = $toolbar? true : (empty($_POST['hd-devmode-action'])? false : ('on' == $_POST['hd-devmode-action']));
 
 				// Enable or disable Dev mode
 				$response = API\CloudFlare::instance($key, $email)->setDevMode($data->zone['id'], $enable);
@@ -212,13 +223,23 @@ final class Submit {
 	/**
 	 * Purge all files
 	 */
-	public function purge(&$args) {
+	public function purge(&$args, $toolbar) {
 
 
 		/* nonce */
 
-		// Check nonce
-		if (empty($_POST['hd-purge-nonce']) || !wp_verify_nonce($_POST['hd-purge-nonce'], 'cloudflare_purge')) {
+		// Check toolbar
+		if ($toolbar) {
+
+			// Toolbar nonce param
+			$toolbarNonce = isset($_GET[Helpers\Plugin::instance()->prefix.'_nonce'])? $_GET[Helpers\Plugin::instance()->prefix.'_nonce'] : false;
+			if (empty($toolbarNonce) || !wp_verify_nonce($toolbarNonce, 'cloudflare_toolbar')) {
+				$args['notices']['error'][] = 'Invalid action security code, please try again.';
+				return;
+			}
+
+		// Check form nonce
+		} elseif (empty($_POST['hd-purge-nonce']) || !wp_verify_nonce($_POST['hd-purge-nonce'], 'cloudflare_purge')) {
 			$args['notices']['error'][] = 'Invalid form security code, please try again.';
 			return;
 		}

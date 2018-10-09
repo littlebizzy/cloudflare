@@ -5,6 +5,7 @@ namespace LittleBizzy\CloudFlare\Admin;
 
 // Aliased namespaces
 use \LittleBizzy\CloudFlare\Core;
+use \LittleBizzy\CloudFlare\Helpers;
 
 /**
  * Settings class
@@ -61,17 +62,22 @@ final class Settings {
 			'notices' => ['error' => [], 'success' => []]
 		];
 
+		// Toolbar actions
+		$toolbarAction = empty($_GET[Helpers\Plugin::instance()->prefix.'_action'])? false : $_GET[Helpers\Plugin::instance()->prefix.'_action'];
+		$toolbarDevMode = !isset($_POST['hd-devmode-nonce']) && ('devmode' == $toolbarAction);
+		$toolbarPurgeAll = !isset($_POST['hd-purge-nonce']) && ('purgeall' == $toolbarAction);
+
 		// Check submit
 		if (isset($_POST['hd-credentials-nonce'])) {
 			Submit::instance()->credentials($args);
 
-		// Development mode
-		} elseif (isset($_POST['hd-devmode-nonce'])) {
-			Submit::instance()->devMode($args);
+		// Development mode from submitted form or toolbar link
+		} elseif (isset($_POST['hd-devmode-nonce']) || $toolbarDevMode) {
+			Submit::instance()->devMode($args, $toolbarDevMode);
 
-		// Purge cache
-		} elseif (isset($_POST['hd-purge-nonce'])) {
-			Submit::instance()->purge($args);
+		// Purge cache from submitted form or toolbar link
+		} elseif (isset($_POST['hd-purge-nonce']) || $toolbarPurgeAll) {
+			Submit::instance()->purge($args, $toolbarPurgeAll);
 		}
 
 		// Display data
