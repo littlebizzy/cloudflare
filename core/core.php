@@ -78,8 +78,9 @@ final class Core {
 			// Admin
 			} else {
 
-				// Initialize object
+				// Initialize objects
 				Admin\Admin::instance();
+				Admin\Toolbar::instance();
 			}
 
 		// Front
