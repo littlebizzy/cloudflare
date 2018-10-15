@@ -60,22 +60,6 @@ class Toolbar {
 	 */
 	private function __construct() {
 
-		// Admin menu hook
-		add_action('init', [$this, 'init']);
-	}
-
-
-
-	// WP Hooks
-	// ---------------------------------------------------------------------------------------------------
-
-
-
-	/**
-	 * WP init hook
-	 */
-	public function init() {
-
 		// Check current user permissions
 		if (!current_user_can('manage_options')) {
 			return;
@@ -90,6 +74,11 @@ class Toolbar {
 
 
 
+	// WP Hooks
+	// ---------------------------------------------------------------------------------------------------
+
+
+
 	/**
 	 * Adds the admin bar link
 	 */
@@ -99,14 +88,17 @@ class Toolbar {
 		$menuItems = [];
 
 		// Prepare base URL
-		$url = admin_url('options-general.php?page=cloudflare&'.$this->plugin->prefix.'_nonce='.wp_create_nonce('cloudflare_toolbar').'&'.$this->plugin->prefix.'_action=');
+		$url = admin_url('options-general.php?page=cloudflare');
+
+		// URL for submenu actions
+		$urlAction = $url.'&'.$this->plugin->prefix.'_nonce='.wp_create_nonce('cloudflare_toolbar').'&'.$this->plugin->prefix.'_action=';
 
 		// Top menu
 		$menuItems[] = [
 			'id'     => $this->plugin->prefix.'-menu',
 			'parent' => 'top-secondary',
 			'title'  => 'CloudFlare',
-			'href'   => $url.'purgeall',
+			'href'   => $url,
 			'meta'   => [
 				'title' => 'Clear Cloudflare cache`s',
 				'tabindex' => -1,
@@ -117,7 +109,7 @@ class Toolbar {
 			'id'     => $this->plugin->prefix.'-menu-cloudflare',
 			'parent' => $this->plugin->prefix.'-menu',
 			'title'  => 'Purge All Files',
-			'href'   => $url.'purgeall',
+			'href'   => $urlAction.'purgeall',
 			'meta'   => [
 				'title' => 'Clear Cloudflare cache`s',
 				'tabindex' => -1,
@@ -128,7 +120,7 @@ class Toolbar {
 			'id'     => $this->plugin->prefix.'-menu-opcache',
 			'parent' => $this->plugin->prefix.'-menu',
 			'title'  => 'Enable Dev Mode',
-			'href'   => $url.'devmode',
+			'href'   => $urlAction.'devmode',
 			'meta'   => [
 				'title' => 'Enable Cloudflare Dev mode',
 				'tabindex' => -1,

@@ -66,26 +66,25 @@ final class Core {
 		Helpers\Plugin::instance()->pluginHooks();
 
 		// WP Init hook
-		add_action('init', array(&$this, 'init'));
+		add_action('init', [$this, 'init']);
 
 		// Admin mode
 		if (is_admin()) {
 
 			// AJAX mode
 			if (defined('DOING_AJAX') && DOING_AJAX) {
-				// Reserved for future implentations
+				// Reserved for future implementations
 
 			// Admin
 			} else {
 
 				// Initialize objects
 				Admin\Admin::instance();
-				Admin\Toolbar::instance();
 			}
 
 		// Front
 		} else {
-			// Reserved for future implentations
+			// Reserved for future implementations
 		}
 	}
 
@@ -97,9 +96,16 @@ final class Core {
 
 
 	/**
-	 * IP checking
+	 * IP checking and toolbar module
 	 */
 	public function init() {
+
+		// Toolbar admin and front
+		if (is_user_logged_in()) {
+			Admin\Toolbar::instance();
+		}
+
+		// Cloudflare flag
 		$this->isCloudFlare = Libraries\Ip_Rewrite::isCloudFlare();
 	}
 
