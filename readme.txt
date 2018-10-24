@@ -7,7 +7,7 @@ Requires at least: 4.4
 Tested up to: 4.9
 Requires PHP: 7.2
 Multisite support: No
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Prefix: CLDFLR
@@ -88,82 +88,9 @@ Note: This defined constant will only affect the notices mentioned above, and wi
 
 * [CloudFlare](https://wordpress.org/plugins/cloudflare/)
 
-#### Free Plugins ####
-
-* [404 To Homepage](https://wordpress.org/plugins/404-to-homepage-littlebizzy/)
-* [Autoloader](https://github.com/littlebizzy/autoloader)
-* [CloudFlare](https://wordpress.org/plugins/cf-littlebizzy/)
-* [Delete Expired Transients](https://wordpress.org/plugins/delete-expired-transients-littlebizzy/)
-* [Disable Admin-AJAX](https://wordpress.org/plugins/disable-admin-ajax-littlebizzy/)
-* [Disable Author Pages](https://wordpress.org/plugins/disable-author-pages-littlebizzy/)
-* [Disable Cart Fragments](https://wordpress.org/plugins/disable-cart-fragments-littlebizzy/)
-* [Disable Embeds](https://wordpress.org/plugins/disable-embeds-littlebizzy/)
-* [Disable Emojis](https://wordpress.org/plugins/disable-emojis-littlebizzy/)
-* [Disable Empty Trash](https://wordpress.org/plugins/disable-empty-trash-littlebizzy/)
-* [Disable Image Compression](https://wordpress.org/plugins/disable-image-compression-littlebizzy/)
-* [Disable jQuery Migrate](https://wordpress.org/plugins/disable-jq-migrate-littlebizzy/)
-* [Disable Search](https://wordpress.org/plugins/disable-search-littlebizzy/)
-* [Disable WooCommerce Status](https://wordpress.org/plugins/disable-wc-status-littlebizzy/)
-* [Disable WooCommerce Styles](https://wordpress.org/plugins/disable-wc-styles-littlebizzy/)
-* [Disable XML-RPC](https://wordpress.org/plugins/disable-xml-rpc-littlebizzy/)
-* [Download Media](https://wordpress.org/plugins/download-media-littlebizzy/)
-* [Download Plugin](https://wordpress.org/plugins/download-plugin-littlebizzy/)
-* [Download Theme](https://wordpress.org/plugins/download-theme-littlebizzy/)
-* [Duplicate Post](https://wordpress.org/plugins/duplicate-post-littlebizzy/)
-* [Enable Subtitles](https://wordpress.org/plugins/enable-subtitles-littlebizzy/)
-* [Export Database](https://wordpress.org/plugins/export-database-littlebizzy/)
-* [Facebook Pixel](https://wordpress.org/plugins/fb-pixel-littlebizzy/)
-* [Force HTTPS](https://wordpress.org/plugins/force-https-littlebizzy/)
-* [Force Strong Hashing](https://wordpress.org/plugins/force-strong-hashing-littlebizzy/)
-* [Google Analytics](https://wordpress.org/plugins/ga-littlebizzy/)
-* [Header Cleanup](https://wordpress.org/plugins/header-cleanup-littlebizzy/)
-* [Index Autoload](https://wordpress.org/plugins/index-autoload-littlebizzy/)
-* [Maintenance Mode](https://wordpress.org/plugins/maintenance-mode-littlebizzy/)
-* [Profile Change Alerts](https://wordpress.org/plugins/profile-change-alerts-littlebizzy/)
-* [Remove Category Base](https://wordpress.org/plugins/remove-category-base-littlebizzy/)
-* [Remove Query Strings](https://wordpress.org/plugins/remove-query-strings-littlebizzy/)
-* [Server Status](https://wordpress.org/plugins/server-status-littlebizzy/)
-* [StatCounter](https://wordpress.org/plugins/sc-littlebizzy/)
-* [View Defined Constants](https://wordpress.org/plugins/view-defined-constants-littlebizzy/)
-* [Virtual Robots.txt](https://wordpress.org/plugins/virtual-robotstxt-littlebizzy/)
-
-#### Premium Plugins ####
-
-* [**Members Only**](https://www.littlebizzy.com/members)
-* [Dunning Master](https://www.littlebizzy.com/plugins/dunning-master)
-* [Genghis Khan](https://www.littlebizzy.com/plugins/genghis-khan)
-* [Great Migration](https://www.littlebizzy.com/plugins/great-migration)
-* [Security Guard](https://www.littlebizzy.com/plugins/security-guard)
-* [SEO Genius](https://www.littlebizzy.com/plugins/seo-genius)
-* [Speed Demon](https://www.littlebizzy.com/plugins/speed-demon)
-
 #### Special Thanks ####
 
-* [Alex Georgiou](https://www.alexgeorgiou.gr)
-* [Automattic](https://automattic.com)
-* [Brad Touesnard](https://bradt.ca)
-* [Daniel Auener](http://www.danielauener.com)
-* [Delicious Brains](https://deliciousbrains.com)
-* [Greg Rickaby](https://gregrickaby.com)
-* [Matt Mullenweg](https://ma.tt)
-* [Mika Epstein](https://halfelf.org)
-* [Mike Garrett](https://mikengarrett.com)
-* [Samuel Wood](http://ottopress.com)
-* [Scott Reilly](http://coffee2code.com)
-* [Jan Dembowski](https://profiles.wordpress.org/jdembowski)
-* [Jeff Starr](https://perishablepress.com)
-* [Jeff Chandler](https://jeffc.me)
-* [Jeff Matson](https://jeffmatson.net)
-* [Jeremy Wagner](https://jeremywagner.me)
-* [John James Jacoby](https://jjj.blog)
-* [Leland Fiegel](https://leland.me)
-* [Paul Irish](https://www.paulirish.com)
-* [Rahul Bansal](https://profiles.wordpress.org/rahul286)
-* [Roots](https://roots.io)
-* [rtCamp](https://rtcamp.com)
-* [Ryan Hellyer](https://geek.hellyer.kiwi)
-* [WP Chat](https://wpchat.com)
-* [WP Tavern](https://wptavern.com)
+[Alex Georgiou](https://www.alexgeorgiou.gr), [Automattic](https://automattic.com), [Brad Touesnard](https://bradt.ca), [Daniel Auener](http://www.danielauener.com), [Delicious Brains](https://deliciousbrains.com), [Greg Rickaby](https://gregrickaby.com), [Matt Mullenweg](https://ma.tt), [Mika Epstein](https://halfelf.org), [Mike Garrett](https://mikengarrett.com), [Samuel Wood](http://ottopress.com), [Scott Reilly](http://coffee2code.com), [Jan Dembowski](https://profiles.wordpress.org/jdembowski), [Jeff Starr](https://perishablepress.com), [Jeff Chandler](https://jeffc.me), [Jeff Matson](https://jeffmatson.net), [Jeremy Wagner](https://jeremywagner.me), [John James Jacoby](https://jjj.blog), [Leland Fiegel](https://leland.me), [Luke Cavanagh](https://github.com/lukecav), [Paul Irish](https://www.paulirish.com), [Rahul Bansal](https://profiles.wordpress.org/rahul286), [Roots](https://roots.io), [rtCamp](https://rtcamp.com), [Ryan Hellyer](https://geek.hellyer.kiwi), [WP Chat](https://wpchat.com), [WP Tavern](https://wptavern.com)
 
 #### Disclaimer ####
 
