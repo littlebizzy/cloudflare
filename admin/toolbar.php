@@ -100,7 +100,6 @@ class Toolbar {
 			'title'  => 'CloudFlare',
 			'href'   => $url,
 			'meta'   => [
-				'title' => 'Clear Cloudflare cache`s',
 				'tabindex' => -1,
 			],
 		];
@@ -111,7 +110,6 @@ class Toolbar {
 			'title'  => 'Purge All Files',
 			'href'   => $urlAction.'purgeall',
 			'meta'   => [
-				'title' => 'Clear Cloudflare cache`s',
 				'tabindex' => -1,
 			],
 		];
@@ -122,7 +120,6 @@ class Toolbar {
 			'title'  => 'Enable Dev Mode',
 			'href'   => $urlAction.'devmode',
 			'meta'   => [
-				'title' => 'Enable Cloudflare Dev mode',
 				'tabindex' => -1,
 			],
 		];
