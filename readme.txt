@@ -126,6 +126,9 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 
 == Changelog ==
 
+= 1.3.2 =
+* remove Admin Toolbar link hover titles (tooltips)
+
 = 1.3.1 =
 * make drop-down menu appear on frontend too (not just backend)
 * drop-down menu parent now links to `/wp-admin/options-general.php?page=cloudflare`
