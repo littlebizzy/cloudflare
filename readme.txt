@@ -2,12 +2,12 @@
 
 Contributors: littlebizzy
 Donate link: https://www.patreon.com/littlebizzy
-Tags: cloudflare, api, cache, cdn, dev mode
+Tags: cloudflare, api, purge, cdn, dev mode
 Requires at least: 4.4
-Tested up to: 4.9
+Tested up to: 5.0
 Requires PHP: 7.2
 Multisite support: No
-Stable tag: 1.3.2
+Stable tag: 1.4.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Prefix: CLDFLR
@@ -18,18 +18,12 @@ Easily connect your WordPress website to free optimization features from CloudFl
 
 Easily connect your WordPress website to free optimization features from CloudFlare, including one-click options to purge cache and enable dev mode.
 
-* [**Join our FREE Facebook group for support!**](https://www.facebook.com/groups/littlebizzy/)
+* [**Join our FREE Facebook group for support**](https://www.facebook.com/groups/littlebizzy/)
 * [**Worth a 5-star review? Thank you!**](https://wordpress.org/support/plugin/cf-littlebizzy/reviews/?rate=5#new-post)
 * [Plugin Homepage](https://www.littlebizzy.com/plugins/cloudflare)
 * [Plugin GitHub](https://github.com/littlebizzy/cloudflare)
 
-*Our related OSS projects:*
-
-* [SlickStack (LEMP stack automation)](https://slickstack.io)
-* [WP Lite boilerplate](https://wplite.org)
-* [Starter Theme](https://starter.littlebizzy.com)
-
-#### The Long Version ####
+#### Current Features ####
 
 This plugin was designed to load faster, be more secure, and perform much better than the official CloudFlare plugin. We focus on offering only the key features desired by most developers, while allowing some of the other CloudFlare settings to be better managed at your account over at CloudFlare.com rather than turning WordPress into a bloated control panel with every setting possible which is nearly impossible to keep up with anyways (esp. with stable/secure code).
 
@@ -37,10 +31,6 @@ If you wish to define the CloudFlare API key and API email address on your `wp-c
 
 You can also use those defined constants to better automate server/WordPress setup using bash scripts etc.
 
-Features:
-
-* `define('CLOUDFLARE_API_KEY', '123456789');`
-* `define('CLOUDFLARE_API_EMAIL', 'user@example.com');`
 * one-click "dev" mode
 * one-click purge CloudFlare cache
 * automatic CloudFlare domain detection
@@ -49,52 +39,63 @@ Features:
 * uses CloudFlare API version 4.0+
 * no integration with Akismet
 
-#### Defined Constants ####
-
-* `define('DISABLE_NAG_NOTICES', true);`
-* `define('CLOUDFLARE_API_KEY', '123456789');`
-* `define('CLOUDFLARE_API_EMAIL', 'user@example.com');`
-
 #### Compatibility ####
 
-This plugin has been designed for use on LEMP (Nginx) web servers with PHP 7.0 and MySQL 5.7 to achieve best performance. All of our plugins are meant for single site WordPress installations only; for both performance and security reasons, we highly recommend against using WordPress Multisite for the vast majority of projects.
+This plugin has been designed for use on [SlickStack](https://slickstack.io) web servers with PHP 7.2 and MySQL 5.7 to achieve best performance. All of our plugins are meant for single site WordPress installations only; for both performance and usability reasons, we highly recommend avoiding WordPress Multisite for the vast majority of projects.
 
-#### Plugin Features ####
+Any of our WordPress plugins may also be loaded as "Must-Use" plugins by using our free [Autoloader](https://github.com/littlebizzy/autoloader) script in the `mu-plugins` directory.
 
-* Settings Page: Yes
-* Premium Version Available: Yes ([Speed Demon](https://www.littlebizzy.com/plugins/speed-demon))
-* Includes Media (Images, Icons, Etc): No
+#### Defined Constants ####
+
+    /* Plugin Meta */
+    define('DISABLE_NAG_NOTICES', true);
+    
+    /* CloudFlare Functions */
+    define('CLOUDFLARE_API_KEY', '123456789');
+    define('CLOUDFLARE_API_EMAIL', 'user@example.com');
+
+#### Technical Details ####
+
+* Prefix: CLDFLR
+* Parent Plugin: N/A
+* Disable Nag Notices: [Yes](https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices#Disable_Nag_Notices)
+* Settings Page: No
+* PHP Namespaces: Yes
+* Object-Oriented Code: Yes
+* Includes Media (images, icons, etc): No
 * Includes CSS: No
 * Database Storage: Yes
   * Transients: No
-  * Options: Yes
+  * WP Options Table: Yes
+  * Other Tables: No
   * Creates New Tables: No
+  * Creates New WP Cron Jobs: No
 * Database Queries: Backend Only (Options API)
-* Must-Use Support: Yes (Use With [Autoloader](https://github.com/littlebizzy/autoloader))
+* Must-Use Support: [Yes](https://github.com/littlebizzy/autoloader)
 * Multisite Support: No
 * Uninstalls Data: Yes
 
-#### WP Admin Notices ####
-
-This plugin generates multiple [Admin Notices](https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices) in the WP Admin dashboard. The first is a notice that fires during plugin activation which recommends several related free plugins that we believe will enhance this plugin's features; this notice will re-appear approximately once every 6 months as our code and recommendations evolve. The second is a notice that fires a few days after plugin activation which asks for a 5-star rating of this plugin on its WordPress.org profile page. This notice will re-appear approximately once every 9 months. These notices can be dismissed by clicking the **(x)** symbol in the upper right of the notice box. These notices may annoy or confuse certain users, but are appreciated by the majority of our userbase, who understand that these notices support our free contributions to the WordPress community while providing valuable (free) recommendations for optimizing their website.
-
-If you feel that these notices are too annoying, than we encourage you to consider one or more of our upcoming premium plugins that combine several free plugin features into a single control panel, or even consider developing your own plugins for WordPress, if supporting free plugin authors is too frustrating for you. A final alternative would be to place the defined constant mentioned below inside of your `wp-config.php` file to manually hide this plugin's nag notices:
-
-    define('DISABLE_NAG_NOTICES', true);
-
-Note: This defined constant will only affect the notices mentioned above, and will not affect any other notices generated by this plugin or other plugins, such as one-time notices that communicate with admin-level users.
-
-#### Inspiration ####
-
-* [CloudFlare](https://wordpress.org/plugins/cloudflare/)
-
 #### Special Thanks ####
 
-[Alex Georgiou](https://www.alexgeorgiou.gr), [Automattic](https://automattic.com), [Brad Touesnard](https://bradt.ca), [Daniel Auener](http://www.danielauener.com), [Delicious Brains](https://deliciousbrains.com), [Greg Rickaby](https://gregrickaby.com), [Matt Mullenweg](https://ma.tt), [Mika Epstein](https://halfelf.org), [Mike Garrett](https://mikengarrett.com), [Samuel Wood](http://ottopress.com), [Scott Reilly](http://coffee2code.com), [Jan Dembowski](https://profiles.wordpress.org/jdembowski), [Jeff Starr](https://perishablepress.com), [Jeff Chandler](https://jeffc.me), [Jeff Matson](https://jeffmatson.net), [Jeremy Wagner](https://jeremywagner.me), [John James Jacoby](https://jjj.blog), [Leland Fiegel](https://leland.me), [Luke Cavanagh](https://github.com/lukecav), [Paul Irish](https://www.paulirish.com), [Rahul Bansal](https://profiles.wordpress.org/rahul286), [Roots](https://roots.io), [rtCamp](https://rtcamp.com), [Ryan Hellyer](https://geek.hellyer.kiwi), [WP Chat](https://wpchat.com), [WP Tavern](https://wptavern.com)
+[Alex Georgiou](https://www.alexgeorgiou.gr), [Automattic](https://automattic.com), [Brad Touesnard](https://bradt.ca), [Daniel Auener](http://www.danielauener.com), [Delicious Brains](https://deliciousbrains.com), [Greg Rickaby](https://gregrickaby.com), [Matt Mullenweg](https://ma.tt), [Mika Epstein](https://halfelf.org), [Mike Garrett](https://mikengarrett.com), [Samuel Wood](http://ottopress.com), [Scott Reilly](http://coffee2code.com), [Jan Dembowski](https://profiles.wordpress.org/jdembowski), [Jeff Starr](https://perishablepress.com), [Jeff Chandler](https://jeffc.me), [Jeff Matson](https://jeffmatson.net), [Jeremy Wagner](https://jeremywagner.me), [John James Jacoby](https://jjj.blog), [Leland Fiegel](https://leland.me), [Luke Cavanagh](https://github.com/lukecav), [Mike Jolley](https://mikejolley.com), [Pau Iglesias](https://pauiglesias.com), [Paul Irish](https://www.paulirish.com), [Rahul Bansal](https://profiles.wordpress.org/rahul286), [Roots](https://roots.io), [rtCamp](https://rtcamp.com), [Ryan Hellyer](https://geek.hellyer.kiwi), [WP Chat](https://wpchat.com), [WP Tavern](https://wptavern.com)
 
 #### Disclaimer ####
 
-We released this plugin in response to our managed hosting clients asking for better access to their server, and our primary goal will remain supporting that purpose. Although we are 100% open to fielding requests from the WordPress community, we kindly ask that you keep the above-mentioned goals in mind... thanks!
+We released this plugin in response to our managed hosting clients asking for better access to their server, and our primary goal will remain supporting that purpose. Although we are 100% open to fielding requests from the WordPress community, we kindly ask that you keep these conditions in mind, and refrain from slandering, threatening, or harassing our team members in order to get a feature added, or to otherwise get "free" support. The only place you should be contacting us is in our free [**Facebook group**](https://www.facebook.com/groups/littlebizzy/) which has been setup for this purpose, or via GitHub if you are an experienced developer. Thank you!
+
+#### Our Philosophy ####
+
+> "Decisions, not options." -- WordPress.org
+
+> "Everything should be made as simple as possible, but not simpler." -- Albert Einstein, et al
+
+> "Write programs that do one thing and do it well... write programs to work together." -- Doug McIlroy
+
+> "The innovation that this industry talks about so much is bullshit. Anybody can innovate... 99% of it is 'Get the work done.' The real work is in the details." -- Linus Torvalds
+
+#### Search Keywords ####
+
+cf, cloudflare, cloudflare api, cloudflare cache, cloudflare cdn, cloudflare purge
 
 == Installation ==
 
@@ -122,9 +123,13 @@ Yes you can use the supported defined constants to input the API key and email a
 
 = I have a suggestion, how can I let you know? =
 
-Please avoid leaving negative reviews in order to get a feature implemented. Instead, we kindly ask that you post your feedback on the wordpress.org support forums by tagging this plugin in your post. If needed, you may also contact our homepage.
+Please avoid leaving negative reviews in order to get a feature implemented. Instead, join our free Facebook group.
 
 == Changelog ==
+
+= 1.4.0 =
+* tested with WP 5.0
+* updated plugin meta
 
 = 1.3.2 =
 * remove Admin Toolbar link hover titles (tooltips)
@@ -141,6 +146,7 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 * updated plugin meta
 
 = 1.2.0 =
+* tested with PHP 7.0
 * tested with PHP 7.1
 * tested with PHP 7.2
 * better settings data management for mixed scenarios (form values + defined constants)
@@ -177,6 +183,5 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 = 1.0.0 =
 * initial release
 * forked (kinda) from plugin *CloudFlare v1.3.24*
-* tested with PHP 7.0
 * plugin uses PHP namespaces
 * object-oriented code
