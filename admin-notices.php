@@ -28,7 +28,7 @@ final class Admin_Notices {
 	private $rate_us_url2 = 'https://www.facebook.com/groups/littlebizzy/';
 	private $rate_us_url3 = 'https://www.littlebizzy.com/services/speed-boost?utm_source=wpnotice';
 	private $rate_us_url4 = 'https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices#Disable_Nag_Notices';
-	private $rate_us_message = 'Howdy, friend :)<br><br>Thanks for using <strong>%plugin%</strong>. Please support our free work by rating this plugin with 5 stars on <a href="%url%" target="_blank">WordPress.org</a>.<br><br>You may also join our free <a href="%url2%" target="_blank">Facebook group</a> to post any questions or comments!<br><br>Cheers, Jesse<br><br>P.S. Use coupon code <code>SPEED20</code> to get $20 off our popular <a href="%url3%" target="_blank">Speed Boost</a> service at LittleBizzy.com.<br><br><small><em><a href="%url4%" target="_blank">Hide these notices</a></em></small>';
+	private $rate_us_message = 'Thanks for using <strong>%plugin%</strong>. Please support our free work by rating this plugin with 5 stars on <a href="%url%" target="_blank">WordPress.org</a>.<br><br>You may also join our free <a href="%url2%" target="_blank">Facebook group</a> to post any questions or comments!<br><br>Cheers, Jesse<br><br>P.S. Use coupon code <code>SPEED20</code> to get $20 off our popular <a href="%url3%" target="_blank">Speed Boost</a> service at LittleBizzy.com.<br><br><small><em><a href="%url4%" target="_blank">Hide these notices</a></em></small>';
 
 
 
@@ -38,6 +38,11 @@ final class Admin_Notices {
 	private $days_dismissing_suggestions = 180; // 6 months reappear
 	private $suggestions_message = '%plugin% recommends the following free plugins:';
 	private $suggestions = array(
+		'speed-demon-littlebizzy' => array(
+			'name' => 'Speed Demon',
+			'desc' => 'A powerful bundle of lightweight tweaks that drastically improve the loading speed of WordPress by reducing bloat and improving overall efficiency.',
+			'filename' => 'speed-demon.php',
+		),
           	'force-https-littlebizzy' => array(
 			'name' => 'Force HTTPS',
 			'desc' => 'Redirects all HTTP requests to the HTTPS version and fixes all insecure static resources without altering the database (also works with CloudFlare).',
@@ -57,11 +62,6 @@ final class Admin_Notices {
 			'name' => 'Header Cleanup',
 			'desc' => 'Cleans up most of the unnecessary junk meta included by default in the WordPress header including generator, RSD, shortlink, previous and next, etc.',
 			'filename' => 'header-cleanup.php',
-		),
-		'ga-littlebizzy' => array(
-			'name' => 'Google Analytics',
-			'desc' => 'Inserts Google Analytics code just above the closing body tag to ensure fastest performance possible and to avoid conflicting with any other scripts.',
-			'filename' => 'google-analytics.php',
 		),
 	);
 
