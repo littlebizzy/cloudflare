@@ -2,8 +2,9 @@
 
 Easily connect your WordPress website to free optimization features from CloudFlare, including one-click options to purge cache and enable dev mode.
 
-* [Plugin Homepage (LittleBizzy.com)](https://www.littlebizzy.com/plugins/cloudflare)
-* [Free Facebook Group](https://www.facebook.com/groups/littlebizzy/)
+* [Plugin Homepage](https://www.littlebizzy.com/plugins/cloudflare)
+* [Download Latest Version (ZIP)](https://github.com/littlebizzy/cloudflare/archive/1.4.0.zip)
+* [**Become A LittleBizzy.com Member Today!**](https://www.littlebizzy.com/members)
 
 ### Defined Constants
 
