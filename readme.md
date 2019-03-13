@@ -9,11 +9,13 @@ Easily connect your WordPress website to free optimization features from CloudFl
 ### Defined Constants
 
     /* Plugin Meta */
-    define('DISABLE_NAG_NOTICES', true);
+    define('AUTOMATIC_UPDATE_PLUGINS', false); // default = false
+    define('DISABLE_NAG_NOTICES', true); // default = true
     
     /* CloudFlare Functions */
-    define('CLOUDFLARE_API_KEY', '123456789');
-    define('CLOUDFLARE_API_EMAIL', 'user@example.com');
+    define('CLOUDFLARE', true); // default = true
+    define('CLOUDFLARE_API_KEY', '123456789'); // *must be unique*
+    define('CLOUDFLARE_API_EMAIL', 'user@example.com'); // *must be unique*
 
 ### Compatibility
 
