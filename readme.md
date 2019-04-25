@@ -16,6 +16,7 @@ Easily connect your WordPress website to free optimization features from CloudFl
     define('CLOUDFLARE', true); // default = true
     define('CLOUDFLARE_API_KEY', '123456789'); // *must be unique*
     define('CLOUDFLARE_API_EMAIL', 'user@example.com'); // *must be unique*
+    define('CLOUDFLARE_WIDGET_DNS', true); // default = true
 
 ### Compatibility
 
