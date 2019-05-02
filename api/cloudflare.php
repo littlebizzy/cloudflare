@@ -104,6 +104,20 @@ final class Cloudflare {
 
 
 	/**
+	 * Retrieve zone DNS records
+	 */
+	public function getDNSRecords($zoneId) {
+		return $this->request('zones/'.$zoneId.'/dns_records', [
+			'method' 	=> 'GET',
+			'per_page' 	=> 100,
+			'order' 	=> 'name',
+			'direction' => 'asc',
+		]);
+	}
+
+
+
+	/**
 	 * Set dev mode
 	 */
 	public function setDevMode($zoneId, $enable) {
