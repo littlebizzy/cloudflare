@@ -58,6 +58,9 @@ final class Admin {
 
 		// Plugin links
 		add_filter('plugin_action_links_'.plugin_basename(Helpers\Plugin::instance()->path), array(&$this, 'settingsLink'));
+
+		// Dashboard area
+		add_action('wp_dashboard_setup', [$this, 'dashboard']);
 	}
 
 
@@ -97,6 +100,15 @@ final class Admin {
 	public function settingsLink($links) {
 		$links[] = '<a href="'.get_admin_url(null, 'options-general.php?page=cloudflare').'">Settings</a>';
 		return $links;
+	}
+
+
+
+	/**
+	 * Dashboard widgets
+	 */
+	public function dashboard() {
+		Dashboard::instance();
 	}
 
 
