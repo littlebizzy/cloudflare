@@ -25,13 +25,6 @@ class Dashboard {
 
 
 	/**
-	 * Plugin object
-	 */
-	private $plugin;
-
-
-
-	/**
 	 * Create or retrieve instance
 	 */
 	public static function instance() {
@@ -60,9 +53,52 @@ class Dashboard {
 
 
 
+	/**
+	 * Display Widget content
+	 */
 	public function widgetDNS() {
-		echo '<p>test</p>';
+
+		// Check DNS records data
+		$DNSRecords = Core\Data::instance()->DNSRecords;
+		if (empty($DNSRecords) || !is_array($DNSRecords)) {
+
+		// No items
+		} elseif (empty($DNSRecords['items'])) {
+
+		// With content
+		} else {
+
+			// Start table
+			?><table class="striped"><?php
+
+			// Enum records
+			foreach ($DNSRecords['items'] as $item) {
+
+				// Check content length
+				$break = (strlen($item['content']) > 40);
+
+				// DNS record row
+				?><tr>
+					<td><table style="width: 100%;">
+						<tr>
+							<td style="width: 205px; word-break: break-all;"><strong><?php echo esc_html($item['name']); ?></strong></td>
+							<td style="width: 45px;"><?php echo esc_html($item['type']); ?></td>
+							<td style="word-break: break-all;"><?php echo $break? '' : esc_html($item['content']); ?></td>
+						</tr>
+						<?php if ($break) : ?>
+							<tr>
+								<td colspan="3" style="word-break: break-all;"><?php echo esc_html($item['content']); ?></td>
+							</tr>
+						<?php endif; ?>
+					</table></td>
+				</tr><?php
+			}
+
+			// End table
+			?></table><?php
+		}
 	}
+
 
 
 }
