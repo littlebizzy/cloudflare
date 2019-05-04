@@ -140,14 +140,8 @@ final class Submit {
 				// Update zone data
 				$this->updateZone($key, $email, $args);
 
-/* // Test
-$data = Core\Data::instance();
-$data->load();
-if (!empty($data->zone['id'])) {
-	$a = API\Cloudflare::instance($key, $email)->getDNSRecords($data->zone['id']);
-	print_r($a);
-} */
-
+// Test
+//Core\DNS::instance()->update();
 			}
 		}
 	}
