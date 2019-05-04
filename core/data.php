@@ -17,11 +17,6 @@ final class Data {
 
 
 
-	// Properties
-	// ---------------------------------------------------------------------------------------------------
-
-
-
 	/**
 	 * Single class instance
 	 */
@@ -44,11 +39,7 @@ final class Data {
 	public $domain;
 	public $zone;
 	public $devModeAt;
-
-
-
-	// Initialization
-	// ---------------------------------------------------------------------------------------------------
+	public $DNSRecords;
 
 
 
@@ -58,8 +49,9 @@ final class Data {
 	public static function instance() {
 
 		// Check instance
-		if (!isset(self::$instance))
+		if (!isset(self::$instance)) {
 			self::$instance = new self;
+		}
 
 		// Done
 		return self::$instance;
@@ -92,19 +84,15 @@ final class Data {
 
 
 
-	// Methods
-	// ---------------------------------------------------------------------------------------------------
-
-
-
 	/**
 	 * Load data
 	 */
 	public function load()  {
-		$this->key 		 = defined('CLOUDFLARE_API_KEY')? CLOUDFLARE_API_KEY : $this->options->get('key', true);
-		$this->email 	 = defined('CLOUDFLARE_API_EMAIL')? CLOUDFLARE_API_EMAIL : $this->options->get('email', true);
-		$this->zone 	 = $this->sanitizeZone(@json_decode($this->options->get('zone', true), true));
-		$this->devModeAt = (int) $this->options->get('dev_mode_at');
+		$this->key 		 	= defined('CLOUDFLARE_API_KEY')? CLOUDFLARE_API_KEY : $this->options->get('key', true);
+		$this->email 	 	= defined('CLOUDFLARE_API_EMAIL')? CLOUDFLARE_API_EMAIL : $this->options->get('email', true);
+		$this->zone 	 	= $this->sanitizeZone(@json_decode($this->options->get('zone', true), true));
+		$this->devModeAt 	= (int) $this->options->get('dev_mode_at');
+		$this->DNSRecords 	= @json_decode($this->options->get('dns_records', true), true);
 	}
 
 
@@ -115,28 +103,39 @@ final class Data {
 	public function save($values, $reload = true) {
 
 		// Check arguments
-		if (empty($values) || !is_array($values))
+		if (empty($values) || !is_array($values)) {
 			return;
+		}
 
 		// Check key value
-		if (isset($values['key']))
+		if (isset($values['key'])) {
 			$this->options->set('key', $values['key'], false, true);
+		}
 
 		// Check email value
-		if (isset($values['email']))
+		if (isset($values['email'])) {
 			$this->options->set('email', $values['email'], false, true);
+		}
 
 		// Check zone value
-		if (isset($values['zone']))
+		if (isset($values['zone'])) {
 			$this->options->set('zone', @json_encode($values['zone']), false, true);
+		}
 
 		// Check Dev mode timestamp
-		if (isset($values['dev_mode_at']))
+		if (isset($values['dev_mode_at'])) {
 			$this->options->set('dev_mode_at', (int) $values['dev_mode_at']);
+		}
+
+		// Check DNS records
+		if (isset($values['dns_records'])) {
+			$this->options->set('dns_records', @json_encode($values['dns_records']), false, true);
+		}
 
 		// Check reload
-		if ($reload)
+		if ($reload) {
 			$this->load();
+		}
 	}
 
 
@@ -145,7 +144,7 @@ final class Data {
 	 * Remove options from database
 	 */
 	public function remove() {
-		$this->options->del(['key', 'email', 'zone', 'dev_mode_at']);
+		$this->options->del(['key', 'email', 'zone', 'dev_mode_at', 'dns_records']);
 	}
 
 
@@ -156,8 +155,9 @@ final class Data {
 	public function sanitizeZone($zone) {
 
 		// Check array
-		if (empty($zone) || !is_array($zone))
+		if (empty($zone) || !is_array($zone)) {
 			$zone = array();
+		}
 
 		// Sanitize values
 		return [
@@ -172,24 +172,21 @@ final class Data {
 
 
 
-	// Internal
-	// ---------------------------------------------------------------------------------------------------
-
-
-
 	/**
 	 * Check a valid Dev Mode due the 3 hours limit
 	 */
 	private function checkDevMode() {
 
 		// Check timestamp
-		if (empty($this->devModeAt))
+		if (empty($this->devModeAt)) {
 			return;
+		}
 
 		// Check current value
 		$devMode = (int) $this->zone['development_mode'];
-		if ($devMode <= 0)
+		if ($devMode <= 0) {
 			return;
+		}
 
 		// Check 3 hours limit
 		if (time() - $this->devModeAt >= 10800) {
@@ -205,8 +202,9 @@ final class Data {
 	 */
 	private function setDomain() {
 		$this->domain = @parse_url(site_url(), PHP_URL_HOST);
-		if (0 === stripos($this->domain, 'www.'))
+		if (0 === stripos($this->domain, 'www.')) {
 			$this->domain = substr($this->domain, 4);
+		}
 	}
 
 
