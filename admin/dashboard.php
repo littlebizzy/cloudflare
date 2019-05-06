@@ -63,6 +63,32 @@ class Dashboard {
 	 */
 	public function ajax() {
 
+		// Check nonce
+		if (empty($_POST['nonce']) || !\wp_verify_nonce($_POST['nonce'], $this->plugin->path)) {
+			return ['status' => 'error', 'reason' => 'Invalid security verification, please reload this page and try again'];
+		}
+
+		// Check DNS widget
+		if (defined('CLOUDFLARE_WIDGET_DNS') && !CLOUDFLARE_WIDGET_DNS) {
+			return ['status' => 'error', 'reason' => 'Widget DNS records deactivated by custom constant'];
+		}
+
+		// Update requests
+		Core\DNS::instance()->update();
+
+		// Update data
+		Core\Data::instance()->load();
+
+		// Buffering
+		@ob_start();
+		$this->widgetDNS();
+		$html = @ob_get_clean();
+
+		// Prepare response
+		$response = ['status' => 'ok', 'html' => $html];
+
+		// Done
+		return $response;
 	}
 
 
@@ -165,7 +191,7 @@ class Dashboard {
 						<a href="#" class="<?php echo esc_attr($this->plugin->prefix); ?>-data-update"<?php if ($isAJAX) : ?> style="display: none;"<?php endif; ?>>Update now <span class="dashicons dashicons-update"></span></a>
 						<span class="<?php echo esc_attr($this->plugin->prefix); ?>-data-loading" style="display: none;">Loading...</span>
 
-						<?php if ($isAJAX) : ?><strong class="<?php echo esc_attr($this->plugin->prefix); ?>-data-updated">Updated</strong><?php endif; ?>
+						<?php if ($isAJAX) : ?><strong class="<?php echo esc_attr($this->plugin->prefix); ?>-data-done">Updated!</strong><?php endif; ?>
 
 					</div>
 

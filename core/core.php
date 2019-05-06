@@ -73,7 +73,16 @@ final class Core {
 
 			// AJAX mode
 			if (defined('DOING_AJAX') && DOING_AJAX) {
-				// Reserved for future implementations
+
+				// Check DNS records update
+				if (!empty($_POST['action'])) {
+
+					// Check plugin action
+					error_log($_POST['action']);
+					if ($_POST['action'] = Helpers\Plugin::instance()->prefix.'_dns_records_update') {
+						add_action('wp_ajax_'.$_POST['action'], [$this, 'ajaxDNSRecords']);
+					}
+				}
 
 			// Admin
 			} else {
@@ -107,6 +116,25 @@ final class Core {
 
 		// Cloudflare flag
 		$this->isCloudFlare = Libraries\Ip_Rewrite::isCloudFlare();
+	}
+
+
+
+	/**
+	 * AJAX call for DNS records
+	 */
+	public function ajaxDNSRecords() {
+
+		# Prevent browsers to cache response
+		@header("Cache-Control: no-cache, must-revalidate", true); # HTTP/1.1
+		@header("Expires: Sat, 26 Jul 1997 05:00:00 GMT", true);   # Date in the past
+
+		// JSON content
+		@header('Content-Type: application/json; charset=utf-8', true, $this->statusCode);
+
+		// Send the output and ends
+		$response = Admin\Dashboard::instance()->ajax();
+		die(@json_encode($response));
 	}
 
 

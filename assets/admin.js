@@ -20,6 +20,10 @@ jQuery(document).ready(function($) {
 
 			} else if ('ok' == e.status) {
 				$('.cldflr-data').html(e.html);
+				setTimeout(function() {
+					$('.cldflr-data-done').hide();
+					$('.cldflr-data-update').show();
+				}, 60 * 1000);
 			}
 
 		}).fail(function() {
