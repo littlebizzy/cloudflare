@@ -25,6 +25,13 @@ class Dashboard {
 
 
 	/**
+	 * Plugin object
+	 */
+	private $plugin;
+
+
+
+	/**
 	 * Create or retrieve instance
 	 */
 	public static function instance() {
@@ -50,11 +57,14 @@ class Dashboard {
 			return;
 		}
 
+		// Copy plugin object
+		$this->plugin = Helpers\Plugin::instance();
+
 		// Add admin script
-		wp_enqueue_script(Helpers\Plugin::instance()->prefix, plugins_url('assets/admin.js', Helpers\Plugin::instance()->path), ['jquery'], Helpers\Plugin::instance()->version, true);
+		wp_enqueue_script($this->plugin->prefix, plugins_url('assets/admin.js', $this->plugin->path), ['jquery'], $this->plugin->version, true);
 
 		// Add dashboad widget
-		wp_add_dashboard_widget(Helpers\Plugin::instance()->prefix.'_dns_dashboard_widget', 'DNS Records (CloudFlare)', [$this, 'widgetDNS']);
+		wp_add_dashboard_widget($this->plugin->prefix.'_dns_dashboard_widget', 'DNS Records (CloudFlare)', [$this, 'widgetDNS']);
 	}
 
 
@@ -64,20 +74,28 @@ class Dashboard {
 	 */
 	public function widgetDNS() {
 
+		// Check AJAX mode
+		$isAJAX = (defined('DOING_AJAX') && DOING_AJAX);
+
 		// Check DNS records data
 		$DNSRecords = Core\Data::instance()->DNSRecords;
 		if (empty($DNSRecords) || !is_array($DNSRecords)) {
 
 			// Check current context
-			if (!(defined('DOING_AJAX') && DOING_AJAX)) {
-				?><div class="<?php echo esc_attr(Helpers\Plugin::instance()->prefix); ?>" data-auto="1"></div><?php
+			if (!$isAJAX) {
+				?><div class="<?php echo esc_attr($this->plugin->prefix); ?>-data" data-auto="1">Loading...</div><?php
 			}
 
 		// Initialize
 		} else {
 
+			// Prepare date
+			if (!empty()) {
+				$date = date_i18n('Y-m-d H:i', $DNSRecords['timestamp']);
+			}
+
 			// Wrapper class
-			?><div class="<?php echo esc_attr(Helpers\Plugin::instance()->prefix); ?>-data"><?php
+			?><div class="<?php echo esc_attr($this->plugin->prefix); ?>-data"><?php
 
 				// No items
 				if (empty($DNSRecords['items'])) {
@@ -116,7 +134,22 @@ class Dashboard {
 					?></table><?php
 				}
 
-				?><p style="text-align: right;"><a href="#" class="<?php echo esc_attr(Helpers\Plugin::instance()->prefix); ?>-data-update">Update <span class="dashicons dashicons-update"></span></span></a></p><?php
+				?><div class="wp-clearfix" style="margin-top: 15px;">
+
+					<?php if (!empty($date)) : ?>
+						<div style="float: left;">Last update: <?php echo esc_html($date); ?></div>
+					<?php endif; ?>
+
+					<div style="float: right;">
+
+						<a href="#" class="<?php echo esc_attr($this->plugin->prefix); ?>-data-update"<?php if ($isAJAX) : ?> style="display: none;"<?php endif; ?>>Update now <span class="dashicons dashicons-update"></span></a>
+						<span class="<?php echo esc_attr($this->plugin->prefix); ?>-data-loading" style="display: none;">Loading...</span>
+
+						<?php if ($isAJAX) : ?><strong class="<?php echo esc_attr($this->plugin->prefix); ?>-data-updated">Updated</strong><?php endif; ?>
+
+					</div>
+
+				</div><?php
 
 			?></div><?php
 		}

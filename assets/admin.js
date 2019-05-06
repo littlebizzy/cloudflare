@@ -1,10 +1,11 @@
 jQuery(document).ready(function($) {
 
 	function start() {
-		alert('start');
+		$('.cldflr-data-update').hide();
+		$('.cldflr-data-loading').show();
 	}
 
-	$('.cldflr-data-update').click(function() {
+	$(document).on('click', '.cldflr-data-update', function() {
 		start();
 		return false;
 	});
