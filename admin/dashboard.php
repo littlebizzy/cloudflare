@@ -75,14 +75,14 @@ class Dashboard {
 			foreach ($DNSRecords['items'] as $item) {
 
 				// Check content length
-				$break = (strlen($item['content']) > 40);
+				$break = (strlen($item['content']) > 35);
 
 				// DNS record row
 				?><tr>
 					<td><table style="width: 100%;">
 						<tr>
-							<td style="width: 205px; word-break: break-all;"><strong><?php echo esc_html($item['name']); ?></strong></td>
-							<td style="width: 45px;"><?php echo esc_html($item['type']); ?></td>
+							<td style="word-break: break-all; width: 205px;"><strong><?php echo esc_html($item['name']); ?></strong></td>
+							<td style="word-break: break-all; width: 45px;"><?php echo esc_html($item['type']); ?></td>
 							<td style="word-break: break-all;"><?php echo $break? '' : esc_html($item['content']); ?></td>
 						</tr>
 						<?php if ($break) : ?>
