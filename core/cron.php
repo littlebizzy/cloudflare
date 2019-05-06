@@ -15,10 +15,19 @@ use \LittleBizzy\CloudFlare\Helpers;
 final class CRON {
 
 
+
 	/**
 	 * Single class instance
 	 */
 	private static $instance;
+
+
+
+	/**
+	 * CRON settings
+	 */
+	private $eventDNS;
+	private $intervalDNS;
 
 
 
@@ -42,8 +51,9 @@ final class CRON {
 	 */
 	private function __construct() {
 
-		// Set interval key
-		$this->intervalDNSUpdate = Helpers\Plugin::instance()->prefix.'_dns_records_update';
+		// Settings
+		$this->eventDNS = Helpers\Plugin::instance()->prefix.'_dns_records_update';
+		$this->intervalDNS = Helpers\Plugin::instance()->prefix.'_dns_records_interval';
 
 		// Add intervals filter
 		add_filter('cron_schedules', [$this, 'intervals']);
@@ -57,7 +67,7 @@ final class CRON {
 	public function intervals($schedules) {
 
 		// Set interval
-		$schedules[$this->intervalDNSUpdate] = [
+		$schedules[$this->intervalDNS] = [
 			'interval' => 1800,
 			'display'  => 'Update DNS Records each 30 minutes',
 		];
@@ -69,19 +79,27 @@ final class CRON {
 
 
 	/**
+	 * Remove current scheduling
+	 */
+	public function unschedule() {
+		wp_clear_scheduled_hook($this->eventDNS);
+	}
+
+
+
+	/**
 	 * Configure schedulings
 	 */
 	public function schedulings() {
 
 		// Set action
-		add_action('cronDNSRecords', [$this, 'cronDNSRecords']);
+		add_action($this->eventDNS, [$this, 'cronDNSRecords']);
 
 		// Check event
-		$event = Helpers\Plugin::instance()->prefix.'_dns_records_update';
-		if (!wp_next_scheduled($event)) {
+		if (!wp_next_scheduled($this->eventDNS)) {
 
 			// Schedule event and action
-			wp_schedule_event(time(), $this->intervalDNSUpdate, 'cronDNSRecords');
+			wp_schedule_event(time(), $this->intervalDNS, $this->eventDNS);
 		}
 	}
 

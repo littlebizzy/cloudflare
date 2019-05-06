@@ -101,7 +101,7 @@ final class Plugin {
 	 * Plugin deactivation
 	 */
 	public static function deactivation() {
-		wp_clear_scheduled_hook($this->prefix.'_dns_records_update');
+		CloudFlare\Core\CRON::instance()->unschedule();
 	}
 
 
