@@ -87,8 +87,8 @@ final class Core {
 			// Reserved for future implementations
 		}
 
-		// Check schedulings
-		$this->schedulings();
+		// Set schedulings
+		CRON::instance()->schedulings();
 	}
 
 
@@ -124,34 +124,6 @@ final class Core {
 		// Send the output and ends
 		$response = Admin\Dashboard::instance()->ajax();
 		die(@json_encode($response));
-	}
-
-
-
-	/**
-	 * Configure schedulings
-	 */
-	private function schedulings() {
-
-		// Set action
-		add_action('cronDNSRecords', [$this, 'cronDNSRecords']);
-
-		// Check event
-		$event = Helpers\Plugin::instance()->prefix.'_dns_records_update';
-		if (!wp_next_scheduled($event)) {
-
-			// Schedule event and action
-			wp_schedule_event(time(), 'hourly', 'cronDNSRecords');
-		}
-	}
-
-
-
-	/**
-	 * Update DNS records via cron
-	 */
-	public function cronDNSRecords() {
-		DNS::instance()->update();
 	}
 
 
