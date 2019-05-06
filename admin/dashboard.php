@@ -77,25 +77,28 @@ class Dashboard {
 		// Check AJAX mode
 		$isAJAX = (defined('DOING_AJAX') && DOING_AJAX);
 
+		// Prepare nonce
+		$nonce = wp_create_nonce($this->plugin->path);
+
 		// Check DNS records data
 		$DNSRecords = Core\Data::instance()->DNSRecords;
 		if (empty($DNSRecords) || !is_array($DNSRecords)) {
 
 			// Check current context
 			if (!$isAJAX) {
-				?><div class="<?php echo esc_attr($this->plugin->prefix); ?>-data" data-auto="1">Loading...</div><?php
+				?><div class="<?php echo esc_attr($this->plugin->prefix); ?>-data" data-nonce="<?php echo esc_attr($nonce); ?>" data-auto="1">Loading...</div><?php
 			}
 
 		// Initialize
 		} else {
 
 			// Prepare date
-			if (!empty()) {
+			if (!empty($DNSRecords['timestamp'])) {
 				$date = date_i18n('Y-m-d H:i', $DNSRecords['timestamp']);
 			}
 
 			// Wrapper class
-			?><div class="<?php echo esc_attr($this->plugin->prefix); ?>-data"><?php
+			?><div class="<?php echo esc_attr($this->plugin->prefix); ?>-data" data-nonce="<?php echo esc_attr($nonce); ?>"><?php
 
 				// No items
 				if (empty($DNSRecords['items'])) {
