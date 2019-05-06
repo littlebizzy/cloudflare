@@ -66,11 +66,10 @@ final class DNS {
 			if (!empty($request['result']) && is_array($request['result'])) {
 				foreach ($request['result'] as $item) {
 					$items[] = [
-						'id' 		=> isset($item['id'])? 		$item['id'] 		: '',
-						'ttl' 		=> isset($item['ttl'])? 	$item['ttl'] 		: '',
 						'type' 		=> isset($item['type'])? 	$item['type'] 		: '',
 						'name' 		=> isset($item['name'])? 	$item['name'] 		: '',
 						'content' 	=> isset($item['content'])? $item['content'] 	: '',
+						'ttl' 		=> isset($item['ttl'])? 	$item['ttl'] 		: '',
 					];
 				}
 			}
