@@ -108,7 +108,7 @@ final class Admin {
 	 * Dashboard widgets
 	 */
 	public function dashboard() {
-		Dashboard::instance();
+		Dashboard::instance()->admin();
 	}
 
 

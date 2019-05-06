@@ -52,13 +52,30 @@ class Dashboard {
 	 */
 	private function __construct() {
 
+		// Copy plugin object
+		$this->plugin = Helpers\Plugin::instance();
+	}
+
+
+
+	/**
+	 * AJAX mode
+	 */
+	public function ajax() {
+
+	}
+
+
+
+	/**
+	 * Admin mode
+	 */
+	public function admin() {
+
 		// Check DNS widget
 		if (defined('CLOUDFLARE_WIDGET_DNS') && !CLOUDFLARE_WIDGET_DNS) {
 			return;
 		}
-
-		// Copy plugin object
-		$this->plugin = Helpers\Plugin::instance();
 
 		// Add admin script
 		wp_enqueue_script($this->plugin->prefix, plugins_url('assets/admin.js', $this->plugin->path), ['jquery'], $this->plugin->version, true);
