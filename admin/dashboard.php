@@ -64,7 +64,7 @@ class Dashboard {
 	public function ajax() {
 
 		// Check nonce
-		if (empty($_POST['nonce']) || !\wp_verify_nonce($_POST['nonce'], $this->plugin->path)) {
+		if (empty($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], $this->plugin->path)) {
 			return ['status' => 'error', 'reason' => 'Invalid security verification, please reload this page and try again'];
 		}
 
@@ -137,7 +137,7 @@ class Dashboard {
 
 			// Prepare date
 			if (!empty($DNSRecords['timestamp'])) {
-				$date = date_i18n('Y-m-d H:i', $DNSRecords['timestamp']);
+				$date = date_i18n('Y-m-d H:i', $DNSRecords['timestamp'] + (get_option('gmt_offset') * HOUR_IN_SECONDS));
 			}
 
 			// Wrapper class
