@@ -7,7 +7,7 @@ namespace LittleBizzy\CloudFlare\Core;
 use \LittleBizzy\CloudFlare\API;
 
 /**
- * Data class
+ * DNS class
  *
  * @package CloudFlare
  * @subpackage Core
