@@ -40,6 +40,13 @@ final class DNS {
 
 
 	/**
+	 * Constructor
+	 */
+	private function __construct() {}
+
+
+
+	/**
 	 * Update from remote sources
 	 */
 	public function update() {
