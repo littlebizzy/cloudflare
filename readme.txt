@@ -4,7 +4,7 @@ Contributors: littlebizzy
 Donate link: https://www.patreon.com/littlebizzy
 Tags: cloudflare, api, purge, cdn, dev mode
 Requires at least: 4.4
-Tested up to: 5.0
+Tested up to: 5.1
 Requires PHP: 7.2
 Multisite support: No
 Stable tag: 1.5.0
@@ -15,15 +15,6 @@ Prefix: CLDFLR
 Easily connect your WordPress website to free optimization features from CloudFlare, including one-click options to purge cache and enable dev mode.
 
 == Description ==
-
-Easily connect your WordPress website to free optimization features from CloudFlare, including one-click options to purge cache and enable dev mode.
-
-* [**Join our FREE Facebook group for support**](https://www.facebook.com/groups/littlebizzy/)
-* [**Worth a 5-star review? Thank you!**](https://wordpress.org/support/plugin/cf-littlebizzy/reviews/?rate=5#new-post)
-* [Plugin Homepage](https://www.littlebizzy.com/plugins/cloudflare)
-* [Plugin GitHub](https://github.com/littlebizzy/cloudflare)
-
-#### Current Features ####
 
 This plugin was designed to load faster, be more secure, and perform much better than the official CloudFlare plugin. We focus on offering only the key features desired by most developers, while allowing some of the other CloudFlare settings to be better managed at your account over at CloudFlare.com rather than turning WordPress into a bloated control panel with every setting possible which is nearly impossible to keep up with anyways (esp. with stable/secure code).
 
@@ -38,64 +29,6 @@ You can also use those defined constants to better automate server/WordPress set
 * much lighter/faster code than "official" CloudFlare plugin
 * uses CloudFlare API version 4.0+
 * no integration with Akismet
-
-#### Compatibility ####
-
-This plugin has been designed for use on [SlickStack](https://slickstack.io) web servers with PHP 7.2 and MySQL 5.7 to achieve best performance. All of our plugins are meant for single site WordPress installations only; for both performance and usability reasons, we highly recommend avoiding WordPress Multisite for the vast majority of projects.
-
-Any of our WordPress plugins may also be loaded as "Must-Use" plugins by using our free [Autoloader](https://github.com/littlebizzy/autoloader) script in the `mu-plugins` directory.
-
-#### Defined Constants ####
-
-    /* Plugin Meta */
-    define('DISABLE_NAG_NOTICES', true);
-
-    /* CloudFlare Functions */
-    define('CLOUDFLARE_API_KEY', '123456789');
-    define('CLOUDFLARE_API_EMAIL', 'user@example.com');
-
-#### Technical Details ####
-
-* Prefix: CLDFLR
-* Parent Plugin: N/A
-* Disable Nag Notices: [Yes](https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices#Disable_Nag_Notices)
-* Settings Page: No
-* PHP Namespaces: Yes
-* Object-Oriented Code: Yes
-* Includes Media (images, icons, etc): No
-* Includes CSS: No
-* Database Storage: Yes
-  * Transients: No
-  * WP Options Table: Yes
-  * Other Tables: No
-  * Creates New Tables: No
-  * Creates New WP Cron Jobs: No
-* Database Queries: Backend Only (Options API)
-* Must-Use Support: [Yes](https://github.com/littlebizzy/autoloader)
-* Multisite Support: No
-* Uninstalls Data: Yes
-
-#### Special Thanks ####
-
-[Alex Georgiou](https://www.alexgeorgiou.gr), [Automattic](https://automattic.com), [Brad Touesnard](https://bradt.ca), [Daniel Auener](http://www.danielauener.com), [Delicious Brains](https://deliciousbrains.com), [Greg Rickaby](https://gregrickaby.com), [Matt Mullenweg](https://ma.tt), [Mika Epstein](https://halfelf.org), [Mike Garrett](https://mikengarrett.com), [Samuel Wood](http://ottopress.com), [Scott Reilly](http://coffee2code.com), [Jan Dembowski](https://profiles.wordpress.org/jdembowski), [Jeff Starr](https://perishablepress.com), [Jeff Chandler](https://jeffc.me), [Jeff Matson](https://jeffmatson.net), [Jeremy Wagner](https://jeremywagner.me), [John James Jacoby](https://jjj.blog), [Leland Fiegel](https://leland.me), [Luke Cavanagh](https://github.com/lukecav), [Mike Jolley](https://mikejolley.com), [Pau Iglesias](https://pauiglesias.com), [Paul Irish](https://www.paulirish.com), [Rahul Bansal](https://profiles.wordpress.org/rahul286), [Roots](https://roots.io), [rtCamp](https://rtcamp.com), [Ryan Hellyer](https://geek.hellyer.kiwi), [WP Chat](https://wpchat.com), [WP Tavern](https://wptavern.com)
-
-#### Disclaimer ####
-
-We released this plugin in response to our managed hosting clients asking for better access to their server, and our primary goal will remain supporting that purpose. Although we are 100% open to fielding requests from the WordPress community, we kindly ask that you keep these conditions in mind, and refrain from slandering, threatening, or harassing our team members in order to get a feature added, or to otherwise get "free" support. The only place you should be contacting us is in our free [**Facebook group**](https://www.facebook.com/groups/littlebizzy/) which has been setup for this purpose, or via GitHub if you are an experienced developer. Thank you!
-
-#### Our Philosophy ####
-
-> "Decisions, not options." -- WordPress.org
-
-> "Everything should be made as simple as possible, but not simpler." -- Albert Einstein, et al
-
-> "Write programs that do one thing and do it well... write programs to work together." -- Doug McIlroy
-
-> "The innovation that this industry talks about so much is bullshit. Anybody can innovate... 99% of it is 'Get the work done.' The real work is in the details." -- Linus Torvalds
-
-#### Search Keywords ####
-
-cf, cloudflare, cloudflare api, cloudflare cache, cloudflare cdn, cloudflare purge
 
 == Installation ==
 
@@ -126,6 +59,16 @@ Yes you can use the supported defined constants to input the API key and email a
 Please avoid leaving negative reviews in order to get a feature implemented. Instead, join our free Facebook group.
 
 == Changelog ==
+
+= 1.5.0 =
+* added DNS Records widget to Dashboard
+* The dashboard widget automatically performs an AJAX request if there has never been updated.
+* If no records found, a link to the configuration page is also shown to check the cloudflare settings.
+* After the AJAX request, the update link disappears but it will reappear after 60 seconds via a javascript timeout instead of a server side check. I think it is a simple protection that can be skipped reloading again the dashboard, but avoids repeated requests, which is after all what we are looking for.
+* Independently of the dashboard AJAX requests, the DNS records are updated via cron each 30 minutes since the plugin activation/upgrade.
+* The widget displays 3 columns, but the third column (dns record content) slides to the next row if there are more than 35 characters.
+* The whole updating process uses the key and email saved from the settings page, but a change of these settings does not update the dns records until the next cron/ajax update.
+* For reasons on WP architecture, the action cron will be executed even if the widget is disabled by custom constant, but ultimately will not make the API request if the constant has value false.
 
 = 1.4.0 =
 * tested with WP 5.0
