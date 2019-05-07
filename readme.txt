@@ -29,6 +29,7 @@ You can also use those defined constants to better automate server/WordPress set
 * much lighter/faster code than "official" CloudFlare plugin
 * uses CloudFlare API version 4.0+
 * no integration with Akismet
+* see all DNS records "live" in WP Admin Dashboard widget (click "update" button anytime)
 
 == Installation ==
 
@@ -62,6 +63,7 @@ Please avoid leaving negative reviews in order to get a feature implemented. Ins
 
 = 1.5.0 =
 * added DNS Records widget to Dashboard
+* added support for `CLOUDFLARE_WIDGET_DNS`
 * The dashboard widget automatically performs an AJAX request if there has never been updated.
 * If no records found, a link to the configuration page is also shown to check the cloudflare settings.
 * After the AJAX request, the update link disappears but it will reappear after 60 seconds via a javascript timeout instead of a server side check. I think it is a simple protection that can be skipped reloading again the dashboard, but avoids repeated requests, which is after all what we are looking for.
