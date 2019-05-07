@@ -7,7 +7,8 @@ jQuery(document).ready(function($) {
 
 		var data = {
 			'action' : 'cldflr_dns_records_update',
-			'nonce'  : $('.cldflr-data').attr('data-nonce')
+			'nonce'  : $('.cldflr-data').attr('data-nonce'),
+			'auto'	 : auto ? 1 : 0
 		}
 
 		$.post(ajaxurl, data, function(e) {
