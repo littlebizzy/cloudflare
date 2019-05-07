@@ -65,7 +65,7 @@ class Dashboard {
 
 		// Check nonce
 		if (empty($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], $this->plugin->path)) {
-			return ['status' => 'error', 'reason' => 'Invalid security verification, please reload this page and try again'];
+			return ['status' => 'error', 'reason' => 'Security verification error. Please reload this page and try again.'];
 		}
 
 		// Check DNS widget
@@ -122,6 +122,9 @@ class Dashboard {
 
 		// Prepare nonce
 		$nonce = wp_create_nonce($this->plugin->path);
+
+		// Error display
+		?><div class="<?php echo esc_attr($this->plugin->prefix); ?>-error" style="display: none; font-weight: bold; color: #dc3232; padding: 5px; margin-bottom: 5px;"></div><?php
 
 		// Check DNS records data
 		$DNSRecords = Core\Data::instance()->DNSRecords;
