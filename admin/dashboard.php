@@ -117,8 +117,9 @@ class Dashboard {
 	 */
 	public function widgetDNS() {
 
-		// Check AJAX mode
+		// Check AJAX mode and auto-start mode
 		$isAJAX = (defined('DOING_AJAX') && DOING_AJAX);
+		$isAuto = !empty($_POST['auto']);
 
 		// Prepare nonce
 		$nonce = wp_create_nonce($this->plugin->path);
@@ -148,7 +149,8 @@ class Dashboard {
 
 				// No items
 				if (empty($DNSRecords['items'])) {
-					?><p>No DNS records found.</p><?php
+					?><p>No DNS records found.</p>
+					<p>Please check your <a href="<?php echo esc_attr(admin_url('options-general.php?page=cloudflare')); ?>">Cloudflare configuration</a>.</p><?php
 
 				// With content
 				} else {
@@ -191,10 +193,10 @@ class Dashboard {
 
 					<div style="float: right;">
 
-						<a href="#" class="<?php echo esc_attr($this->plugin->prefix); ?>-data-update"<?php if ($isAJAX) : ?> style="display: none;"<?php endif; ?>>Update now <span class="dashicons dashicons-update"></span></a>
+						<a href="#" class="<?php echo esc_attr($this->plugin->prefix); ?>-data-update"<?php if ($isAJAX || ($isAuto && empty($DNSRecords['items']))) : ?> style="display: none;"<?php endif; ?>>Update now <span class="dashicons dashicons-update"></span></a>
 						<span class="<?php echo esc_attr($this->plugin->prefix); ?>-data-loading" style="display: none;">Loading...</span>
 
-						<?php if ($isAJAX) : ?><strong class="<?php echo esc_attr($this->plugin->prefix); ?>-data-done">Updated!</strong><?php endif; ?>
+						<?php if ($isAJAX && !$isAuto) : ?><strong class="<?php echo esc_attr($this->plugin->prefix); ?>-data-done">Updated!</strong><?php endif; ?>
 
 					</div>
 
