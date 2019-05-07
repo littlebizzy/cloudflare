@@ -99,7 +99,7 @@ final class CRON {
 		if (!wp_next_scheduled($this->eventDNS)) {
 
 			// Schedule event and action
-			wp_schedule_event(time(), $this->intervalDNS, $this->eventDNS);
+			wp_schedule_event(time() + 30, $this->intervalDNS, $this->eventDNS);
 		}
 	}
 
