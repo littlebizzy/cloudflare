@@ -69,7 +69,7 @@ final class Core {
 				if (!empty($_POST['action'])) {
 
 					// Check plugin action
-					if ($_POST['action'] = Helpers\Plugin::instance()->prefix.'_dns_records_update') {
+					if ($_POST['action'] == Helpers\Plugin::instance()->prefix.'_dns_records_update') {
 						add_action('wp_ajax_'.$_POST['action'], [$this, 'ajaxDNSRecords']);
 					}
 				}
