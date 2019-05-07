@@ -109,7 +109,9 @@ final class CRON {
 	 * Update DNS records via cron
 	 */
 	public function cronDNSRecords() {
-		DNS::instance()->update();
+		if (!defined('CLOUDFLARE_WIDGET_DNS') || CLOUDFLARE_WIDGET_DNS) {
+			DNS::instance()->update();
+		}
 	}
 
 
