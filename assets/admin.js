@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 
-	function start() {
+	function start(auto) {
 
 		$('.cldflr-data-update').hide();
 		$('.cldflr-data-loading').show();
@@ -13,10 +13,12 @@ jQuery(document).ready(function($) {
 		$.post(ajaxurl, data, function(e) {
 
 			if ('undefined' == typeof e.status) {
-				alert('Unknown error');
+				$('.cldflr-data').hide();
+				$('.cldflr-error').show().html('Unknown error');
 
 			} else if ('error' == e.status) {
-				alert(e.reason);
+				$('.cldflr-data').hide();
+				$('.cldflr-error').show().html(e.reason);
 
 			} else if ('ok' == e.status) {
 				$('.cldflr-data').html(e.html);
@@ -27,7 +29,10 @@ jQuery(document).ready(function($) {
 			}
 
 		}).fail(function() {
-			alert('Server communication error.' + "\n" + 'Please try again.');
+			$('.cldflr-error').show().html('Server communication error. Please wait a few minutes and try again.');
+			setTimeout(function() {
+				$('.cldflr-data-update').show();
+			}, 15 * 1000);
 
 		}).always(function() {
 			$('.cldflr-data-loading').hide();
@@ -40,7 +45,7 @@ jQuery(document).ready(function($) {
 	});
 
 	if ($('.cldflr-data').data('auto')) {
-		start();
+		start(true);
 	}
 
 });
