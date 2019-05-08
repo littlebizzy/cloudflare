@@ -3,7 +3,7 @@
 Easily manage CloudFlare's free features including purge proxy cache (CDN) and enable dev mode, with Dashboard widgets for DNS Records and Analytics.
 
 * [Plugin Homepage](https://www.littlebizzy.com/plugins/cloudflare)
-* [Download Latest Version (ZIP)](https://github.com/littlebizzy/cloudflare/archive/1.4.0.zip)
+* [Download Latest Version (ZIP)](https://github.com/littlebizzy/cloudflare/archive/1.5.0.zip)
 * [**Become A LittleBizzy.com Member Today!**](https://www.littlebizzy.com/members)
 
 ### Defined Constants
