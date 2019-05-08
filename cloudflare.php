@@ -2,7 +2,7 @@
 /*
 Plugin Name: CloudFlare
 Plugin URI: https://www.littlebizzy.com/plugins/cloudflare
-Description: Easily connect your WordPress website to free optimization features from CloudFlare, including one-click options to purge cache and enable dev mode.
+Description: Easily manage CloudFlare's free features including purge proxy cache (CDN) and enable dev mode, with Dashboard widgets for DNS Records and Analytics.
 Version: 1.5.0
 Author: LittleBizzy
 Author URI: https://www.littlebizzy.com
