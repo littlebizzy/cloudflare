@@ -12,7 +12,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Prefix: CLDFLR
 
-Easily connect your WordPress website to free optimization features from CloudFlare, including one-click options to purge cache and enable dev mode.
+Easily manage CloudFlare's free features including purge proxy cache (CDN) and enable dev mode, with Dashboard widgets for DNS Records and Analytics.
 
 == Description ==
 
