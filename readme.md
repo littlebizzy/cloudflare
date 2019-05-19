@@ -18,6 +18,10 @@ Easily manage CloudFlare's free features including purge proxy cache (CDN) and e
     define('CLOUDFLARE_API_KEY', '@CLOUDFLAREAPIKEY'); // *must be unique*
     // define('CLOUDFLARE_WIDGET_ANALYTICS', true); // default = true
     define('CLOUDFLARE_WIDGET_DNS', true); // default = true
+    
+### Included Modules
+
+* (n/a)
 
 ### Compatibility
 
